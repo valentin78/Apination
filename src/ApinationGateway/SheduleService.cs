@@ -19,10 +19,12 @@ namespace ApinationGateway
 
         protected override void OnStart(string[] args)
         {
+            Program.Log.Debug("OnStart");
         }
 
         protected override void OnStop()
         {
+            Program.Log.Debug("OnStop");
         }
     }
 }

@@ -1,5 +1,7 @@
+.vs
 src/.vs
+src/packages
 src/ApinationGateway/.vs
 src/ApinationGateway/bin
 src/ApinationGateway/obj
-src/ApinationGateway/packages
+
