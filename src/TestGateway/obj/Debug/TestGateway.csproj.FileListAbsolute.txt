@@ -1,0 +1,8 @@
+E:\Sage50\Apination\src\TestGateway\obj\Debug\TestGateway.csproj.CoreCompileInputs.cache
+E:\Sage50\Apination\src\TestGateway\bin\Debug\TestGateway.exe.config
+E:\Sage50\Apination\src\TestGateway\bin\Debug\TestGateway.exe
+E:\Sage50\Apination\src\TestGateway\bin\Debug\TestGateway.pdb
+E:\Sage50\Apination\src\TestGateway\bin\Debug\log4net.dll
+E:\Sage50\Apination\src\TestGateway\bin\Debug\log4net.xml
+E:\Sage50\Apination\src\TestGateway\obj\Debug\TestGateway.exe
+E:\Sage50\Apination\src\TestGateway\obj\Debug\TestGateway.pdb

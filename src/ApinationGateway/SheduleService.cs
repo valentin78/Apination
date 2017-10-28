@@ -34,7 +34,7 @@ namespace ApinationGateway
 
         protected override void OnStart(string[] args)
         {
-            Log.Info("OnStart");
+            log.Info("OnStart");
         }
 
         protected override void OnStop()

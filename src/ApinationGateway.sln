@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApinationGateway", "ApinationGateway/ApinationGateway.csproj", "{1476EB2D-C98F-4473-9F29-85D018E4269E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApinationGateway", "ApinationGateway\ApinationGateway.csproj", "{1476EB2D-C98F-4473-9F29-85D018E4269E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGateway", "TestGateway\TestGateway.csproj", "{9B65E5C2-9560-4B8F-8673-8D5939893587}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1476EB2D-C98F-4473-9F29-85D018E4269E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1476EB2D-C98F-4473-9F29-85D018E4269E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1476EB2D-C98F-4473-9F29-85D018E4269E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B65E5C2-9560-4B8F-8673-8D5939893587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B65E5C2-9560-4B8F-8673-8D5939893587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B65E5C2-9560-4B8F-8673-8D5939893587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B65E5C2-9560-4B8F-8673-8D5939893587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
