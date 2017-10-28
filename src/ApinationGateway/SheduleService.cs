@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Common.Logging;
+using log4net.Config;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +14,19 @@ namespace ApinationGateway
 {
     public partial class SheduleService : ServiceBase
     {
+        #region Logger
+
+        private static readonly ILog log = LogManager.GetLogger(typeof(SheduleService));
+        public static ILog Log { get { return log; } }
+        public static void InitializeLogger() { XmlConfigurator.Configure(); }
+
+        #endregion
+
+        static SheduleService()
+        {
+            InitializeLogger();
+        }
+
         public SheduleService()
         {
             InitializeComponent();
@@ -19,12 +34,12 @@ namespace ApinationGateway
 
         protected override void OnStart(string[] args)
         {
-            Program.Log.Debug("OnStart");
+            Log.Info("OnStart");
         }
 
         protected override void OnStop()
         {
-            Program.Log.Debug("OnStop");
+            Log.Info("OnStop");
         }
     }
 }
