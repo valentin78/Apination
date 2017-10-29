@@ -13,6 +13,11 @@ namespace Sage50Connector.Models
         /// companies list
         /// </summary>
         public Company[] CompaniesList { get; set; }
+
+        /// <summary>
+        /// default cron period if not specified 
+        /// </summary>
+        public string DefaultCronSchedule { get; set; }
     }
 
     internal class Company

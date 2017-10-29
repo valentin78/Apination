@@ -67,7 +67,7 @@ namespace Sage50Connector
                 return;
             }
 
-            var cron = process.CronSchedule;
+            var cron = process.CronSchedule ?? _config.DefaultCronSchedule;
             var autoStart = process.AutoStart;
 
             // add job custom data for process needs
@@ -100,6 +100,8 @@ namespace Sage50Connector
                 // retrieve config
                 Log.Info("Retrieve Connector Config ...");
                 _config = _apinationApi.RetrieveConnectorConfig();
+
+                Log.InfoFormat("Default Cron config: {0}", _config.DefaultCronSchedule);
 
                 // for every company and their processes prepare jobs in job strore
                 foreach (var company in _config.CompaniesList)

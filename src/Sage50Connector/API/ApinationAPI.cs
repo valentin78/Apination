@@ -9,6 +9,7 @@ namespace Sage50Connector.API
         {
             return new Config
             {
+                DefaultCronSchedule = "0 0/1 * * * ?",
                 CompaniesList = new[]
                 {
                     new Company
@@ -17,7 +18,6 @@ namespace Sage50Connector.API
                         Processes = new [] { 
                             new SyncProcess
                             {
-                                CronSchedule = "0 0/1 * * * ?", 
                                 ProcessID = "CBD51F9F-4B8D-40A2-B086-1F849894EB96", 
                                 JobData = new Dictionary<string, object>
                                 {
