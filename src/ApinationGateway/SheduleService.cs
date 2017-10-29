@@ -53,6 +53,12 @@ namespace ApinationGateway
         void ScheduleProcess(SyncProcess process)
         {
             var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
+            if (jobType == null)
+            {
+                Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.ProcessID);
+                return;
+            }
+
             var cron = process.CronSchedule;
             var autoStart = process.AutoStart;
 
@@ -78,10 +84,10 @@ namespace ApinationGateway
 
                 foreach (var company in _config.CompaniesList)
                 {
-                    Log.InfoFormat("* Company '{0}' ...", company.CompanyName);
+                    Log.InfoFormat("- Company '{0}' ...", company.CompanyName);
                     foreach (var process in company.Processes)
                     {
-                        Log.InfoFormat("** Process config: '{0}'", process);
+                        Log.InfoFormat("--- Process config: '{0}'", process);
                         ScheduleProcess(process);
                     }
                 }

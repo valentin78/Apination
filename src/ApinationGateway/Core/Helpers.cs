@@ -1,17 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ApinationGateway.Processes;
+using System.Runtime.InteropServices;
 
 namespace ApinationGateway.Core
 {
     class Helpers
     {
+        private static readonly IEnumerable<Type> _processTypes;
+
+        static Helpers()
+        {
+            var shouldImplement = typeof(IProcess);
+            _processTypes = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => shouldImplement.IsAssignableFrom(p));
+        }
+
+        /// <summary>
+        /// search IProcess type with Guid attribute value equal processID parameter
+        /// </summary>
+        /// <param name="processID"></param>
+        /// <returns></returns>
         public static Type ProcessTypeLocator(string processID)
         {
-            return typeof(SampleProcess);
+            var processType = _processTypes.SingleOrDefault(p =>
+            {
+                var attrs = p.GetCustomAttributes(typeof(GuidAttribute), true);
+                return attrs.Length != 0 && attrs.Select(attr => ((GuidAttribute) attr).Value).Any(guid => guid == processID);
+            });
+            return processType;
         }
     }
 }
