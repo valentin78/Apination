@@ -1,6 +1,6 @@
 ﻿using System.ServiceProcess;
 
-namespace ApinationGateway
+namespace Sage50Connector
 {
     static class Program
     {

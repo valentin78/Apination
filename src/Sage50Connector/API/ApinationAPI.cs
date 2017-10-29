@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ApinationGateway.Models;
+using Sage50Connector.Models;
 
-namespace ApinationGateway.API
+namespace Sage50Connector.API
 {
     class ApinationAPI
     {

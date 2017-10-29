@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1476EB2D-C98F-4473-9F29-85D018E4269E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>ApinationGateway</RootNamespace>
-    <AssemblyName>ApinationGateway</AssemblyName>
+    <RootNamespace>Sage50Connector</RootNamespace>
+    <AssemblyName>Sage50Connector</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -92,6 +92,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SheduleService.resx">
+      <DependentUpon>SheduleService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -1,8 +1,8 @@
 ﻿using System.Runtime.InteropServices;
-using ApinationGateway.Core;
 using Quartz;
+using Sage50Connector.Core;
 
-namespace ApinationGateway.Processes
+namespace Sage50Connector.Processes
 {
     [Guid("CBD51F9F-4B8D-40A2-B086-1F849894EB96")]
     class SampleProcess : ProcessBase, IJob

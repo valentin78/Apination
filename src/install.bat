@@ -1,1 +1,1 @@
-"C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe" .\ApinationGateway\bin\Debug\ApinationGateway.exe
+"C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe" .\Sage50Connector\bin\Debug\Sage50Connector.exe

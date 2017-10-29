@@ -2,7 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 
-namespace ApinationGateway.Models
+namespace Sage50Connector.Models
 {
     /// <summary>
     /// gateway config
