@@ -79,8 +79,6 @@ namespace Sage50Connector
 
             var trigger = TriggerBuilder.Create()
                 .StartNow()
-                .UsingJobData("a","1")
-                .UsingJobData("b", "2")
                 .WithCronSchedule(cron).Build();
             _jobsStore.Add(job, new Quartz.Collection.HashSet<ITrigger> { trigger });
 
@@ -106,10 +104,10 @@ namespace Sage50Connector
                 // for every company and their processes prepare jobs in job strore
                 foreach (var company in _config.CompaniesList)
                 {
-                    Log.InfoFormat("- Company '{0}' ...", company.CompanyName);
+                    Log.InfoFormat("| Company '{0}' ...", company.CompanyName);
                     foreach (var process in company.Processes)
                     {
-                        Log.InfoFormat("--- Process config: '{0}'", process);
+                        Log.InfoFormat("| - Process config: '{0}'", process);
                         ScheduleProcess(process);
                     }
                 }
