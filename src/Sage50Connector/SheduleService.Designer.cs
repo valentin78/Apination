@@ -1,4 +1,4 @@
-﻿namespace ApinationGateway
+﻿namespace Sage50Connector
 {
     partial class SheduleService
     {
@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
-            this.ServiceName = "ApinationGateway";
+            // 
+            // SheduleService
+            // 
+            this.ServiceName = "Sage50Connector";
+
         }
 
         #endregion

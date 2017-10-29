@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Quartz;
 
-namespace ApinationGateway.Core
+namespace Sage50Connector.Core
 {
     class Helpers
     {

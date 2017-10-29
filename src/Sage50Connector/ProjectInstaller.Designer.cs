@@ -1,4 +1,4 @@
-﻿namespace ApinationGateway
+﻿namespace Sage50Connector
 {
     partial class ProjectInstaller
     {
@@ -40,9 +40,9 @@
             // serviceInstaller
             // 
             this.serviceInstaller.DelayedAutoStart = true;
-            this.serviceInstaller.Description = "Apination Gateway on Sage50 API";
-            this.serviceInstaller.DisplayName = "ApinationGateway";
-            this.serviceInstaller.ServiceName = "ApinationGateway";
+            this.serviceInstaller.Description = "Sage50 Connectoron Sage50 API";
+            this.serviceInstaller.DisplayName = "Sage50Connector";
+            this.serviceInstaller.ServiceName = "Sage50Connector";
             // 
             // ProjectInstaller
             // 

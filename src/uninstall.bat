@@ -1,0 +1,1 @@
+"C:\Windows\Microsoft.NET\Framework\v4.0.30319\InstallUtil.exe" /u .\Sage50Connector\bin\Debug\Sage50Connector.exe

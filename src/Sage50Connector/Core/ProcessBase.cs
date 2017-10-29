@@ -1,6 +1,6 @@
 ﻿using log4net;
 
-namespace ApinationGateway.Core
+namespace Sage50Connector.Core
 {
     public class ProcessBase
     {

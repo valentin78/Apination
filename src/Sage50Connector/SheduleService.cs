@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using log4net;
 using System.ServiceProcess;
-using ApinationGateway.API;
-using ApinationGateway.Core;
-using ApinationGateway.Models;
-using ApinationGateway.Processes;
+using log4net;
 using log4net.Config;
 using Quartz;
 using Quartz.Impl;
+using Sage50Connector.API;
+using Sage50Connector.Core;
+using Sage50Connector.Models;
 
-namespace ApinationGateway
+namespace Sage50Connector
 {
     public partial class SheduleService : ServiceBase
     {
@@ -91,7 +90,7 @@ namespace ApinationGateway
         protected override void OnStart(string[] args)
         {
             Log.Info("********************************************************************************************************************");
-            Log.Info("* ApinationGateway Service starting");
+            Log.Info("* Sage50Connector Service starting");
             Log.Info("********************************************************************************************************************");
 
             try
@@ -124,7 +123,7 @@ namespace ApinationGateway
             }
             catch (Exception exc)
             {
-                Log.FatalFormat("ApinationGateway Service start failed: {0}. Trace: {1}", exc.Message, exc);
+                Log.FatalFormat("Sage50Connector Service start failed: {0}. Trace: {1}", exc.Message, exc);
 
                 // if loader exception throw, log exception with loaderException details
                 if (exc is ReflectionTypeLoadException loaderException)
@@ -148,7 +147,7 @@ namespace ApinationGateway
             Scheduler.Shutdown(true);
 
             Log.Info("********************************************************************************************************************");
-            Log.Info("* ApinationGateway Service stopped");
+            Log.Info("* Sage50Connector Service stopped");
             Log.Info("********************************************************************************************************************");
         }
     }
