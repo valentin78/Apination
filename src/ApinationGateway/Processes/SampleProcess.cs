@@ -1,15 +1,18 @@
 ﻿using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using ApinationGateway.Core;
 using Quartz;
 
 namespace ApinationGateway.Processes
 {
     [Guid("CBD51F9F-4B8D-40A2-B086-1F849894EB96")]
-    class SampleProcess: ProcessBase, IJob
+    class SampleProcess : ProcessBase, IJob
     {
         public void Execute(IJobExecutionContext context)
         {
-            Log.Info("-> SampleProcess started ...");
+            var p1 = context.JobDetail.JobDataMap["p1"];
+            var p2 = context.JobDetail.JobDataMap["p2"];
+            Log.InfoFormat("-> SampleProcess started ... p1: {0}; p2: {1}", p1, p2);
         }
     }
 }

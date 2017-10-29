@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace ApinationGateway.Models
@@ -38,5 +39,7 @@ namespace ApinationGateway.Models
                 return writer.ToString();
             }
         }
+
+        public IDictionary<string, object> JobData { get; set; }
     }
 }

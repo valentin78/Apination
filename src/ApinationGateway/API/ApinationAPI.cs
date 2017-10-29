@@ -1,4 +1,5 @@
-﻿using ApinationGateway.Models;
+﻿using System.Collections.Generic;
+using ApinationGateway.Models;
 
 namespace ApinationGateway.API
 {
@@ -18,7 +19,23 @@ namespace ApinationGateway.API
                             {
                                 CronSchedule = "0 0/1 * * * ?", 
                                 ProcessID = "CBD51F9F-4B8D-40A2-B086-1F849894EB96", 
+                                JobData = new Dictionary<string, object>
+                                {
+                                    {"p1", "p1Value"},
+                                    {"p2", "p2Value"}
+                                },
                                 AutoStart = true
+                            },
+                            new SyncProcess
+                            {
+                                CronSchedule = "0 0/2 * * * ?",
+                                ProcessID = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
+                                JobData = new Dictionary<string, object>
+                                {
+                                    {"p1", "Hello"},
+                                    {"p2", "world"}
+                                },
+                                AutoStart = false
                             }
                         }
                     }

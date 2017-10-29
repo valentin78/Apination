@@ -71,8 +71,18 @@ namespace ApinationGateway
             var cron = process.CronSchedule;
             var autoStart = process.AutoStart;
 
-            var job = JobBuilder.Create(jobType).Build();
-            var trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(cron).Build();
+            // add job custom data for process needs
+            var jobData = new JobDataMap(process.JobData);
+
+            var job = JobBuilder.Create(jobType)
+                .UsingJobData(jobData)
+                .Build();
+
+            var trigger = TriggerBuilder.Create()
+                .StartNow()
+                .UsingJobData("a","1")
+                .UsingJobData("b", "2")
+                .WithCronSchedule(cron).Build();
             _jobsStore.Add(job, new Quartz.Collection.HashSet<ITrigger> { trigger });
 
             if (autoStart) _jobsAutoStart.Add(job.Key);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Quartz;
 
 namespace ApinationGateway.Core
 {
@@ -11,11 +12,11 @@ namespace ApinationGateway.Core
 
         static Helpers()
         {
-            // cache assembly types that inherit ProcessBase
-            var shouldImplement = typeof(ProcessBase);
+            // cache assembly types that inherit ProcessBase & IJob
             _processTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
-                .Where(p => shouldImplement.IsAssignableFrom(p));
+                .Where(p => typeof(ProcessBase).IsAssignableFrom(p))
+                .Where(p => typeof(IJob).IsAssignableFrom(p));
         }
 
         /// <summary>
