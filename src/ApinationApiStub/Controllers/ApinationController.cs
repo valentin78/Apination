@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
@@ -13,7 +14,7 @@ namespace ApinationApiStub.Controllers
         // GET api/apination
         [HttpGet]
         [Route("api/config")]
-        public Config Get()
+        public Config Get(string name)
         {
             return new Config
             {
@@ -23,7 +24,7 @@ namespace ApinationApiStub.Controllers
                 {
                     new Company
                     {
-                        CompanyName = "Demo Company",
+                        CompanyName = name, //"Demo Company",
                         Processes = new [] {
                             new SyncProcess
                             {
@@ -52,17 +53,18 @@ namespace ApinationApiStub.Controllers
             };
         }
 
+        [HttpPost]
+        [Route("api/heartbeat")]
+        public string Post(string value)
+        {
+            return value+ "!";
+        }
+
         //// GET api/values/5
         //[HttpGet("{id}")]
         //public string Get(int id)
         //{
         //    return "value";
-        //}
-
-        //// POST api/values
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
         //}
 
         //// PUT api/values/5

@@ -20,7 +20,9 @@ namespace Sage50Connector
         // auto start job keys list
         private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
-        // Apination API Helper
+        /// <summary>
+        /// Apination API Helper
+        /// </summary>
         private ApinationAPI _apinationApi => new ApinationAPI();
         
         // Connector Config
