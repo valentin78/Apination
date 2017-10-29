@@ -8,6 +8,7 @@ using Quartz;
 using Quartz.Impl;
 using Sage50Connector.API;
 using Sage50Connector.Core;
+using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
 
 namespace Sage50Connector
@@ -84,6 +85,22 @@ namespace Sage50Connector
 
             if (autoStart) _jobsAutoStart.Add(job.Key);
         }
+        /// <summary>
+        /// Schedule HeartBeat process
+        /// </summary>
+        private void ScheduleHeartBeat()
+        {
+            // if not specified HeartBeatCronSchedule skip this schedule
+            if (string.IsNullOrEmpty(_config.HeartBeatCronSchedule)) return;
+
+            var job = JobBuilder.Create<HeartBeatProcess>().Build();
+
+            var trigger = TriggerBuilder.Create()
+                .StartNow()
+                .WithCronSchedule(_config.HeartBeatCronSchedule).Build();
+
+            Scheduler.ScheduleJob(job, trigger);
+        }
 
         protected override void OnStart(string[] args)
         {
@@ -114,6 +131,8 @@ namespace Sage50Connector
 
                 // start schedules
                 Scheduler.Start();
+
+                ScheduleHeartBeat();
 
                 // start schedule jobs from jobs store
                 Scheduler.ScheduleJobs(_jobsStore, true);

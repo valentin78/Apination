@@ -9,6 +9,7 @@ namespace Sage50Connector.API
         {
             return new Config
             {
+                HeartBeatCronSchedule = "0 0/1 * * * ?",
                 DefaultCronSchedule = "0 0/1 * * * ?",
                 CompaniesList = new[]
                 {
