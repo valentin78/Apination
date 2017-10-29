@@ -66,7 +66,7 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Helpers.cs" />
     <Compile Include="Models\Config.cs" />
-    <Compile Include="Core\IProcess.cs" />
+    <Compile Include="Core\ProcessBase.cs" />
     <Compile Include="Processes\SampleProcess.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

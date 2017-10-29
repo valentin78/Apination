@@ -11,8 +11,8 @@ namespace ApinationGateway.Core
 
         static Helpers()
         {
-            // cache assembly types that implements IProcess
-            var shouldImplement = typeof(IProcess);
+            // cache assembly types that inherit ProcessBase
+            var shouldImplement = typeof(ProcessBase);
             _processTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
                 .Where(p => shouldImplement.IsAssignableFrom(p));
