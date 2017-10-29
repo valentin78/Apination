@@ -4,33 +4,57 @@ using Newtonsoft.Json;
 
 namespace ApinationGateway.Models
 {
+    /// <summary>
+    /// gateway config
+    /// </summary>
     class Config
     {
+        /// <summary>
+        /// companies list
+        /// </summary>
         public Company[] CompaniesList { get; set; }
     }
 
     internal class Company
     {
+        /// <summary>
+        /// company name
+        /// </summary>
         public string CompanyName { get; set; }
 
+        /// <summary>
+        /// processes list
+        /// </summary>
         public SyncProcess[] Processes { get; set; }
     }
 
     internal class SyncProcess
     {
+        /// <summary>
+        /// equals Guid attribute value for identity Process type to run
+        /// </summary>
         public string ProcessID { get; set; }
 
         /// <summary>
-        /// Кроновский период, когда будет запускаться процесс
-        /// doc. https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
+        /// cron period where process start
+        /// docs https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
         /// </summary>
         public string CronSchedule { get; set; }
 
         /// <summary>
-        /// Автозапуск процесса со стартом сервиса (не дожидаясь графика запуска)
+        /// autostart process with service started 
         /// </summary>
         public bool AutoStart { get; set; }
 
+        /// <summary>
+        /// parameters set for job parametrization
+        /// </summary>
+        public IDictionary<string, object> JobData { get; set; }
+
+        /// <summary>
+        /// used for log purposes
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             using (StringWriter writer = new StringWriter())
@@ -39,7 +63,5 @@ namespace ApinationGateway.Models
                 return writer.ToString();
             }
         }
-
-        public IDictionary<string, object> JobData { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using ApinationGateway.Core;
 using Quartz;
 
