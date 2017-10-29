@@ -7,7 +7,7 @@ namespace Sage50Connector.Models
     /// <summary>
     /// connector config
     /// </summary>
-    class Config
+    public class Config
     {
         /// <summary>
         /// companies list
@@ -27,7 +27,7 @@ namespace Sage50Connector.Models
         public string HeartBeatCronSchedule { get; set; }
     }
 
-    internal class Company
+    public class Company
     {
         /// <summary>
         /// company name
@@ -40,7 +40,7 @@ namespace Sage50Connector.Models
         public SyncProcess[] Processes { get; set; }
     }
 
-    internal class SyncProcess
+    public class SyncProcess
     {
         /// <summary>
         /// equals Guid attribute value for identity Process type to run

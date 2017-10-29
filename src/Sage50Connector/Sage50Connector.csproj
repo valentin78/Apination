@@ -66,7 +66,6 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Helpers.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
-    <Compile Include="Models\Config.cs" />
     <Compile Include="Core\ProcessBase.cs" />
     <Compile Include="Processes\SampleProcess.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -98,6 +97,11 @@
       <DependentUpon>SheduleService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Sage50Connector.Models\Sage50Connector.Models.csproj">
+      <Project>{f56b98e1-b91c-4249-9526-367693086af4}</Project>
+      <Name>Sage50Connector.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

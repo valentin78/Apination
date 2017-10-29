@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sage50Connector", "Sage50Connector\Sage50Connector.csproj", "{1476EB2D-C98F-4473-9F29-85D018E4269E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApinationApiStub", "ApinationApiStub\ApinationApiStub.csproj", "{64E4B0FB-739E-4E17-AEDE-4629E61C691C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sage50Connector.Models", "Sage50Connector.Models\Sage50Connector.Models.csproj", "{F56B98E1-B91C-4249-9526-367693086AF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{1476EB2D-C98F-4473-9F29-85D018E4269E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1476EB2D-C98F-4473-9F29-85D018E4269E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1476EB2D-C98F-4473-9F29-85D018E4269E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64E4B0FB-739E-4E17-AEDE-4629E61C691C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64E4B0FB-739E-4E17-AEDE-4629E61C691C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64E4B0FB-739E-4E17-AEDE-4629E61C691C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64E4B0FB-739E-4E17-AEDE-4629E61C691C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F56B98E1-B91C-4249-9526-367693086AF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F56B98E1-B91C-4249-9526-367693086AF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F56B98E1-B91C-4249-9526-367693086AF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F56B98E1-B91C-4249-9526-367693086AF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
