@@ -9,7 +9,7 @@
     {
         public string CompanyName { get; set; }
 
-        public SyncProcess Process { get; set; }
+        public SyncProcess[] Processes { get; set; }
     }
 
     internal class SyncProcess
@@ -21,5 +21,10 @@
         /// doc. https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
         /// </summary>
         public string CronSchedule { get; set; }
+
+        /// <summary>
+        /// Автозапуск процесса со стартом сервиса (не дожидаясь графика запуска)
+        /// </summary>
+        public bool AutoStart { get; set; }
     }
 }

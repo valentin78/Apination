@@ -15,6 +15,9 @@ namespace ApinationGateway
 {
     public partial class SheduleService : ServiceBase
     {
+        private Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>> _jobsStore = new Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>>();
+        List<JobKey> _jobsAutoStart = new List<JobKey>();
+
         private ApinationAPI _apinationApi => new ApinationAPI();
         private Config _config;
 
@@ -45,8 +48,19 @@ namespace ApinationGateway
         public SheduleService()
         {
             InitializeComponent();
+        }
 
-            _config = _apinationApi.RetrieveGatewayConfig();
+        void ScheduleProcess(SyncProcess process)
+        {
+            var jobType = typeof(SampleProcess);
+            var cron = "0 0/1 * * * ?";
+            var autoStart = true;
+
+            var job = JobBuilder.Create(jobType).Build();
+            var trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(cron).Build();
+            _jobsStore.Add(job, new Quartz.Collection.HashSet<ITrigger> { trigger });
+
+            if (autoStart) _jobsAutoStart.Add(job.Key);
         }
 
         protected override void OnStart(string[] args)
@@ -57,22 +71,24 @@ namespace ApinationGateway
 
             try
             {
-                var dictionary = new Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>>();
-
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+                Log.Info("Retrieve Gateway Config ...");
+                _config = _apinationApi.RetrieveGatewayConfig();
+
+                Log.Info("Schedule companies processes ...");
+                foreach (var company in _config.CompaniesList)
+                {
+                    foreach (var process in company.Processes)
+                    {
+                        ScheduleProcess(process);
+                    }
+                }
+
                 Scheduler.Start();
 
-                var job = JobBuilder.Create<SampleProcess>().Build();
-
-                var trigger = TriggerBuilder.Create()
-                    .StartNow()
-                    .WithCronSchedule("0/1 * * * * ?") //every second
-                    .Build();
-
-                dictionary.Add(job, new Quartz.Collection.HashSet<ITrigger> { trigger });
-                Scheduler.ScheduleJobs(dictionary, true);
-
-                Scheduler.TriggerJob(job.Key);
+                Scheduler.ScheduleJobs(_jobsStore, true);
+                foreach (var jobKey in _jobsAutoStart) Scheduler.TriggerJob(jobKey);
             }
             catch (Exception exc)
             {

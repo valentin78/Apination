@@ -8,7 +8,21 @@ namespace ApinationGateway.API
         {
             return new Config
             {
-                
+                CompaniesList = new[]
+                {
+                    new Company
+                    {
+                        CompanyName = "Demo Company",
+                        Processes = new [] { 
+                            new SyncProcess
+                            {
+                                CronSchedule = "0 0/1 * * * ?", 
+                                ProcessID = null, 
+                                AutoStart = true
+                            }
+                        }
+                    }
+                }
             };
         }
     }
