@@ -52,9 +52,9 @@ namespace ApinationGateway
 
         void ScheduleProcess(SyncProcess process)
         {
-            var jobType = typeof(SampleProcess);
-            var cron = "0 0/1 * * * ?";
-            var autoStart = true;
+            var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
+            var cron = process.CronSchedule;
+            var autoStart = process.AutoStart;
 
             var job = JobBuilder.Create(jobType).Build();
             var trigger = TriggerBuilder.Create().StartNow().WithCronSchedule(cron).Build();
@@ -76,11 +76,12 @@ namespace ApinationGateway
                 Log.Info("Retrieve Gateway Config ...");
                 _config = _apinationApi.RetrieveGatewayConfig();
 
-                Log.Info("Schedule companies processes ...");
                 foreach (var company in _config.CompaniesList)
                 {
+                    Log.InfoFormat("* Company '{0}' ...", company.CompanyName);
                     foreach (var process in company.Processes)
                     {
+                        Log.InfoFormat("** Process config: '{0}'", process);
                         ScheduleProcess(process);
                     }
                 }

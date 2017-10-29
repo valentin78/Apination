@@ -17,7 +17,7 @@ namespace ApinationGateway.API
                             new SyncProcess
                             {
                                 CronSchedule = "0 0/1 * * * ?", 
-                                ProcessID = null, 
+                                ProcessID = "CBD51F9F-4B8D-40A2-B086-1F849894EB96", 
                                 AutoStart = true
                             }
                         }

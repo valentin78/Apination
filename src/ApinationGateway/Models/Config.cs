@@ -1,4 +1,7 @@
-﻿namespace ApinationGateway.Models
+﻿using System.IO;
+using Newtonsoft.Json;
+
+namespace ApinationGateway.Models
 {
     class Config
     {
@@ -26,5 +29,14 @@
         /// Автозапуск процесса со стартом сервиса (не дожидаясь графика запуска)
         /// </summary>
         public bool AutoStart { get; set; }
+
+        public override string ToString()
+        {
+            using (StringWriter writer = new StringWriter())
+            {
+                JsonSerializer.Create().Serialize(writer, this);
+                return writer.ToString();
+            }
+        }
     }
 }
