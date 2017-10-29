@@ -15,10 +15,15 @@ namespace ApinationGateway
 {
     public partial class SheduleService : ServiceBase
     {
-        private Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>> _jobsStore = new Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>>();
-        List<JobKey> _jobsAutoStart = new List<JobKey>();
+        // jobs store
+        private readonly Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>> _jobsStore = new Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>>();
+        // auto start job keys list
+        private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
+        // Apination API Helper
         private ApinationAPI _apinationApi => new ApinationAPI();
+        
+        // Gateway Config
         private Config _config;
 
         #region Scheduler
@@ -50,6 +55,10 @@ namespace ApinationGateway
             InitializeComponent();
         }
 
+        /// <summary>
+        /// prepare job for SyncProcess config
+        /// </summary>
+        /// <param name="process"></param>
         void ScheduleProcess(SyncProcess process)
         {
             var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
@@ -79,9 +88,11 @@ namespace ApinationGateway
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+                // retrieve config
                 Log.Info("Retrieve Gateway Config ...");
                 _config = _apinationApi.RetrieveGatewayConfig();
 
+                // for every company and their processes prepare jobs in job strore
                 foreach (var company in _config.CompaniesList)
                 {
                     Log.InfoFormat("- Company '{0}' ...", company.CompanyName);
@@ -92,9 +103,13 @@ namespace ApinationGateway
                     }
                 }
 
+                // start schedules
                 Scheduler.Start();
 
+                // start schedule jobs from jobs store
                 Scheduler.ScheduleJobs(_jobsStore, true);
+
+                // auto start jobs
                 foreach (var jobKey in _jobsAutoStart) Scheduler.TriggerJob(jobKey);
             }
             catch (Exception exc)
@@ -105,6 +120,7 @@ namespace ApinationGateway
                 if (exc is ReflectionTypeLoadException loaderException)
                     loaderException.LogLoaderExceptions((e, le) => Log.FatalFormat("Loader Exception: {0}. Trace: {1}", le.Message, le));
 
+                // stopping service
                 Stop();
             }
         }
@@ -118,6 +134,7 @@ namespace ApinationGateway
 
         protected override void OnStop()
         {
+            // shutdown scheduler jobs and main process and waiting for finish them 
             Scheduler.Shutdown(true);
 
             Log.Info("********************************************************************************************************************");
