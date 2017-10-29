@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 namespace Sage50Connector.Models
 {
     /// <summary>
-    /// gateway config
+    /// connector config
     /// </summary>
     class Config
     {

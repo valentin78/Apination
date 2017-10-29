@@ -22,7 +22,7 @@ namespace Sage50Connector
         // Apination API Helper
         private ApinationAPI _apinationApi => new ApinationAPI();
         
-        // Gateway Config
+        // Connector Config
         private Config _config;
 
         #region Scheduler
@@ -98,8 +98,8 @@ namespace Sage50Connector
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
                 // retrieve config
-                Log.Info("Retrieve Gateway Config ...");
-                _config = _apinationApi.RetrieveGatewayConfig();
+                Log.Info("Retrieve Connector Config ...");
+                _config = _apinationApi.RetrieveConnectorConfig();
 
                 // for every company and their processes prepare jobs in job strore
                 foreach (var company in _config.CompaniesList)

@@ -5,7 +5,7 @@ namespace Sage50Connector.API
 {
     class ApinationAPI
     {
-        public Config RetrieveGatewayConfig()
+        public Config RetrieveConnectorConfig()
         {
             return new Config
             {
