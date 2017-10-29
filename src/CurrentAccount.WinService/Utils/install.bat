@@ -1,1 +1,0 @@
-installutil.exe CurrentAccount.WinService.exe
