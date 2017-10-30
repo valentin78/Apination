@@ -11,7 +11,7 @@ namespace Sage50Connector.API
         {
             var json = HttpHelper.Get("api/config", new NameValueCollection
             {
-                {"name", "123"}
+                {"name", "Chase Ridge Holdings"}
             });
 
             return JsonConvert.DeserializeObject<Config>(json);

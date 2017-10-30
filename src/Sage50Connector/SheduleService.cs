@@ -61,7 +61,8 @@ namespace Sage50Connector
         /// prepare job for SyncProcess config
         /// </summary>
         /// <param name="process"></param>
-        void ScheduleProcess(SyncProcess process)
+        /// <param name="company"></param>
+        void ScheduleProcess(SyncProcess process, Company company)
         {
             var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
             if (jobType == null)
@@ -73,6 +74,7 @@ namespace Sage50Connector
             var cron = process.CronSchedule ?? _config.DefaultCronSchedule;
             var autoStart = process.AutoStart;
 
+            process.JobData.Add("$company", company);
             // add job custom data for process needs
             var jobData = new JobDataMap(process.JobData);
 
@@ -127,7 +129,7 @@ namespace Sage50Connector
                     foreach (var process in company.Processes)
                     {
                         Log.InfoFormat("| - Process config: '{0}'", process);
-                        ScheduleProcess(process);
+                        ScheduleProcess(process, company);
                     }
                 }
 
