@@ -8,6 +8,7 @@ using Quartz;
 using Quartz.Impl;
 using Sage50Connector.API;
 using Sage50Connector.Core;
+using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
 
 namespace Sage50Connector
@@ -19,10 +20,12 @@ namespace Sage50Connector
         // auto start job keys list
         private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
-        // Apination API Helper
+        /// <summary>
+        /// Apination API Helper
+        /// </summary>
         private ApinationAPI _apinationApi => new ApinationAPI();
         
-        // Gateway Config
+        // Connector Config
         private Config _config;
 
         #region Scheduler
@@ -58,7 +61,8 @@ namespace Sage50Connector
         /// prepare job for SyncProcess config
         /// </summary>
         /// <param name="process"></param>
-        void ScheduleProcess(SyncProcess process)
+        /// <param name="company"></param>
+        void ScheduleProcess(SyncProcess process, Company company)
         {
             var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
             if (jobType == null)
@@ -67,9 +71,10 @@ namespace Sage50Connector
                 return;
             }
 
-            var cron = process.CronSchedule;
+            var cron = process.CronSchedule ?? _config.DefaultCronSchedule;
             var autoStart = process.AutoStart;
 
+            process.JobData.Add("$company", company);
             // add job custom data for process needs
             var jobData = new JobDataMap(process.JobData);
 
@@ -79,12 +84,26 @@ namespace Sage50Connector
 
             var trigger = TriggerBuilder.Create()
                 .StartNow()
-                .UsingJobData("a","1")
-                .UsingJobData("b", "2")
                 .WithCronSchedule(cron).Build();
             _jobsStore.Add(job, new Quartz.Collection.HashSet<ITrigger> { trigger });
 
             if (autoStart) _jobsAutoStart.Add(job.Key);
+        }
+        /// <summary>
+        /// Schedule HeartBeat process
+        /// </summary>
+        private void ScheduleHeartBeat()
+        {
+            // if not specified HeartBeatCronSchedule skip this schedule
+            if (string.IsNullOrEmpty(_config.HeartBeatCronSchedule)) return;
+
+            var job = JobBuilder.Create<HeartBeatProcess>().Build();
+
+            var trigger = TriggerBuilder.Create()
+                .StartNow()
+                .WithCronSchedule(_config.HeartBeatCronSchedule).Build();
+
+            Scheduler.ScheduleJob(job, trigger);
         }
 
         protected override void OnStart(string[] args)
@@ -98,22 +117,26 @@ namespace Sage50Connector
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
                 // retrieve config
-                Log.Info("Retrieve Gateway Config ...");
-                _config = _apinationApi.RetrieveGatewayConfig();
+                Log.Info("Retrieve Connector Config ...");
+                _config = _apinationApi.RetrieveConnectorConfig();
+
+                Log.InfoFormat("Default Cron config: {0}", _config.DefaultCronSchedule);
 
                 // for every company and their processes prepare jobs in job strore
                 foreach (var company in _config.CompaniesList)
                 {
-                    Log.InfoFormat("- Company '{0}' ...", company.CompanyName);
+                    Log.InfoFormat("| Company '{0}' ...", company.CompanyName);
                     foreach (var process in company.Processes)
                     {
-                        Log.InfoFormat("--- Process config: '{0}'", process);
-                        ScheduleProcess(process);
+                        Log.InfoFormat("| - Process config: '{0}'", process);
+                        ScheduleProcess(process, company);
                     }
                 }
 
                 // start schedules
                 Scheduler.Start();
+
+                ScheduleHeartBeat();
 
                 // start schedule jobs from jobs store
                 Scheduler.ScheduleJobs(_jobsStore, true);

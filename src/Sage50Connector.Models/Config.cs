@@ -5,17 +5,29 @@ using Newtonsoft.Json;
 namespace Sage50Connector.Models
 {
     /// <summary>
-    /// gateway config
+    /// connector config
     /// </summary>
-    class Config
+    public class Config
     {
         /// <summary>
         /// companies list
         /// </summary>
         public Company[] CompaniesList { get; set; }
+
+        /// <summary>
+        /// default cron period if not specified 
+        /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
+        /// </summary>
+        public string DefaultCronSchedule { get; set; }
+
+        /// <summary>
+        /// Cron period for HearBeat process
+        /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
+        /// </summary>
+        public string HeartBeatCronSchedule { get; set; }
     }
 
-    internal class Company
+    public class Company
     {
         /// <summary>
         /// company name
@@ -28,7 +40,7 @@ namespace Sage50Connector.Models
         public SyncProcess[] Processes { get; set; }
     }
 
-    internal class SyncProcess
+    public class SyncProcess
     {
         /// <summary>
         /// equals Guid attribute value for identity Process type to run
@@ -37,7 +49,7 @@ namespace Sage50Connector.Models
 
         /// <summary>
         /// cron period where process start
-        /// docs https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
+        /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
         /// </summary>
         public string CronSchedule { get; set; }
 

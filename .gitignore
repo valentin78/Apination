@@ -2,7 +2,9 @@
 .vs
 src/.vs
 src/packages
-src/Sage50Connector/.vs
 src/Sage50Connector/bin
 src/Sage50Connector/obj
-
+src/Sage50Connector.Models/bin
+src/Sage50Connector.Models/obj
+src/ApinationApiStub/bin
+src/ApinationApiStub/obj

@@ -50,7 +50,9 @@
     <Reference Include="Quartz, Version=2.6.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.6.1\lib\net40\Quartz.dll</HintPath>
     </Reference>
+    <Reference Include="Sage.Peachtree.API, Version=2018.0.0.52, Culture=neutral, PublicKeyToken=d06c16dde04d83e4, processorArchitecture=x86" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
@@ -63,9 +65,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ApinationAPI.cs" />
+    <Compile Include="API\Sage50API.cs" />
+    <Compile Include="Core\HttpHelper.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\Helpers.cs" />
-    <Compile Include="Models\Config.cs" />
+    <Compile Include="HeartBeat\HeartBeatProcess.cs" />
     <Compile Include="Core\ProcessBase.cs" />
     <Compile Include="Processes\SampleProcess.cs" />
     <Compile Include="ProjectInstaller.cs">
@@ -98,6 +102,11 @@
       <DependentUpon>SheduleService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Sage50Connector.Models\Sage50Connector.Models.csproj">
+      <Project>{f56b98e1-b91c-4249-9526-367693086af4}</Project>
+      <Name>Sage50Connector.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
