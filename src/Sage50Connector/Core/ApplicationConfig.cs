@@ -8,6 +8,7 @@ namespace Sage50Connector.Core
         /// <summary>
         /// A valid application ID is needed in order to connect to regular Sage 50 companies
         /// </summary>
+        // ReSharper disable once InconsistentNaming
         public static string Sage50ApplicationID => ConfigurationManager.AppSettings["Sage50ApplicationID"];
 
         /// <summary>

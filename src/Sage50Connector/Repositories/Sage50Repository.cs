@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using Sage.Peachtree.API;
 using Sage50Connector.Core;
@@ -8,8 +7,8 @@ namespace Sage50Connector.Repositories
 {
     class Sage50Repository : IDisposable
     {
-        private PeachtreeSession apiSession;
-        private Company companyContext;
+        private PeachtreeSession _apiSession;
+        private Company _companyContext;
 
         public Sage50Repository()
         {
@@ -18,36 +17,36 @@ namespace Sage50Connector.Repositories
 
         void OpenSession()
         {
-            apiSession = new PeachtreeSession();
-            apiSession.Begin(ApplicationConfig.Sage50ApplicationID);
+            _apiSession = new PeachtreeSession();
+            _apiSession.Begin(ApplicationConfig.Sage50ApplicationID);
         }
 
         public CompanyIdentifier OpenCompany(string companyName = "Chase Ridge Holdings")
         {
-            if (companyContext != null) throw new ArgumentException("Company already opened");
+            if (_companyContext != null) throw new ArgumentException("Company already opened");
 
-            if (apiSession == null) throw new ArgumentException("Session not opened");
-            var companyIdList = apiSession.CompanyList(apiSession.Configuration.ServerName);
+            if (_apiSession == null) throw new ArgumentException("Session not opened");
+            var companyIdList = _apiSession.CompanyList(_apiSession.Configuration.ServerName);
             var companyId = companyIdList.SingleOrDefault(c => c.CompanyName == companyName);
             if (companyId == null) throw new ArgumentException("Can't find company by name: " + companyName);
 
             // Ask the Sage 50 application if this application has
             // been granted access to the company.
-            var AuthResult = apiSession.VerifyAccess(companyId);
+            var authResult = _apiSession.VerifyAccess(companyId);
 
             // if the app has never asked for authorization before, We need to ask now
-            if (AuthResult == AuthorizationResult.NoCredentials)
+            if (authResult == AuthorizationResult.NoCredentials)
             {
-                AuthResult = apiSession.RequestAccess(companyId);
+                authResult = _apiSession.RequestAccess(companyId);
             }
 
             // handle the authorization result
-            switch (AuthResult)
+            switch (authResult)
             {
                 case AuthorizationResult.Granted:
                     // open the company
-                    companyContext = apiSession.Open(companyId);
-                    return companyContext.CompanyIdentifier;
+                    _companyContext = _apiSession.Open(companyId);
+                    return _companyContext.CompanyIdentifier;
                 default:
                     throw new ArgumentException("Can't open company: " + companyName);
             }
@@ -55,11 +54,11 @@ namespace Sage50Connector.Repositories
 
         public void Dispose()
         {
-            if (apiSession == null) return;
-            if (companyContext != null) apiSession.Close(companyContext);
+            if (_apiSession == null) return;
+            if (_companyContext != null) _apiSession.Close(_companyContext);
             
-            apiSession.End();
-            apiSession.Dispose();
+            _apiSession.End();
+            _apiSession.Dispose();
         }
     }
 }

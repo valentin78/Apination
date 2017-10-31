@@ -8,3 +8,4 @@ src/Sage50Connector.Models/bin
 src/Sage50Connector.Models/obj
 src/ApinationApiStub/bin
 src/ApinationApiStub/obj
+/src/ApinationGateway

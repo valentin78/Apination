@@ -50,7 +50,9 @@
     <Reference Include="Quartz, Version=2.6.1.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
       <HintPath>..\packages\Quartz.2.6.1\lib\net40\Quartz.dll</HintPath>
     </Reference>
-    <Reference Include="Sage.Peachtree.API, Version=2018.0.0.52, Culture=neutral, PublicKeyToken=d06c16dde04d83e4, processorArchitecture=x86" />
+    <Reference Include="Sage.Peachtree.API">
+      <HintPath>..\SageSDK\Sage.Peachtree.API.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Configuration.Install" />
@@ -90,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Diagrams\ClassDiagram1.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

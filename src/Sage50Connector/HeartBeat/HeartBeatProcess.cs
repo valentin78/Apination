@@ -8,7 +8,7 @@ namespace Sage50Connector.HeartBeat
         public void Execute(IJobExecutionContext context)
         {
             Log.Info("-> HeartBeatProcess ...");
-            _apinationApi.HearBest();
+            _apinationApi.HeartBeat();
         }
     }
 }

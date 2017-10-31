@@ -5,17 +5,17 @@ using Newtonsoft.Json;
 namespace Sage50Connector.Models
 {
     /// <summary>
-    /// connector config
+    /// Connector config
     /// </summary>
     public class Config
     {
         /// <summary>
-        /// companies list
+        /// List of companies to be processed in Sage50
         /// </summary>
         public Company[] CompaniesList { get; set; }
 
         /// <summary>
-        /// default cron period if not specified 
+        /// Default Cron polling period for triggers/actions if not specified in SyncProcess 
         /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
         /// </summary>
         public string DefaultCronSchedule { get; set; }
@@ -40,31 +40,34 @@ namespace Sage50Connector.Models
         public SyncProcess[] Processes { get; set; }
     }
 
+    /// <summary>
+    /// Action|Trigger process
+    /// </summary>
     public class SyncProcess
     {
         /// <summary>
-        /// equals Guid attribute value for identity Process type to run
+        /// Identifier of process (may be any string to identify Action|Trigger, for example Action.CreateCustomer)
         /// </summary>
-        public string ProcessID { get; set; }
+        public string SyncProcessId { get; set; }
 
         /// <summary>
-        /// cron period where process start
+        /// Cron polling period for SyncProcess
         /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
         /// </summary>
         public string CronSchedule { get; set; }
 
         /// <summary>
-        /// autostart process with service started 
+        /// Autostart process when Service starts independent of Cron polling period
         /// </summary>
         public bool AutoStart { get; set; }
 
         /// <summary>
-        /// parameters set for job parametrization
+        /// Parameters set for job parametrization (is not used right now, provided for further enhancement/customization)
         /// </summary>
-        public IDictionary<string, object> JobData { get; set; }
+        public IDictionary<string, object> ProcessParams { get; set; }
 
         /// <summary>
-        /// used for log purposes
+        /// Used for log purposes
         /// </summary>
         /// <returns></returns>
         public override string ToString()

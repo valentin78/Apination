@@ -17,7 +17,7 @@ namespace Sage50Connector.Repositories
             return JsonConvert.DeserializeObject<Config>(json);
         }
 
-        public void HearBest()
+        public void HeartBeat()
         {
             var data = HttpHelper.Post("api/heartbeat", new NameValueCollection
             {
