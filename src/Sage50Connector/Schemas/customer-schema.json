@@ -1,0 +1,29 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "Customer JSON Schema",
+
+  "type": "object",
+
+  "properties": {
+    "ID": {
+      "type": "string",
+      "description": "Customer identity"
+    },
+    "Name": {
+      "type": "string",
+      "description": "Customer Name"
+    },
+    "IsInactive": {
+      "type": "boolean",
+      "description": "Indicates that customer is inactive"
+    },
+    "versions": {
+      "type": "array",
+      "description": "An array of version numbers.",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    }
+  }
+}
