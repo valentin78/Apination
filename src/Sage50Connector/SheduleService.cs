@@ -6,10 +6,10 @@ using log4net;
 using log4net.Config;
 using Quartz;
 using Quartz.Impl;
-using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
+using Sage50Connector.Repositories;
 
 namespace Sage50Connector
 {
@@ -21,9 +21,9 @@ namespace Sage50Connector
         private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
         /// <summary>
-        /// Apination API Helper
+        /// Apination Api Helper
         /// </summary>
-        private ApinationAPI _apinationApi => new ApinationAPI();
+        private ApinationRepository _apinationApi => new ApinationRepository();
         
         // Connector Config
         private Config _config;
@@ -64,7 +64,7 @@ namespace Sage50Connector
         /// <param name="company"></param>
         void ScheduleProcess(SyncProcess process, Company company)
         {
-            var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
+            var jobType = ProcessesHelper.ProcessTypeLocator(process.ProcessID);
             if (jobType == null)
             {
                 Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.ProcessID);

@@ -6,11 +6,11 @@ using Quartz;
 
 namespace Sage50Connector.Core
 {
-    class Helpers
+    class ProcessesHelper
     {
         private static readonly IEnumerable<Type> _processTypes;
 
-        static Helpers()
+        static ProcessesHelper()
         {
             // cache assembly types that inherit ProcessBase & IJob
             _processTypes = AppDomain.CurrentDomain.GetAssemblies()

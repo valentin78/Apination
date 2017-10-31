@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using Quartz;
-using Sage50Connector.API;
+﻿using Quartz;
 using Sage50Connector.Core;
 
 namespace Sage50Connector.HeartBeat

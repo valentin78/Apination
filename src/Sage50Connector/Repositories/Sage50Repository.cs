@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Sage.Peachtree.API;
+using Sage50Connector.Core;
 
-namespace Sage50Connector.API
+namespace Sage50Connector.Repositories
 {
-    class Sage50API : IDisposable
+    class Sage50Repository : IDisposable
     {
         private PeachtreeSession apiSession;
         private Company companyContext;
 
-        public Sage50API()
+        public Sage50Repository()
         {
             OpenSession();
         }
@@ -20,7 +19,7 @@ namespace Sage50Connector.API
         void OpenSession()
         {
             apiSession = new PeachtreeSession();
-            apiSession.Begin(string.Empty);
+            apiSession.Begin(ApplicationConfig.Sage50ApplicationID);
         }
 
         public CompanyIdentifier OpenCompany(string companyName = "Chase Ridge Holdings")

@@ -40,7 +40,7 @@
             // serviceInstaller
             // 
             this.serviceInstaller.DelayedAutoStart = true;
-            this.serviceInstaller.Description = "Sage50 Connectoron Sage50 API";
+            this.serviceInstaller.Description = "Sage50 Connectoron Sage50 Api";
             this.serviceInstaller.DisplayName = "Sage50Connector";
             this.serviceInstaller.ServiceName = "Sage50Connector";
             // 

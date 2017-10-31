@@ -64,11 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\ApinationAPI.cs" />
-    <Compile Include="API\Sage50API.cs" />
+    <Compile Include="Core\ApplicationConfig.cs" />
+    <Compile Include="Repositories\ApinationRepository.cs" />
+    <Compile Include="Repositories\Sage50Repository.cs" />
     <Compile Include="Core\HttpHelper.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\Helpers.cs" />
+    <Compile Include="Core\ProcessesHelper.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
     <Compile Include="Core\ProcessBase.cs" />
     <Compile Include="Processes\SampleProcess.cs" />
@@ -93,6 +94,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Schemas\customer-schema.json" />
+    <None Include="Schemas\invoice-schema.json" />
+    <None Include="Schemas\payment-schema.json" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ProjectInstaller.resx">
@@ -108,5 +112,6 @@
       <Name>Sage50Connector.Models</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
