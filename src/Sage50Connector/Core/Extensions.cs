@@ -5,9 +5,9 @@ namespace Sage50Connector.Core
 {
     static class Extensions
     {
-        public static void LogLoaderExceptions(this ReflectionTypeLoadException ex, Action<Exception, Exception> log)
+        public static void LogLoaderExceptions(this ReflectionTypeLoadException exc, Action<Exception, Exception> log)
         {
-            foreach (var le in ex.LoaderExceptions) log(ex, le);
+            foreach (var le in exc.LoaderExceptions) log(exc, le);
         }
     }
 }

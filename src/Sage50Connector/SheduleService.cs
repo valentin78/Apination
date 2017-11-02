@@ -144,12 +144,12 @@ namespace Sage50Connector
                 // auto start jobs
                 foreach (var jobKey in _jobsAutoStart) Scheduler.TriggerJob(jobKey);
             }
-            catch (Exception ex)
+            catch (Exception exc)
             {
-                Log.FatalFormat("Sage50Connector Service start failed: {0}. Trace: {1}", ex.Message, ex);
+                Log.FatalFormat("Sage50Connector Service start failed: {0}. Trace: {1}", exc.Message, exc);
 
                 // if loader exception throw, log exception with loaderException details
-                if (ex is ReflectionTypeLoadException loaderException)
+                if (exc is ReflectionTypeLoadException loaderException)
                     loaderException.LogLoaderExceptions((e, le) => Log.FatalFormat("Loader Exception: {0}. Trace: {1}", le.Message, le));
 
                 // stopping service
