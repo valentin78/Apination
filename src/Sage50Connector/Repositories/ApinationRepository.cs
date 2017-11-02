@@ -1,11 +1,11 @@
-﻿using Sage50Connector.Models;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
 using Newtonsoft.Json;
 using Sage50Connector.Core;
+using Sage50Connector.Models;
 
-namespace Sage50Connector.API
+namespace Sage50Connector.Repositories
 {
-    public class ApinationAPI
+    public class ApinationRepository
     {
         public Config RetrieveConnectorConfig()
         {
@@ -17,7 +17,7 @@ namespace Sage50Connector.API
             return JsonConvert.DeserializeObject<Config>(json);
         }
 
-        public void HearBest()
+        public void HeartBeat()
         {
             var data = HttpHelper.Post("api/heartbeat", new NameValueCollection
             {

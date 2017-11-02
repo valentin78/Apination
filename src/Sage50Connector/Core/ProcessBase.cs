@@ -1,7 +1,7 @@
 ﻿using System;
 using log4net;
 using Quartz;
-using Sage50Connector.API;
+using Sage50Connector.Repositories;
 
 namespace Sage50Connector.Core
 {
@@ -13,9 +13,9 @@ namespace Sage50Connector.Core
         public static readonly ILog Log = LogManager.GetLogger(typeof(ProcessBase));
 
         /// <summary>
-        /// Apination API Helper
+        /// Apination Api Helper
         /// </summary>
-        protected ApinationAPI _apinationApi => new ApinationAPI();
+        protected ApinationRepository _apinationApi => new ApinationRepository();
 
         public void Execute(IJobExecutionContext context)
         {

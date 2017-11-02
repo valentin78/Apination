@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using Quartz;
-using Sage50Connector.API;
+﻿using Quartz;
 using Sage50Connector.Core;
 
 namespace Sage50Connector.HeartBeat
@@ -11,7 +8,7 @@ namespace Sage50Connector.HeartBeat
         public void Execute(IJobExecutionContext context)
         {
             Log.Info("-> HeartBeatProcess ...");
-            _apinationApi.HearBest();
+            _apinationApi.HeartBeat();
         }
     }
 }

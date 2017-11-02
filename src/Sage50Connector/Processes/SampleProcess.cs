@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Quartz;
-using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
+using Sage50Connector.Repositories;
 
 namespace Sage50Connector.Processes
 {
@@ -18,7 +18,7 @@ namespace Sage50Connector.Processes
             var p2 = context.JobDetail.JobDataMap["p2"];
             Log.InfoFormat("-> SampleProcess started ... p1: {0}; p2: {1}", p1, p2);
             
-            using (var sage50Api = new Sage50API())
+            using (var sage50Api = new Sage50Repository())
             {
                 var company = context.JobDetail.JobDataMap["$company"] as Company;
                 var id = sage50Api.OpenCompany(company.CompanyName);

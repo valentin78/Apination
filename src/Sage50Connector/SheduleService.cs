@@ -6,24 +6,24 @@ using log4net;
 using log4net.Config;
 using Quartz;
 using Quartz.Impl;
-using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
+using Sage50Connector.Repositories;
 
 namespace Sage50Connector
 {
     public partial class SheduleService : ServiceBase
     {
-        // jobs store
+        // Jobs store
         private readonly Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>> _jobsStore = new Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>>();
         // auto start job keys list
         private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
         /// <summary>
-        /// Apination API Helper
+        /// Apination Api Helper
         /// </summary>
-        private ApinationAPI _apinationApi => new ApinationAPI();
+        private ApinationRepository _apinationApi => new ApinationRepository();
         
         // Connector Config
         private Config _config;
@@ -58,25 +58,25 @@ namespace Sage50Connector
         }
 
         /// <summary>
-        /// prepare job for SyncProcess config
+        /// Prepares job for SyncProcess config
         /// </summary>
         /// <param name="process"></param>
         /// <param name="company"></param>
         void ScheduleProcess(SyncProcess process, Company company)
         {
-            var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
+            var jobType = ProcessesHelper.ProcessTypeLocator(process.SyncProcessId);
             if (jobType == null)
             {
-                Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.ProcessID);
+                Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.SyncProcessId);
                 return;
             }
 
             var cron = process.CronSchedule ?? _config.DefaultCronSchedule;
             var autoStart = process.AutoStart;
 
-            process.JobData.Add("$company", company);
+            process.ProcessParams.Add("$company", company);
             // add job custom data for process needs
-            var jobData = new JobDataMap(process.JobData);
+            var jobData = new JobDataMap(process.ProcessParams);
 
             var job = JobBuilder.Create(jobType)
                 .UsingJobData(jobData)

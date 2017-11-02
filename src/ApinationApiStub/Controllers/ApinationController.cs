@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
 
@@ -28,8 +24,8 @@ namespace ApinationApiStub.Controllers
                         Processes = new [] {
                             new SyncProcess
                             {
-                                ProcessID = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
-                                JobData = new Dictionary<string, object>
+                                SyncProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
+                                ProcessParams = new Dictionary<string, object>
                                 {
                                     {"p1", "p1Value"},
                                     {"p2", "p2Value"}
@@ -39,8 +35,8 @@ namespace ApinationApiStub.Controllers
                             new SyncProcess
                             {
                                 CronSchedule = "0 0/2 * * * ?",
-                                ProcessID = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
-                                JobData = new Dictionary<string, object>
+                                SyncProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
+                                ProcessParams = new Dictionary<string, object>
                                 {
                                     {"p1", "Hello"},
                                     {"p2", "world"}
