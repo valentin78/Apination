@@ -13,7 +13,7 @@ namespace Sage50Connector.Core
         public static readonly ILog Log = LogManager.GetLogger(typeof(ProcessBase));
 
         /// <summary>
-        /// Apination API Util
+        /// Apination API Helper
         /// </summary>
         protected ApinationAPI _apinationApi => new ApinationAPI();
 

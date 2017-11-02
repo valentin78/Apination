@@ -9,7 +9,7 @@ namespace Sage50Connector.API
     {
         public Config RetrieveConnectorConfig()
         {
-            var json = HttpUtil.Get("api/config", new NameValueCollection
+            var json = HttpHelper.Get("api/config", new NameValueCollection
             {
                 {"name", "Chase Ridge Holdings"}
             });
@@ -19,7 +19,7 @@ namespace Sage50Connector.API
 
         public void HearBest()
         {
-            var data = HttpUtil.Post("api/heartbeat", new NameValueCollection
+            var data = HttpHelper.Post("api/heartbeat", new NameValueCollection
             {
                 {"value", "123"}
             });

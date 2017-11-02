@@ -21,7 +21,7 @@ namespace Sage50Connector
         private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
         /// <summary>
-        /// Apination API Util
+        /// Apination API Helper
         /// </summary>
         private ApinationAPI _apinationApi => new ApinationAPI();
         
@@ -64,7 +64,7 @@ namespace Sage50Connector
         /// <param name="company"></param>
         void ScheduleProcess(SyncProcess process, Company company)
         {
-            var jobType = Utils.ProcessTypeLocator(process.ProcessID);
+            var jobType = Helpers.ProcessTypeLocator(process.ProcessID);
             if (jobType == null)
             {
                 Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.ProcessID);
