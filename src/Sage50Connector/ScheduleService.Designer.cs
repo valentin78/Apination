@@ -1,6 +1,6 @@
 ﻿namespace Sage50Connector
 {
-    partial class SheduleService
+    partial class ScheduleService
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             // 
-            // SheduleService
+            // ScheduleService
             // 
             this.ServiceName = "Sage50Connector";
 

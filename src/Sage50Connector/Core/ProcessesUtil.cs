@@ -6,11 +6,11 @@ using Quartz;
 
 namespace Sage50Connector.Core
 {
-    class ProcessesHelper
+    class ProcessesUtil
     {
         private static readonly IEnumerable<Type> _processTypes;
 
-        static ProcessesHelper()
+        static ProcessesUtil()
         {
             // cache assembly types that inherit ProcessBase & IJob
             _processTypes = AppDomain.CurrentDomain.GetAssemblies()
@@ -24,11 +24,11 @@ namespace Sage50Connector.Core
         /// </summary>
         /// <param name="processID"></param>
         /// <returns></returns>
-        public static Type ProcessTypeLocator(string processID)
+        public static Type GetProcessTypeLocatorBy(string processID)
         {
             var processType = _processTypes.SingleOrDefault(p =>
             {
-                var attrs = p.GetCustomAttributes(typeof(GuidAttribute), true);
+                var attrs = p.GetCustomAttributes(typeof(GuidAttribute), inherit: true);
                 return attrs.Length != 0 && attrs.Select(attr => ((GuidAttribute) attr).Value).Any(guid => guid == processID);
             });
             return processType;

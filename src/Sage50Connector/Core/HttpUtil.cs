@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Configuration;
 using System.Net;
 using System.Text;
 
 namespace Sage50Connector.Core
 {
-    class HttpHelper
+    public class HttpUtil: IHttpUtility
     {
         private static WebClient HttpClientFactory() {
             WebClient client = new WebClient();
@@ -14,7 +13,7 @@ namespace Sage50Connector.Core
             return client;
         }
 
-        private static Uri RemoteUri(string uri)
+        private static Uri ToAbsoluteUrl(string uri)
         {
             return new Uri(ApplicationConfig.ApinationBaseUri, uri);
         }
@@ -26,12 +25,12 @@ namespace Sage50Connector.Core
         /// <param name="uri">resource URI</param>
         /// <param name="parameters">name/value collection</param>
         /// <returns></returns>
-        public static string Post(string uri, NameValueCollection parameters)
+        public string Post(string uri, NameValueCollection parameters)
         {
             using (var client = HttpClientFactory())
             {
-                var responce = client.UploadValues(RemoteUri(uri), parameters);
-                return Encoding.UTF8.GetString(responce);
+                var response = client.UploadValues(ToAbsoluteUrl(uri), parameters);
+                return Encoding.UTF8.GetString(response);
             }
         }
 
@@ -41,7 +40,7 @@ namespace Sage50Connector.Core
         /// <param name="uri"></param>
         /// <param name="parameters">name/value collection</param>
         /// <returns></returns>
-        public static string Get(string uri, NameValueCollection parameters)
+        public string Get(string uri, NameValueCollection parameters)
         {
             using (var client = HttpClientFactory())
             {
@@ -50,7 +49,7 @@ namespace Sage50Connector.Core
                     client.QueryString.Add(parameter, parameters[parameter]);
                 }
 
-                return client.DownloadString(RemoteUri(uri));
+                return client.DownloadString(ToAbsoluteUrl(uri));
             }
         }
     }

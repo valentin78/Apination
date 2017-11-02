@@ -10,25 +10,24 @@ using Sage50Connector.Core;
 using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
 using Sage50Connector.Repositories;
+using QuartzTriggerSet = Quartz.Collection.ISet<Quartz.ITrigger>;
 
 namespace Sage50Connector
 {
-    public partial class SheduleService : ServiceBase
+    public partial class ScheduleService : ServiceBase
     {
         // Jobs store
-        private readonly Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>> _jobsStore = new Dictionary<IJobDetail, Quartz.Collection.ISet<ITrigger>>();
+        private readonly Dictionary<IJobDetail, QuartzTriggerSet> _jobsStore = new Dictionary<IJobDetail, QuartzTriggerSet>();
         // auto start job keys list
         private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
 
         /// <summary>
-        /// Apination Api Helper
+        /// Apination Api Util
         /// </summary>
-        private ApinationRepository _apinationApi => new ApinationRepository();
+        private ApinationRepository _apinationApi => new ApinationRepository(new HttpUtil());
         
         // Connector Config
         private Config _config;
-
-        #region Scheduler
 
         readonly Lazy<IScheduler> _scheduler = new Lazy<IScheduler>(() =>
         {
@@ -38,21 +37,15 @@ namespace Sage50Connector
 
         private IScheduler Scheduler => _scheduler.Value;
 
-        #endregion
-
-        #region Logger
-
-        public static readonly ILog Log = LogManager.GetLogger(typeof(SheduleService));
+        public static readonly ILog Log = LogManager.GetLogger(typeof(ScheduleService));
         public static void InitializeLogger() { XmlConfigurator.Configure(); }
 
-        #endregion
-
-        static SheduleService()
+        static ScheduleService()
         {
             InitializeLogger();
         }
 
-        public SheduleService()
+        public ScheduleService()
         {
             InitializeComponent();
         }
@@ -64,7 +57,7 @@ namespace Sage50Connector
         /// <param name="company"></param>
         void ScheduleProcess(SyncProcess process, Company company)
         {
-            var jobType = ProcessesHelper.ProcessTypeLocator(process.SyncProcessId);
+            var jobType = ProcessesUtil.GetProcessTypeLocatorBy(process.SyncProcessId);
             if (jobType == null)
             {
                 Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.SyncProcessId);
@@ -144,12 +137,12 @@ namespace Sage50Connector
                 // auto start jobs
                 foreach (var jobKey in _jobsAutoStart) Scheduler.TriggerJob(jobKey);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Log.FatalFormat("Sage50Connector Service start failed: {0}. Trace: {1}", exc.Message, exc);
+                Log.FatalFormat("Sage50Connector Service start failed: {0}. Trace: {1}", ex.Message, ex);
 
                 // if loader exception throw, log exception with loaderException details
-                if (exc is ReflectionTypeLoadException loaderException)
+                if (ex is ReflectionTypeLoadException loaderException)
                     loaderException.LogLoaderExceptions((e, le) => Log.FatalFormat("Loader Exception: {0}. Trace: {1}", le.Message, le));
 
                 // stopping service

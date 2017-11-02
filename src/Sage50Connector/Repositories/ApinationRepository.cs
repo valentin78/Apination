@@ -7,9 +7,16 @@ namespace Sage50Connector.Repositories
 {
     public class ApinationRepository
     {
+        private readonly IHttpUtility _httpUtility;
+
+        public ApinationRepository(IHttpUtility httpUtility)
+        {
+            _httpUtility = httpUtility;
+        }
+
         public Config RetrieveConnectorConfig()
         {
-            var json = HttpHelper.Get("api/config", new NameValueCollection
+            var json = _httpUtility.Get("api/config", new NameValueCollection
             {
                 {"name", "Chase Ridge Holdings"}
             });
@@ -19,7 +26,7 @@ namespace Sage50Connector.Repositories
 
         public void HeartBeat()
         {
-            var data = HttpHelper.Post("api/heartbeat", new NameValueCollection
+            var data = _httpUtility.Post("api/heartbeat", new NameValueCollection
             {
                 {"value", "123"}
             });

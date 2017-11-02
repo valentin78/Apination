@@ -12,7 +12,7 @@ namespace Sage50Connector
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new SheduleService()
+                new ScheduleService()
             };
             ServiceBase.Run(ServicesToRun);
         }

@@ -13,9 +13,9 @@ namespace Sage50Connector.Core
         public static readonly ILog Log = LogManager.GetLogger(typeof(ProcessBase));
 
         /// <summary>
-        /// Apination Api Helper
+        /// Apination Api Util
         /// </summary>
-        protected ApinationRepository _apinationApi => new ApinationRepository();
+        protected ApinationRepository _apinationApi => new ApinationRepository(new HttpUtil());
 
         public void Execute(IJobExecutionContext context)
         {
@@ -23,9 +23,9 @@ namespace Sage50Connector.Core
             {
                 Process(context);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Log.Error("Job excetion failure", exc);
+                Log.Error("Job excetion failure", ex);
             }
         }
 

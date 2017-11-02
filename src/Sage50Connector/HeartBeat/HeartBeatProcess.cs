@@ -5,8 +5,10 @@ namespace Sage50Connector.HeartBeat
 {
     class HeartBeatProcess : ProcessBase, IJob
     {
-        public void Execute(IJobExecutionContext context)
+        protected override void Process(IJobExecutionContext context)
         {
+            base.Process(context);
+
             Log.Info("-> HeartBeatProcess ...");
             _apinationApi.HeartBeat();
         }

@@ -67,11 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\ApplicationConfig.cs" />
+    <Compile Include="Core\IHttpUtility.cs" />
     <Compile Include="Repositories\ApinationRepository.cs" />
     <Compile Include="Repositories\Sage50Repository.cs" />
-    <Compile Include="Core\HttpHelper.cs" />
+    <Compile Include="Core\HttpUtil.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\ProcessesHelper.cs" />
+    <Compile Include="Core\ProcessesUtil.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
     <Compile Include="Core\ProcessBase.cs" />
     <Compile Include="Processes\SampleProcess.cs" />
@@ -81,11 +82,11 @@
     <Compile Include="ProjectInstaller.Designer.cs">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </Compile>
-    <Compile Include="SheduleService.cs">
+    <Compile Include="ScheduleService.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="SheduleService.Designer.cs">
-      <DependentUpon>SheduleService.cs</DependentUpon>
+    <Compile Include="ScheduleService.Designer.cs">
+      <DependentUpon>ScheduleService.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,8 +104,8 @@
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SheduleService.resx">
-      <DependentUpon>SheduleService.cs</DependentUpon>
+    <EmbeddedResource Include="ScheduleService.resx">
+      <DependentUpon>ScheduleService.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
