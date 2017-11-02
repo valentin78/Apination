@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Sage50Connector.Core
 {
-    class HttpHelper
+    class HttpUtil
     {
         public static string AuthToken => ConfigurationManager.AppSettings["AuthToken"];
         public static Uri ApinationBaseUri => new Uri(ConfigurationManager.AppSettings["ApinationBaseUrl"]);

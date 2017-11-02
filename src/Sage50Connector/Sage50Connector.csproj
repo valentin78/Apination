@@ -66,9 +66,9 @@
   <ItemGroup>
     <Compile Include="API\ApinationAPI.cs" />
     <Compile Include="API\Sage50API.cs" />
-    <Compile Include="Core\HttpHelper.cs" />
+    <Compile Include="Core\HttpUtil.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\Helpers.cs" />
+    <Compile Include="Core\Utils.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
     <Compile Include="Core\ProcessBase.cs" />
     <Compile Include="Processes\SampleProcess.cs" />
