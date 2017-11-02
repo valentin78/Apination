@@ -23,9 +23,9 @@ namespace Sage50Connector.Core
             {
                 Process(context);
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                Log.Error("Job excetion failure", exc);
+                Log.Error("Job excetion failure", ex);
             }
         }
 
