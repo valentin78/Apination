@@ -15,8 +15,8 @@ namespace Console
         {
             var api = new API();
             var companies = api.CompaniesList();
-            var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");
-            api.OpenCompany(companyId);
+            //var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");
+            api.OpenCompany(companies[0]);
             var list = api.CustomersList();
 
             System.Console.WriteLine("Count: {0}", list.Count);
