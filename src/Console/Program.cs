@@ -18,6 +18,12 @@ namespace Console
             //var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");
             api.OpenCompany(companies[0]);
             var list = api.CustomersList();
+            list.Load();
+
+            foreach (var item in list)
+            {
+                System.Console.WriteLine("At: {0}", item.LastSavedAt);
+            }
 
             System.Console.WriteLine("Count: {0}", list.Count);
 
