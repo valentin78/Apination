@@ -9,3 +9,5 @@ src/Sage50Connector.Models/obj
 src/ApinationApiStub/bin
 src/ApinationApiStub/obj
 /src/ApinationGateway
+/src/Console/bin/Debug
+/src/Console/obj/Debug
