@@ -5,6 +5,9 @@ using Sage50Connector.Models;
 
 namespace Sage50Connector.Repositories
 {
+    /// <summary>
+    /// Apination interface wrapper
+    /// </summary>
     public class ApinationRepository
     {
         private readonly IHttpUtility _httpUtility;

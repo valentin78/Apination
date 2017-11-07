@@ -4,6 +4,7 @@ using Sage50Connector.Models;
 
 namespace ApinationApiStub.Controllers
 {
+    /// Apination Stub
     //[Route("api/[controller]")]
     public class ApinationController : Controller
     {
@@ -22,9 +23,9 @@ namespace ApinationApiStub.Controllers
                     {
                         CompanyName = name, //"Demo Company",
                         Processes = new [] {
-                            new SyncProcess
+                            new Process
                             {
-                                SyncProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
+                                ProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
                                 ProcessParams = new Dictionary<string, object>
                                 {
                                     {"p1", "p1Value"},
@@ -32,10 +33,10 @@ namespace ApinationApiStub.Controllers
                                 },
                                 AutoStart = true
                             },
-                            new SyncProcess
+                            new Process
                             {
                                 CronSchedule = "0 0/2 * * * ?",
-                                SyncProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
+                                ProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
                                 ProcessParams = new Dictionary<string, object>
                                 {
                                     {"p1", "Hello"},

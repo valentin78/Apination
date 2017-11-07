@@ -70,7 +70,7 @@
     <Compile Include="Core\IHttpUtility.cs" />
     <Compile Include="Repositories\ApinationRepository.cs" />
     <Compile Include="Repositories\Sage50Repository.cs" />
-    <Compile Include="Core\HttpUtil.cs" />
+    <Compile Include="Core\WebClientHttpUtility.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\ProcessesUtil.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Diagrams\Processes.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -114,6 +115,9 @@
       <Name>Sage50Connector.Models</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Processes\Actions\" />
+    <Folder Include="Processes\Triggers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

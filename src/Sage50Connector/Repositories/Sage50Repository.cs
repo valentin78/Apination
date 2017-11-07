@@ -5,6 +5,9 @@ using Sage50Connector.Core;
 
 namespace Sage50Connector.Repositories
 {
+    /// <summary>
+    /// Sage50 SDK wrapper
+    /// </summary>
     class Sage50Repository : IDisposable
     {
         private PeachtreeSession _apiSession;

@@ -37,18 +37,18 @@ namespace Sage50Connector.Models
         /// <summary>
         /// processes list
         /// </summary>
-        public SyncProcess[] Processes { get; set; }
+        public Process[] Processes { get; set; }
     }
 
     /// <summary>
     /// Action|Trigger process
     /// </summary>
-    public class SyncProcess
+    public class Process
     {
         /// <summary>
         /// Identifier of process (may be any string to identify Action|Trigger, for example Action.CreateCustomer)
         /// </summary>
-        public string SyncProcessId { get; set; }
+        public string ProcessId { get; set; }
 
         /// <summary>
         /// Cron polling period for SyncProcess

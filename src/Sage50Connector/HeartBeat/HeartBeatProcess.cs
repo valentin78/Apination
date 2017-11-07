@@ -3,14 +3,14 @@ using Sage50Connector.Core;
 
 namespace Sage50Connector.HeartBeat
 {
-    class HeartBeatProcess : ProcessBase, IJob
+    class HeartBeatProcess : ProcessBase
     {
         protected override void Process(IJobExecutionContext context)
         {
             base.Process(context);
 
-            Log.Info("-> HeartBeatProcess ...");
-            _apinationApi.HeartBeat();
+            Log.Info("-> HeartBeatProcess started");
+            ApinationApi.HeartBeat();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Configuration;
 
 namespace Sage50Connector.Core
 {
+    /// Serivce Configuration Wrapper
     static class ApplicationConfig
     {
         /// <summary>

@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using Sage.Peachtree.API;
 
 namespace Console
 {
+    /// <summary>
+    /// Console Application for testing SDK possibilities
+    /// </summary>
     class Program
     {
         static void Main(string[] args)

@@ -24,7 +24,7 @@ namespace Sage50Connector
         /// <summary>
         /// Apination Api Util
         /// </summary>
-        private ApinationRepository _apinationApi => new ApinationRepository(new HttpUtil());
+        private ApinationRepository _apinationApi => new ApinationRepository(new WebClientHttpUtility());
         
         // Connector Config
         private Config _config;
@@ -55,12 +55,12 @@ namespace Sage50Connector
         /// </summary>
         /// <param name="process"></param>
         /// <param name="company"></param>
-        void ScheduleProcess(SyncProcess process, Company company)
+        void ScheduleProcess(Process process, Company company)
         {
-            var jobType = ProcessesUtil.GetProcessTypeLocatorBy(process.SyncProcessId);
+            var jobType = ProcessesUtil.GetProcessTypeLocatorById(process.ProcessId);
             if (jobType == null)
             {
-                Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.SyncProcessId);
+                Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.ProcessId);
                 return;
             }
 

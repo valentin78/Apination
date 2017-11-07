@@ -7,6 +7,10 @@ using Sage50Connector.Repositories;
 
 namespace Sage50Connector.Processes
 {
+    /// <summary>
+    /// Sample process
+    /// TODO Remove at finish of development
+    /// </summary>
     [Guid("CBD51F9F-4B8D-40A2-B086-1F849894EB96")]
     class SampleProcess : ProcessBase
     {

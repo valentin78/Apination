@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Sage50Connector.Core
 {
-    public class HttpUtil: IHttpUtility
+    /// <summary>
+    /// HttpUtility implementation using WebClient and Auth token
+    /// </summary>
+    public class WebClientHttpUtility: IHttpUtility
     {
         private static WebClient HttpClientFactory() {
             WebClient client = new WebClient();

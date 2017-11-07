@@ -15,7 +15,7 @@ namespace Sage50Connector.Core
         /// <summary>
         /// Apination Api Util
         /// </summary>
-        protected ApinationRepository _apinationApi => new ApinationRepository(new HttpUtil());
+        protected ApinationRepository ApinationApi => new ApinationRepository(new WebClientHttpUtility());
 
         public void Execute(IJobExecutionContext context)
         {
@@ -29,6 +29,10 @@ namespace Sage50Connector.Core
             }
         }
 
+        /// <summary>
+        /// Common part of process execution
+        /// </summary>
+        /// <param name="context"></param>
         protected virtual void Process(IJobExecutionContext context)
         {
         }
