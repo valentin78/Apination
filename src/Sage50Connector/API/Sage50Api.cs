@@ -3,17 +3,17 @@ using System.Linq;
 using Sage.Peachtree.API;
 using Sage50Connector.Core;
 
-namespace Sage50Connector.Repositories
+namespace Sage50Connector.API
 {
     /// <summary>
     /// Sage50 SDK wrapper
     /// </summary>
-    class Sage50Repository : IDisposable
+    class Sage50Api : IDisposable
     {
         private PeachtreeSession _apiSession;
         private Company _companyContext;
 
-        public Sage50Repository()
+        public Sage50Api()
         {
             OpenSession();
         }

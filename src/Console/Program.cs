@@ -48,7 +48,6 @@ namespace Console
             if (m_Session != null)
             {
                 m_Session.Dispose();
-                m_Session = null;
             }
         }
 

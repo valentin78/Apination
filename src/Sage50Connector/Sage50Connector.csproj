@@ -68,8 +68,8 @@
   <ItemGroup>
     <Compile Include="Core\ApplicationConfig.cs" />
     <Compile Include="Core\IHttpUtility.cs" />
-    <Compile Include="Repositories\ApinationRepository.cs" />
-    <Compile Include="Repositories\Sage50Repository.cs" />
+    <Compile Include="API\ApinationApi.cs" />
+    <Compile Include="API\Sage50Api.cs" />
     <Compile Include="Core\WebClientHttpUtility.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\ProcessesUtil.cs" />

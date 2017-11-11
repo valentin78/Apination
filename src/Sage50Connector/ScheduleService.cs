@@ -6,10 +6,10 @@ using log4net;
 using log4net.Config;
 using Quartz;
 using Quartz.Impl;
+using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
-using Sage50Connector.Repositories;
 using QuartzTriggerSet = Quartz.Collection.ISet<Quartz.ITrigger>;
 
 namespace Sage50Connector
@@ -24,7 +24,7 @@ namespace Sage50Connector
         /// <summary>
         /// Apination Api Util
         /// </summary>
-        private ApinationRepository _apinationApi => new ApinationRepository(new WebClientHttpUtility());
+        private ApinationApi _apinationApi => new ApinationApi(new WebClientHttpUtility());
         
         // Connector Config
         private Config _config;

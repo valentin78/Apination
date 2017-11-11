@@ -3,23 +3,24 @@ using Newtonsoft.Json;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
 
-namespace Sage50Connector.Repositories
+namespace Sage50Connector.API
 {
     /// <summary>
     /// Apination interface wrapper
     /// </summary>
-    public class ApinationRepository
+    public class ApinationApi
     {
-        private readonly IHttpUtility _httpUtility;
+        // ReSharper disable once InconsistentNaming
+        private readonly IHttpUtility httpUtility;
 
-        public ApinationRepository(IHttpUtility httpUtility)
+        public ApinationApi(IHttpUtility httpUtility)
         {
-            _httpUtility = httpUtility;
+            this.httpUtility = httpUtility;
         }
 
         public Config RetrieveConnectorConfig()
         {
-            var json = _httpUtility.Get("api/config", new NameValueCollection
+            var json = httpUtility.Get("api/config", new NameValueCollection
             {
                 {"name", "Chase Ridge Holdings"}
             });
@@ -29,7 +30,7 @@ namespace Sage50Connector.Repositories
 
         public void HeartBeat()
         {
-            var data = _httpUtility.Post("api/heartbeat", new NameValueCollection
+            httpUtility.Post("api/heartbeat", new NameValueCollection
             {
                 {"value", "123"}
             });

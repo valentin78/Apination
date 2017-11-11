@@ -1,7 +1,7 @@
 ﻿using System;
 using log4net;
 using Quartz;
-using Sage50Connector.Repositories;
+using Sage50Connector.API;
 
 namespace Sage50Connector.Core
 {
@@ -15,7 +15,7 @@ namespace Sage50Connector.Core
         /// <summary>
         /// Apination Api Util
         /// </summary>
-        protected ApinationRepository ApinationApi => new ApinationRepository(new WebClientHttpUtility());
+        protected ApinationApi ApinationApi => new ApinationApi(new WebClientHttpUtility());
 
         public void Execute(IJobExecutionContext context)
         {
@@ -35,6 +35,7 @@ namespace Sage50Connector.Core
         /// <param name="context"></param>
         protected virtual void Process(IJobExecutionContext context)
         {
+            // TODO Add
         }
     }
 }
