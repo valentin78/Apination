@@ -5,7 +5,10 @@
     /// </summary>
     public enum EventBindingTypes: byte
     {
-        CreatedCustomer = 1,
-        CreatedInvoice = 2,
+        CreatedCustomers = 1,
+        CreatedInvoices = 2,
+
+        CreateCustomer = 100,
+
     }
 }

@@ -34,7 +34,7 @@ namespace Sage50Connector.Processing
                 // TODO: add logic
 
                 // activate sage50 trigger for CreateCustomer event, sample
-                var bindingType = EventBindingTypes.CreatedCustomer;
+                var bindingType = EventBindingTypes.CreatedCustomers;
                 var action = TypeUtil.ActivateByEventBinding<ISage50Trigger>(bindingType);
 
                 var triggerConfig = Config.TriggersConfig.SingleOrDefault(c => c.TriggerBindingType == bindingType);
