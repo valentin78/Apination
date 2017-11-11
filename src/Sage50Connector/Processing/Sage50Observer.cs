@@ -5,6 +5,7 @@ using Quartz;
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
+using Sage50Connector.Models.BindingTypes;
 using Sage50Connector.Processing.Triggers;
 
 namespace Sage50Connector.Processing
@@ -34,8 +35,8 @@ namespace Sage50Connector.Processing
                 // TODO: add logic
 
                 // activate sage50 trigger for CreateCustomer event, sample
-                var bindingType = EventBindingTypes.CreatedCustomers;
-                var action = TypeUtil.ActivateByEventBinding<ISage50Trigger>(bindingType);
+                var bindingType = Sage50EventBindingTypes.CreatedCustomers;
+                var action = TypeUtil.ActivateTriggerByEventBindingType(bindingType);
 
                 var triggerConfig = Config.TriggersConfig.SingleOrDefault(c => c.TriggerBindingType == bindingType);
                 if (triggerConfig == null) throw new ArgumentException($"Config for trigger type {bindingType} not find");

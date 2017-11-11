@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using Sage50Connector.Models.BindingTypes;
 
 namespace Sage50Connector.Models
 {
@@ -65,7 +66,7 @@ namespace Sage50Connector.Models
         /// <summary>
         /// Trigger binding Type
         /// </summary>
-        public EventBindingTypes TriggerBindingType { get; set; }
+        public Sage50EventBindingTypes TriggerBindingType { get; set; }
 
         /// <summary>
         /// Apination Data receiver URL for trigger type

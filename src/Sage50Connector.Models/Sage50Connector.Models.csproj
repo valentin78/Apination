@@ -45,7 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="EventBindingTypes.cs" />
+    <Compile Include="BindingTypes\Sage50EventBindingTypes.cs" />
+    <Compile Include="BindingTypes\ApinationEventBindingTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

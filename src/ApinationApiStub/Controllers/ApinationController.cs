@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
+using Sage50Connector.Models.BindingTypes;
 
 namespace ApinationApiStub.Controllers
 {
@@ -31,7 +32,7 @@ namespace ApinationApiStub.Controllers
                 {
                     new Sage50TriggersConfig
                     {
-                        TriggerBindingType = EventBindingTypes.CreatedCustomers,
+                        TriggerBindingType = Sage50EventBindingTypes.CreatedCustomers,
                         Sage50DTOToApinationUrl = "api/sage50/createdCustomer"
                     }, 
                 }

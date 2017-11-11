@@ -8,6 +8,6 @@ namespace Sage50Connector.Core
     /// </summary>
     internal class EventBindingAttribute : Attribute
     {
-        public EventBindingTypes Type { get; set; }
+        public byte Type { get; set; }
     }
 }

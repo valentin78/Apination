@@ -1,17 +1,30 @@
 ﻿using System;
 using System.Linq;
 using Sage50Connector.Models;
+using Sage50Connector.Models.BindingTypes;
+using Sage50Connector.Processing.Actions;
+using Sage50Connector.Processing.Triggers;
 
 namespace Sage50Connector.Core
 {
     class TypeUtil
     {
+        public static ISage50Trigger ActivateTriggerByEventBindingType(Sage50EventBindingTypes bindingType)
+        {
+            return ActivateInstanceByEventBindingType<ISage50Trigger>((byte) bindingType);
+        }
+        
+        public static IApinationAction ActivateActionByEventBindingType(ApinationEventBindingTypes bindingType)
+        {
+            return ActivateInstanceByEventBindingType<IApinationAction>((byte)bindingType);
+        }
+
         /// <summary>
         /// Activate Trigger|Action by event binding type param
         /// </summary>
         /// <param name="bindingType"></param>
         /// <returns></returns>
-        public static T ActivateByEventBinding<T>(EventBindingTypes bindingType)
+        private static T ActivateInstanceByEventBindingType<T>(byte bindingType)
         {
             var typesList = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())
