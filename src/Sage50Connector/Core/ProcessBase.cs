@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Reflection;
 using log4net;
 using Quartz;
 using Sage50Connector.API;
 
 namespace Sage50Connector.Core
 {
-    public class ProcessBase: IJob
+    public abstract class ProcessBase: IJob
     {
         /// <summary>
         /// ILog instance for logging purpose
@@ -33,9 +34,6 @@ namespace Sage50Connector.Core
         /// Common part of process execution
         /// </summary>
         /// <param name="context"></param>
-        protected virtual void Process(IJobExecutionContext context)
-        {
-            // TODO Add
-        }
+        protected abstract void Process(IJobExecutionContext context);
     }
 }

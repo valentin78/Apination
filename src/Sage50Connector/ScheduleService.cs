@@ -4,30 +4,28 @@ using System.Reflection;
 using System.ServiceProcess;
 using log4net;
 using log4net.Config;
+using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
-using QuartzTriggerSet = Quartz.Collection.ISet<Quartz.ITrigger>;
+using Sage50Connector.Processes;
 
 namespace Sage50Connector
 {
     public partial class ScheduleService : ServiceBase
     {
-        // Jobs store
-        private readonly Dictionary<IJobDetail, QuartzTriggerSet> _jobsStore = new Dictionary<IJobDetail, QuartzTriggerSet>();
-        // auto start job keys list
-        private readonly List<JobKey> _jobsAutoStart = new List<JobKey>();
-
         /// <summary>
         /// Apination Api Util
         /// </summary>
         private ApinationApi _apinationApi => new ApinationApi(new WebClientHttpUtility());
-        
-        // Connector Config
-        private Config _config;
+
+        /// <summary>
+        /// Sage50 Api
+        /// </summary>
+        private Sage50Api _sage50Api => new Sage50Api();
 
         readonly Lazy<IScheduler> _scheduler = new Lazy<IScheduler>(() =>
         {
@@ -51,50 +49,44 @@ namespace Sage50Connector
         }
 
         /// <summary>
-        /// Prepares job for SyncProcess config
+        /// Schedule generic Observer process
         /// </summary>
-        /// <param name="process"></param>
-        /// <param name="company"></param>
-        void ScheduleProcess(Process process, Company company)
+        private void ScheduleObserver<TObserver>(string cronSchedule, Config config) where TObserver : ProcessBase
         {
-            var jobType = ProcessesUtil.GetProcessTypeLocatorById(process.ProcessId);
-            if (jobType == null)
+            if (string.IsNullOrEmpty(cronSchedule)) throw new ArgumentException("Cron Schedule not specified", nameof(cronSchedule));
+
+            var job = JobBuilder.Create<TObserver>().Build();
+
+            IDictionary<string, object> jobDataMap = new Dictionary<string, object>
             {
-                Log.ErrorFormat("--- Error: Not located process with ID '{0}'", process.ProcessId);
-                return;
-            }
+                { "Config", config },
+                { "Sage50Api", _sage50Api},
+                { "ApinationApi", _apinationApi},
+            };
 
-            var cron = process.CronSchedule ?? _config.DefaultCronSchedule;
-            var autoStart = process.AutoStart;
-
-            process.ProcessParams.Add("$company", company);
-            // add job custom data for process needs
-            var jobData = new JobDataMap(process.ProcessParams);
-
-            var job = JobBuilder.Create(jobType)
-                .UsingJobData(jobData)
-                .Build();
+            var jobData = new JobDataMap(jobDataMap);
 
             var trigger = TriggerBuilder.Create()
                 .StartNow()
-                .WithCronSchedule(cron).Build();
-            _jobsStore.Add(job, new Quartz.Collection.HashSet<ITrigger> { trigger });
+                .UsingJobData(jobData)
+                .WithCronSchedule(cronSchedule).Build();
 
-            if (autoStart) _jobsAutoStart.Add(job.Key);
+            Scheduler.ScheduleJob(job, trigger);
         }
+
         /// <summary>
         /// Schedule HeartBeat process
         /// </summary>
-        private void ScheduleHeartBeat()
+        private void ScheduleHeartBeat(string cronSchedule)
         {
             // if not specified HeartBeatCronSchedule skip this schedule
-            if (string.IsNullOrEmpty(_config.HeartBeatCronSchedule)) return;
+            if (string.IsNullOrEmpty(cronSchedule)) return;
 
             var job = JobBuilder.Create<HeartBeatProcess>().Build();
 
             var trigger = TriggerBuilder.Create()
                 .StartNow()
-                .WithCronSchedule(_config.HeartBeatCronSchedule).Build();
+                .WithCronSchedule(cronSchedule).Build();
 
             Scheduler.ScheduleJob(job, trigger);
         }
@@ -111,31 +103,18 @@ namespace Sage50Connector
 
                 // retrieve config
                 Log.Info("Retrieve Connector Config ...");
-                _config = _apinationApi.RetrieveConnectorConfig();
+                var config = _apinationApi.RetrieveConnectorConfig();
+                Log.InfoFormat("Received Config: {0}", config);
 
-                Log.InfoFormat("Default Cron config: {0}", _config.DefaultCronSchedule);
-
-                // for every company and their processes prepare jobs in job strore
-                foreach (var company in _config.CompaniesList)
-                {
-                    Log.InfoFormat("| Company '{0}' ...", company.CompanyName);
-                    foreach (var process in company.Processes)
-                    {
-                        Log.InfoFormat("| - Process config: '{0}'", process);
-                        ScheduleProcess(process, company);
-                    }
-                }
 
                 // start schedules
                 Scheduler.Start();
 
-                ScheduleHeartBeat();
+                // schedule observers
+                ScheduleObserver<Sage50Observer>(config.Sage50CronSchedule);
+                ScheduleObserver<ApinationObserver>(config.ApinationCronSchedule);
 
-                // start schedule jobs from jobs store
-                Scheduler.ScheduleJobs(_jobsStore, true);
-
-                // auto start jobs
-                foreach (var jobKey in _jobsAutoStart) Scheduler.TriggerJob(jobKey);
+                ScheduleHeartBeat(config.HeartBeatCronSchedule);
             }
             catch (Exception ex)
             {

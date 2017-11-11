@@ -4,8 +4,6 @@ using Sage50Connector.Models;
 
 namespace ApinationApiStub.Controllers
 {
-    /// Apination Stub
-    //[Route("api/[controller]")]
     public class ApinationController : Controller
     {
         // GET api/apination
@@ -16,46 +14,26 @@ namespace ApinationApiStub.Controllers
             return new Config
             {
                 HeartBeatCronSchedule = "0 0/1 * * * ?",
-                DefaultCronSchedule = "0 0/1 * * * ?",
+                
+                Sage50CronSchedule = "0 0/1 * * * ?",
+                ApinationCronSchedule = "0 0/1 * * * ?",
+
                 CompaniesList = new[]
                 {
                     new Company
                     {
-                        CompanyName = name, //"Demo Company",
-                        Processes = new [] {
-                            new Process
-                            {
-                                ProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
-                                ProcessParams = new Dictionary<string, object>
-                                {
-                                    {"p1", "p1Value"},
-                                    {"p2", "p2Value"}
-                                },
-                                AutoStart = true
-                            },
-                            new Process
-                            {
-                                CronSchedule = "0 0/2 * * * ?",
-                                ProcessId = "CBD51F9F-4B8D-40A2-B086-1F849894EB96",
-                                ProcessParams = new Dictionary<string, object>
-                                {
-                                    {"p1", "Hello"},
-                                    {"p2", "world"}
-                                },
-                                AutoStart = false
-                            }
-                        }
+                        CompanyName = "Chase Ridge Holdings"
                     }
                 }
             };
         }
 
-        [HttpPost]
-        [Route("api/heartbeat")]
-        public string Post(string value)
-        {
-            return value+ "!";
-        }
+        //[HttpPost]
+        //[Route("api/heartbeat")]
+        //public string Post(string value)
+        //{
+        //    return value+ "!";
+        //}
 
         //// GET api/values/5
         //[HttpGet("{id}")]

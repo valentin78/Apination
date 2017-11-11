@@ -75,7 +75,12 @@
     <Compile Include="Core\ProcessesUtil.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
     <Compile Include="Core\ProcessBase.cs" />
-    <Compile Include="Processes\SampleProcess.cs" />
+    <Compile Include="Processes\ApinationObserver.cs" />
+    <Compile Include="Processes\Sage50Observer.cs" />
+    <Compile Include="Processes\Triggers\CustomerCreatedTrigger.cs" />
+    <Compile Include="Processes\EventBindingAttribute.cs" />
+    <Compile Include="Processes\EventBindingTypes.cs" />
+    <Compile Include="Processes\Triggers\ISage50Trigger.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -117,7 +122,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Processes\Actions\" />
-    <Folder Include="Processes\Triggers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
