@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Quartz;
+using Sage50Connector.Models;
+using Sage50Connector.Processes;
 
 namespace Sage50Connector.Core
 {
@@ -20,18 +22,19 @@ namespace Sage50Connector.Core
         }
 
         /// <summary>
-        /// search IProcess type with Guid attribute value equal processId parameter
+        /// Activate Trigger|Action by event binding type param
         /// </summary>
-        /// <param name="processId"></param>
+        /// <param name="bindingType"></param>
         /// <returns></returns>
-        public static Type GetProcessTypeLocatorById(string processId)
+        public static T ActivateByEventBinding<T>(EventBindingTypes bindingType)
         {
             var processType = _processTypes.SingleOrDefault(p =>
             {
-                var attrs = p.GetCustomAttributes(typeof(GuidAttribute), inherit: true);
-                return attrs.Length != 0 && attrs.Select(attr => ((GuidAttribute) attr).Value).Any(guid => guid == processId);
+                var attrs = p.GetCustomAttributes(typeof(T), inherit: true);
+                return attrs.Length != 0 && attrs.Select(attr => ((EventBindingAttribute) attr).Type).Any(type => type == bindingType);
             });
-            return processType;
+
+            return (T)Activator.CreateInstance(processType ?? throw new InvalidOperationException($"Can not find type by binding type {bindingType} and base type {typeof(T).Name}"));
         }
     }
 }

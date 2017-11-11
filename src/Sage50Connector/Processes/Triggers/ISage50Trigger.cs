@@ -1,6 +1,10 @@
-﻿namespace Sage50Connector.Processes.Triggers
+﻿using Sage50Connector.API;
+using Sage50Connector.Models;
+
+namespace Sage50Connector.Processes.Triggers
 {
     internal interface ISage50Trigger
     {
+        void Execute(ApinationApi api, Sage50TriggersConfig triggerConfig);
     }
 }

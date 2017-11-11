@@ -4,7 +4,6 @@ using System.Reflection;
 using System.ServiceProcess;
 using log4net;
 using log4net.Config;
-using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using Sage50Connector.API;

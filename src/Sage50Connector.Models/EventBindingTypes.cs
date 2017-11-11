@@ -6,5 +6,6 @@
     public enum EventBindingTypes: byte
     {
         CreatedCustomer = 1,
+        CreatedInvoice = 2,
     }
 }

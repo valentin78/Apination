@@ -7,6 +7,7 @@ using Quartz;
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
+using Sage50Connector.Processes.Triggers;
 
 namespace Sage50Connector.Processes
 {
@@ -18,9 +19,16 @@ namespace Sage50Connector.Processes
         protected override void Process(IJobExecutionContext context)
         {
             var config = context.JobParam<Config>("Config");
-            var sage50Api = context.JobParam<Sage50Api>("Sage50Api");
+            var apinationApi = context.JobParam<ApinationApi>("ApinationApi");
 
-            throw new NotImplementedException();
+            // TODO: add logic
+            var bindingType = EventBindingTypes.CreatedCustomer;
+            var action = ProcessesUtil.ActivateByEventBinding<ISage50Trigger>(bindingType);
+            
+            var triggerConfig = config.TriggersConfig.SingleOrDefault(c => c.TriggerBindingType == bindingType);
+            if (triggerConfig == null) throw new ArgumentException($"Config for trigger type {bindingType} not find");
+            
+            action.Execute(apinationApi, triggerConfig);
         }
     }
 }
