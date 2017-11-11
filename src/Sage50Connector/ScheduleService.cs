@@ -72,6 +72,9 @@ namespace Sage50Connector
                 .WithCronSchedule(cronSchedule).Build();
 
             Scheduler.ScheduleJob(job, trigger);
+
+            // auto start process on service started
+            Scheduler.TriggerJob(job.Key);
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace Sage50Connector
             Log.Info("* Sage50Connector Service starting");
             Log.Info("********************************************************************************************************************");
 
-            try
+            try 
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -110,8 +113,10 @@ namespace Sage50Connector
                 // start schedules
                 Scheduler.Start();
 
-                // schedule observers
+                Log.Info("Schedule and start Sage50 Observer ...");
                 ScheduleObserver<Sage50Observer>(config.Sage50CronSchedule, config);
+                
+                Log.Info("Schedule and start Apination Observer ...");
                 ScheduleObserver<ApinationObserver>(config.ApinationCronSchedule, config);
 
                 ScheduleHeartBeat(config.HeartBeatCronSchedule);

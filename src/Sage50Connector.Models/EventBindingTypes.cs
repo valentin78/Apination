@@ -1,9 +1,9 @@
-﻿namespace Sage50Connector.Processes
+﻿namespace Sage50Connector.Models
 {
     /// <summary>
     /// Event bindings types enumeration
     /// </summary>
-    enum EventBindingTypes: byte
+    public enum EventBindingTypes: byte
     {
         CreatedCustomer = 1,
     }

@@ -79,7 +79,6 @@
     <Compile Include="Processes\Sage50Observer.cs" />
     <Compile Include="Processes\Triggers\CustomerCreatedTrigger.cs" />
     <Compile Include="Processes\EventBindingAttribute.cs" />
-    <Compile Include="Processes\EventBindingTypes.cs" />
     <Compile Include="Processes\Triggers\ISage50Trigger.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

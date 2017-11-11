@@ -1,5 +1,5 @@
 ﻿using System;
-using Sage50Connector.Processes.Triggers;
+using Sage50Connector.Models;
 
 namespace Sage50Connector.Processes
 {

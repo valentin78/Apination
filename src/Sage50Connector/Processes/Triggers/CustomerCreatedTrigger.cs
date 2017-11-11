@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Sage50Connector.Models;
 
 namespace Sage50Connector.Processes.Triggers
 {

@@ -33,6 +33,16 @@ namespace Sage50Connector.Models
         public string HeartBeatCronSchedule { get; set; }
 
         /// <summary>
+        /// Apination ReST endpoint URL for DTO to Sage50 
+        /// </summary>
+        public string ApinationDTOToSage50Url { get; set; }
+
+        /// <summary>
+        /// Triggers Config
+        /// </summary>
+        public Sage50TriggersConfig[] TriggersConfig { get; set; }
+
+        /// <summary>
         /// Serialize object to JSON string
         /// </summary>
         /// <returns></returns>
@@ -44,6 +54,22 @@ namespace Sage50Connector.Models
                 return writer.ToString();
             }
         }
+    }
+
+    /// <summary>
+    /// Sage50 Trigger Config
+    /// </summary>
+    public class Sage50TriggersConfig
+    {
+        /// <summary>
+        /// Trigger binding Type
+        /// </summary>
+        public EventBindingTypes TriggerBindingType { get; set; }
+
+        /// <summary>
+        /// Apination Data receiver URL for trigger type
+        /// </summary>
+        public string Sage50DTOToApinationUrl { get; set; }
     }
 
     /// <summary>

@@ -24,6 +24,17 @@ namespace ApinationApiStub.Controllers
                     {
                         CompanyName = "Chase Ridge Holdings"
                     }
+                }, 
+                
+                ApinationDTOToSage50Url = "api/sage50DTO",
+
+                TriggersConfig = new []
+                {
+                    new Sage50TriggersConfig
+                    {
+                        TriggerBindingType = EventBindingTypes.CreatedCustomer,
+                        Sage50DTOToApinationUrl = "api/sage50/createdCustomer"
+                    }, 
                 }
             };
         }
