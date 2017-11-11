@@ -14,6 +14,11 @@ namespace Sage50Connector.Core
         public static readonly ILog Log = LogManager.GetLogger(typeof(ProcessBase));
 
         /// <summary>
+        /// Sage50 Api
+        /// </summary>
+        protected Sage50Api Sage50Api => new Sage50Api();
+
+        /// <summary>
         /// Apination Api Util
         /// </summary>
         protected ApinationApi ApinationApi => new ApinationApi(new WebClientHttpUtility());
@@ -26,7 +31,7 @@ namespace Sage50Connector.Core
             }
             catch (Exception ex)
             {
-                Log.Error("Job excetion failure", ex);
+                Log.Error("Job execution failure", ex);
             }
         }
 

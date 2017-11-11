@@ -10,17 +10,6 @@ namespace Sage50Connector.Core
 {
     class ProcessesUtil
     {
-        private static readonly IEnumerable<Type> _processTypes;
-
-        static ProcessesUtil()
-        {
-            // cache assembly types that inherit ProcessBase & IJob
-            _processTypes = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(s => s.GetTypes())
-                .Where(p => typeof(ProcessBase).IsAssignableFrom(p))
-                .Where(p => typeof(IJob).IsAssignableFrom(p));
-        }
-
         /// <summary>
         /// Activate Trigger|Action by event binding type param
         /// </summary>
@@ -28,9 +17,13 @@ namespace Sage50Connector.Core
         /// <returns></returns>
         public static T ActivateByEventBinding<T>(EventBindingTypes bindingType)
         {
-            var processType = _processTypes.SingleOrDefault(p =>
+            var typesList = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(s => s.GetTypes())
+                .Where(p => typeof(T).IsAssignableFrom(p));
+
+            var processType = typesList.SingleOrDefault(p =>
             {
-                var attrs = p.GetCustomAttributes(typeof(T), inherit: true);
+                var attrs = p.GetCustomAttributes(typeof(EventBindingAttribute), inherit: true);
                 return attrs.Length != 0 && attrs.Select(attr => ((EventBindingAttribute) attr).Type).Any(type => type == bindingType);
             });
 

@@ -8,7 +8,7 @@ namespace Sage50Connector.API
     /// <summary>
     /// Sage50 SDK wrapper
     /// </summary>
-    class Sage50Api : IDisposable
+    public class Sage50Api : IDisposable
     {
         private PeachtreeSession _apiSession;
         private Company _companyContext;

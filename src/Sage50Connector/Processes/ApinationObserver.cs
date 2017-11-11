@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Threading;
 using Quartz;
 using Sage50Connector.API;
 using Sage50Connector.Core;
@@ -13,16 +15,16 @@ namespace Sage50Connector.Processes
     [DisallowConcurrentExecution]
     class ApinationObserver : ProcessBase
     {
+        public Config Config { private get; set; }
+
         protected override void Process(IJobExecutionContext context)
         {
-            var config = context.JobParam<Config>("Config");
-            var sage50Api = context.JobParam<Sage50Api>("Sage50Api");
-
-            var apinationDTOUrl = config.ApinationDTOToSage50Url;
+            Log.InfoFormat("Apination Config: {0}", Config);
+            var apinationDTOUrl = Config.ApinationDTOToSage50Url;
 
             // TODO: add logic
             var action = ProcessesUtil.ActivateByEventBinding<IApinationAction>(EventBindingTypes.CreatedCustomer);
-            action.Execute(sage50Api);
+            action.Execute(Sage50Api);
         }
     }
 }

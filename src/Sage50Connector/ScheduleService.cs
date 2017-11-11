@@ -17,14 +17,9 @@ namespace Sage50Connector
     public partial class ScheduleService : ServiceBase
     {
         /// <summary>
-        /// Apination Api Util
+        /// Apination Api Util 
         /// </summary>
         private ApinationApi _apinationApi => new ApinationApi(new WebClientHttpUtility());
-
-        /// <summary>
-        /// Sage50 Api
-        /// </summary>
-        private Sage50Api _sage50Api => new Sage50Api();
 
         readonly Lazy<IScheduler> _scheduler = new Lazy<IScheduler>(() =>
         {
@@ -54,21 +49,21 @@ namespace Sage50Connector
         {
             if (string.IsNullOrEmpty(cronSchedule)) throw new ArgumentException("Cron Schedule not specified", nameof(cronSchedule));
 
-            var job = JobBuilder.Create<TObserver>().Build();
 
             IDictionary<string, object> jobDataMap = new Dictionary<string, object>
             {
                 { "Config", config },
-                { "Sage50Api", _sage50Api},
-                { "ApinationApi", _apinationApi},
             };
 
-            var jobData = new JobDataMap(jobDataMap);
+            var job = JobBuilder
+                .Create<TObserver>()
+                .UsingJobData(new JobDataMap(jobDataMap))
+                .Build();
 
             var trigger = TriggerBuilder.Create()
                 .StartNow()
-                .UsingJobData(jobData)
-                .WithCronSchedule(cronSchedule).Build();
+                .WithCronSchedule(cronSchedule)
+                .Build();
 
             Scheduler.ScheduleJob(job, trigger);
 

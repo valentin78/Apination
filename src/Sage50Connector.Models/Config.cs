@@ -7,6 +7,7 @@ namespace Sage50Connector.Models
     /// <summary>
     /// Connector config
     /// </summary>
+    [Serializable]
     public class Config
     {
         /// <summary>

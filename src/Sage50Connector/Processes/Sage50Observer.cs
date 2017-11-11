@@ -14,19 +14,18 @@ namespace Sage50Connector.Processes
     [DisallowConcurrentExecution]
     class Sage50Observer : ProcessBase
     {
+        public Config Config { private get; set; }
+
         protected override void Process(IJobExecutionContext context)
         {
-            var config = context.JobParam<Config>("Config");
-            var apinationApi = context.JobParam<ApinationApi>("ApinationApi");
-
             // TODO: add logic
             var bindingType = EventBindingTypes.CreatedCustomer;
             var action = ProcessesUtil.ActivateByEventBinding<ISage50Trigger>(bindingType);
             
-            var triggerConfig = config.TriggersConfig.SingleOrDefault(c => c.TriggerBindingType == bindingType);
+            var triggerConfig = Config.TriggersConfig.SingleOrDefault(c => c.TriggerBindingType == bindingType);
             if (triggerConfig == null) throw new ArgumentException($"Config for trigger type {bindingType} not find");
             
-            action.Execute(apinationApi, triggerConfig);
+            action.Execute(ApinationApi, triggerConfig);
         }
     }
 }
