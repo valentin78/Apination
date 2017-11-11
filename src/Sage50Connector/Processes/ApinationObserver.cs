@@ -10,6 +10,7 @@ namespace Sage50Connector.Processes
     /// <summary>
     /// Observe Apination for data changes and activate appropriate actions for update Sage50 DB
     /// </summary>
+    [DisallowConcurrentExecution]
     class ApinationObserver : ProcessBase
     {
         protected override void Process(IJobExecutionContext context)
