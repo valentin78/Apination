@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Quartz;
 using Sage50Connector.Models;
 
 namespace Sage50Connector.Core
