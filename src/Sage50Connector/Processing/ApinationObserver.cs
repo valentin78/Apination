@@ -30,7 +30,6 @@ namespace Sage50Connector.Processing
         {
             try
             {
-                Log.InfoFormat("Apination Config: {0}", Config);
                 var apinationDTOUrl = Config.ApinationDTOToSage50Url;
 
                 // TODO: add logic
