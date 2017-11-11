@@ -1,7 +1,7 @@
 ﻿using System;
 using Sage50Connector.Models;
 
-namespace Sage50Connector.Processes
+namespace Sage50Connector.Core
 {
     /// <summary>
     /// Event binding type attribute
