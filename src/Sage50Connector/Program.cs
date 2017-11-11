@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using Sage50Connector.Core;
 
 namespace Sage50Connector
 {

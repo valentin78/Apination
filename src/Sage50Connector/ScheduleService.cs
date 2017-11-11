@@ -94,6 +94,10 @@ namespace Sage50Connector
             Log.Info("* Sage50Connector Service starting");
             Log.Info("********************************************************************************************************************");
 
+            var beforeRun = ApplicationConfig.LastExec;
+            ApplicationConfig.LastExec = DateTime.Now;
+            Log.InfoFormat("Service previous run was: {0}", beforeRun);
+
             try 
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
