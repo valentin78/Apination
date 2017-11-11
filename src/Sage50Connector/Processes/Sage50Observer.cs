@@ -19,6 +19,8 @@ namespace Sage50Connector.Processes
         protected override void Process(IJobExecutionContext context)
         {
             // TODO: add logic
+
+            // activate sage50 trigger for CreateCustomer event, sample
             var bindingType = EventBindingTypes.CreatedCustomer;
             var action = ProcessesUtil.ActivateByEventBinding<ISage50Trigger>(bindingType);
             

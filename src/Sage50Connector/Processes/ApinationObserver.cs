@@ -23,6 +23,7 @@ namespace Sage50Connector.Processes
             var apinationDTOUrl = Config.ApinationDTOToSage50Url;
 
             // TODO: add logic
+            // activate apination action CreateCustomer event, sample
             var action = ProcessesUtil.ActivateByEventBinding<IApinationAction>(EventBindingTypes.CreatedCustomer);
             action.Execute(Sage50Api);
         }
