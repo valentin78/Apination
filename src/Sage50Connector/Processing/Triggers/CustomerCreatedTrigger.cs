@@ -2,7 +2,7 @@
 using Sage50Connector.Core;
 using Sage50Connector.Models;
 
-namespace Sage50Connector.Processes.Triggers
+namespace Sage50Connector.Processing.Triggers
 {
     [EventBinding(Type = EventBindingTypes.CreatedCustomer)]
     class CustomerCreatedTrigger: ISage50Trigger

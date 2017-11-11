@@ -1,7 +1,7 @@
 ﻿using Sage50Connector.API;
 using Sage50Connector.Models;
 
-namespace Sage50Connector.Processes.Triggers
+namespace Sage50Connector.Processing.Triggers
 {
     internal interface ISage50Trigger
     {

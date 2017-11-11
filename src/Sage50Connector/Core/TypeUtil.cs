@@ -4,11 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using Quartz;
 using Sage50Connector.Models;
-using Sage50Connector.Processes;
 
 namespace Sage50Connector.Core
 {
-    class ProcessesUtil
+    class TypeUtil
     {
         /// <summary>
         /// Activate Trigger|Action by event binding type param

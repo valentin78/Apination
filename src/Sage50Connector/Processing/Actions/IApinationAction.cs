@@ -1,6 +1,6 @@
 ﻿using Sage50Connector.API;
 
-namespace Sage50Connector.Processes.Actions
+namespace Sage50Connector.Processing.Actions
 {
     internal interface IApinationAction
     {

@@ -72,16 +72,15 @@
     <Compile Include="API\Sage50Api.cs" />
     <Compile Include="Core\WebClientHttpUtility.cs" />
     <Compile Include="Core\Extensions.cs" />
-    <Compile Include="Core\ProcessesUtil.cs" />
+    <Compile Include="Core\TypeUtil.cs" />
     <Compile Include="HeartBeat\HeartBeatProcess.cs" />
-    <Compile Include="Core\ProcessBase.cs" />
-    <Compile Include="Processes\Actions\CreateCustomerAction.cs" />
-    <Compile Include="Processes\Actions\IApinationAction.cs" />
-    <Compile Include="Processes\ApinationObserver.cs" />
-    <Compile Include="Processes\Sage50Observer.cs" />
-    <Compile Include="Processes\Triggers\CustomerCreatedTrigger.cs" />
+    <Compile Include="Processing\Actions\CreateCustomerAction.cs" />
+    <Compile Include="Processing\Actions\IApinationAction.cs" />
+    <Compile Include="Processing\ApinationObserver.cs" />
+    <Compile Include="Processing\Sage50Observer.cs" />
+    <Compile Include="Processing\Triggers\CustomerCreatedTrigger.cs" />
     <Compile Include="Core\EventBindingAttribute.cs" />
-    <Compile Include="Processes\Triggers\ISage50Trigger.cs" />
+    <Compile Include="Processing\Triggers\ISage50Trigger.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

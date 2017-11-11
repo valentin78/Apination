@@ -10,7 +10,7 @@ using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.HeartBeat;
 using Sage50Connector.Models;
-using Sage50Connector.Processes;
+using Sage50Connector.Processing;
 
 namespace Sage50Connector
 {
@@ -45,7 +45,7 @@ namespace Sage50Connector
         /// <summary>
         /// Schedule generic Observer process
         /// </summary>
-        private void ScheduleObserver<TObserver>(string cronSchedule, Config config) where TObserver : ProcessBase
+        private void ScheduleObserver<TObserver>(string cronSchedule, Config config) where TObserver : IJob
         {
             if (string.IsNullOrEmpty(cronSchedule)) throw new ArgumentException("Cron Schedule not specified", nameof(cronSchedule));
 
