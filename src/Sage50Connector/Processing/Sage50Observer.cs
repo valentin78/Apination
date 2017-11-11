@@ -40,7 +40,10 @@ namespace Sage50Connector.Processing
                 var triggerConfig = Config.TriggersConfig.SingleOrDefault(c => c.TriggerBindingType == bindingType);
                 if (triggerConfig == null) throw new ArgumentException($"Config for trigger type {bindingType} not find");
 
-                action.Execute(ApinationApi, triggerConfig);
+                action.Execute(
+                    ApinationApi, triggerConfig, 
+                    payload: new {}
+                );
             }
             catch (Exception ex)
             {
