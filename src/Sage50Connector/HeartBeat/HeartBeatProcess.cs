@@ -7,8 +7,6 @@ namespace Sage50Connector.HeartBeat
     {
         protected override void Process(IJobExecutionContext context)
         {
-            base.Process(context);
-
             Log.Info("-> HeartBeatProcess started");
             ApinationApi.HeartBeat();
         }

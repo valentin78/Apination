@@ -111,8 +111,8 @@ namespace Sage50Connector
                 Scheduler.Start();
 
                 // schedule observers
-                ScheduleObserver<Sage50Observer>(config.Sage50CronSchedule);
-                ScheduleObserver<ApinationObserver>(config.ApinationCronSchedule);
+                ScheduleObserver<Sage50Observer>(config.Sage50CronSchedule, config);
+                ScheduleObserver<ApinationObserver>(config.ApinationCronSchedule, config);
 
                 ScheduleHeartBeat(config.HeartBeatCronSchedule);
             }
