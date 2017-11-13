@@ -2,8 +2,8 @@
 
 namespace Sage50Connector.Processing.Actions
 {
-    internal interface IApinationAction
+    internal interface IApinationAction<in TModel>
     {
-        void Execute(Sage50Api api, object payload);
+        void Execute(Sage50Api api, TModel model);
     }
 }

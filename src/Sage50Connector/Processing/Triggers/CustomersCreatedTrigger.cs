@@ -9,22 +9,26 @@ using Sage50Connector.Models.BindingTypes;
 namespace Sage50Connector.Processing.Triggers
 {
     [EventBinding(Type = (byte)Sage50EventBindingTypes.CreatedCustomers)]
-    class CustomersCreatedTrigger: ISage50Trigger
+    class CustomersCreatedTrigger: ISage50Trigger<CustomersCreatedModel>
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(CustomersCreatedTrigger));
 
-        public void Execute(ApinationApi api, Sage50TriggersConfig triggerConfig, object payload)
+        public void Execute(ApinationApi api, Sage50TriggersConfig triggerConfig, CustomersCreatedModel model)
         {
-            var list = (List<Customer>) payload;
-            
-            Log.Info($"Received Customers list count: {list.Count}");
+            Log.Info($"Received Customers list count: {model.CustomersList.Count}");
 
-            foreach (var customer in list)
+            foreach (var customer in model.CustomersList)
             {
                 Log.InfoFormat("-> Name: {0}; LastSavedAt: {1}", customer.Name, customer.LastSavedAt);
             }
 
             //throw new System.NotImplementedException();
         }
+    }
+
+    // TODO: fill model by DTO requirements
+    class CustomersCreatedModel
+    {
+        public List<Customer> CustomersList { get; set; }
     }
 }

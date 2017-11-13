@@ -2,6 +2,7 @@
 using Quartz;
 using Sage50Connector.Core;
 using Sage50Connector.Models.BindingTypes;
+using Sage50Connector.Processing.Actions;
 
 namespace Sage50Connector.Processing
 {
@@ -17,10 +18,14 @@ namespace Sage50Connector.Processing
             {
                 // TODO: add logic
                 // activate apination action CreateCustomer event, sample
-                var action = TypeUtil.ActivateActionByEventBindingType(ApinationEventBindingTypes.CreateCustomer);
+                var action = TypeUtil.ActivateActionByEventBindingType<CreateCustomerModel>(ApinationEventBindingTypes.CreateCustomer);
                 action.Execute(
                     Sage50Api.Value, 
-                    payload: new {}
+                    new CreateCustomerModel
+                    {
+                        // stub
+                        CustomerData = new object()
+                    }
                 );
             }
             catch (Exception ex)
