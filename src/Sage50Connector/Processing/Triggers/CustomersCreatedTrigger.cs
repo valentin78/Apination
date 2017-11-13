@@ -15,7 +15,7 @@ namespace Sage50Connector.Processing.Triggers
 
         public void Execute(ApinationApi api, Sage50TriggersConfig triggerConfig, CustomersCreatedModel model)
         {
-            Log.Info($"Received Customers list count: {model.CustomersList.Count}");
+            Log.Info($"Received Customers list count: {model.CustomersList.Length}");
 
             foreach (var customer in model.CustomersList)
             {
@@ -29,6 +29,6 @@ namespace Sage50Connector.Processing.Triggers
     // TODO: fill model by DTO requirements
     class CustomersCreatedModel
     {
-        public List<Customer> CustomersList { get; set; }
+        public Customer[] CustomersList { get; set; }
     }
 }

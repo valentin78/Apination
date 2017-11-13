@@ -18,7 +18,7 @@ namespace Sage50Connector.Processing
             {
                 // call Apination by URL and get JSON Responce
                 var apinationDTOUrl = Config.ApinationDTOToSage50Url;
-
+                
                 // TODO: add logic
                 // activate apination action CreateCustomer event, sample
                 OnCreateCustomer(customerData: new object());

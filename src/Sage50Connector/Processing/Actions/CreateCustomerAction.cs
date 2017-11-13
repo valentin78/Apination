@@ -2,7 +2,6 @@
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models.BindingTypes;
-using Sage50Connector.Processing.Triggers;
 
 namespace Sage50Connector.Processing.Actions
 {

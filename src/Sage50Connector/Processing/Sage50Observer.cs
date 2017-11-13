@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using Quartz;
 using Sage.Peachtree.API;
+using Sage.Peachtree.API.Collections.Generic;
+using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
 using Sage50Connector.Models.BindingTypes;
@@ -29,16 +32,8 @@ namespace Sage50Connector.Processing
                     
                     api.OpenCompany(company.CompanyName);
 
-                    var customers = api.CustomersList();
-                    
-                    // TODO: how add filter before load ?
-                    customers.Load();
+                    var customersList = GetCustomerList(api);
 
-                    var lastSavedAtBefore = ApplicationConfig.CustomersLastSavedAt;
-                    
-                    Log.Info($"LastSavedBefore filter: {lastSavedAtBefore }");
-
-                    var customersList = customers.Where(c => c.LastSavedAt > lastSavedAtBefore).ToList();
                     if (customersList.Count > 0)
                     {
                         OnCustomersCreated(customersList);
@@ -56,7 +51,25 @@ namespace Sage50Connector.Processing
             }
         }
 
-        void OnCustomersCreated(List<Customer> customersList)
+        private static CustomerList GetCustomerList(Sage50Api api)
+        {
+            var customers = api.CustomersList();
+
+            var lastSavedAtBefore = ApplicationConfig.CustomersLastSavedAt;
+            Log.Info($"LastSavedBefore filter: {TypeUtil.DateToODBC(lastSavedAtBefore)}");
+
+            // Use LoadModifier to filter
+            var modifiers = LoadModifiers.Create();
+            modifiers.Filters = FilterExpression.GreaterThan(
+                FilterExpression.Property("Customer.LastSavedAt"),
+                FilterExpression.Constant(TypeUtil.DateToODBC(lastSavedAtBefore))
+            );
+
+            customers.Load(modifiers);
+            return customers;
+        }
+
+        void OnCustomersCreated(CustomerList customersList)
         {
             // activate sage50 trigger for CreateCustomer event, sample
             var bindingType = Sage50EventBindingTypes.CreatedCustomers;
@@ -69,7 +82,7 @@ namespace Sage50Connector.Processing
                 triggerConfig,
                 new CustomersCreatedModel
                 {
-                    CustomersList = customersList
+                    CustomersList = customersList.ToArray()
                 }
             );
         }

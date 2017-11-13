@@ -28,7 +28,7 @@ namespace Sage50Connector.Core
         public static DateTime CustomersLastSavedAt
         {
             get => GetAppSettingsValue<DateTime>(CUSTOMERS_LAST_SAVED_AT_KEY);
-            set => SetAppSettingsProperty(CUSTOMERS_LAST_SAVED_AT_KEY, DateToUTC(value));
+            set => SetAppSettingsProperty(CUSTOMERS_LAST_SAVED_AT_KEY, TypeUtil.DateToUTC(value));
         }
         private const string CUSTOMERS_LAST_SAVED_AT_KEY = "Customers_LastSavedAt";
     }

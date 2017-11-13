@@ -23,16 +23,6 @@ namespace Sage50Connector.Core
         }
 
         /// <summary>
-        /// convert datetime to UTC string format
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        private static string DateToUTC(DateTime value)
-        {
-            return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK");
-        }
-
-        /// <summary>
         /// Set AppSettings property, store to app.config and refresh runtime ConfigurationManager
         /// </summary>
         /// <param name="key"></param>
