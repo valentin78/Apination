@@ -9,14 +9,14 @@ namespace Sage50Connector.Core
 {
     class TypeUtil
     {
-        public static ISage50Trigger ActivateTriggerByEventBindingType(Sage50EventBindingTypes bindingType)
+        public static ISage50Trigger<TModel> ActivateTriggerByEventBindingType<TModel>(Sage50EventBindingTypes bindingType)
         {
-            return ActivateInstanceByEventBindingType<ISage50Trigger>((byte) bindingType);
+            return ActivateInstanceByEventBindingType<ISage50Trigger<TModel>>((byte) bindingType);
         }
         
-        public static IApinationAction ActivateActionByEventBindingType(ApinationEventBindingTypes bindingType)
+        public static IApinationAction<TModel> ActivateActionByEventBindingType<TModel>(ApinationEventBindingTypes bindingType)
         {
-            return ActivateInstanceByEventBindingType<IApinationAction>((byte)bindingType);
+            return ActivateInstanceByEventBindingType<IApinationAction<TModel>>((byte)bindingType);
         }
 
         /// <summary>

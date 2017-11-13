@@ -20,10 +20,10 @@ namespace Sage50Connector.Processing
 
                 // TODO: add logic
                 // activate apination action CreateCustomer event, sample
-                var action = TypeUtil.ActivateActionByEventBindingType(ApinationEventBindingTypes.CreateCustomer);
+                var action = TypeUtil.ActivateActionByEventBindingType<CreateCustomerModel>(ApinationEventBindingTypes.CreateCustomer);
                 action.Execute(
                     Sage50Api.Value, 
-                    payload: new CreateCustomerModel
+                    new CreateCustomerModel
                     {
                         // stub
                         CustomerData = new object()

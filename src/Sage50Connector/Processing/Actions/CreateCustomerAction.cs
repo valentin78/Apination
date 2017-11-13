@@ -7,14 +7,13 @@ using Sage50Connector.Processing.Triggers;
 namespace Sage50Connector.Processing.Actions
 {
     [EventBinding(Type = (byte)ApinationEventBindingTypes.CreateCustomer)]
-    class CreateCustomerAction: IApinationAction
+    class CreateCustomerAction: IApinationAction<CreateCustomerModel>
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(CreateCustomerAction));
 
-        public void Execute(Sage50Api api, object payload)
+        public void Execute(Sage50Api api, CreateCustomerModel model)
         {
-            var model = payload as CreateCustomerModel;
-            Log.Info("CreateCustomerAction Executed");
+            Log.Info($"CreateCustomerAction Executed, model: {model}");
         }
     }
 

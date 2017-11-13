@@ -7,6 +7,7 @@ using Sage.Peachtree.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
 using Sage50Connector.Models.BindingTypes;
+using Sage50Connector.Processing.Triggers;
 
 namespace Sage50Connector.Processing
 {
@@ -59,14 +60,17 @@ namespace Sage50Connector.Processing
         {
             // activate sage50 trigger for CreateCustomer event, sample
             var bindingType = Sage50EventBindingTypes.CreatedCustomers;
-            var trigger = TypeUtil.ActivateTriggerByEventBindingType(bindingType);
+            var trigger = TypeUtil.ActivateTriggerByEventBindingType<CustomersCreatedModel>(bindingType);
 
             var triggerConfig = GetTriggerConfigByBindingType(bindingType);
 
             trigger.Execute(
                 ApinationApi.Value,
                 triggerConfig,
-                customersList
+                new CustomersCreatedModel
+                {
+                    CustomersList = customersList
+                }
             );
         }
 
