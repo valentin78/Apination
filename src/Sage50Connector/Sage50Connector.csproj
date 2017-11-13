@@ -77,8 +77,9 @@
     <Compile Include="Processing\Actions\CreateCustomerAction.cs" />
     <Compile Include="Processing\Actions\IApinationAction.cs" />
     <Compile Include="Processing\ApinationObserver.cs" />
+    <Compile Include="Processing\BaseObserver.cs" />
     <Compile Include="Processing\Sage50Observer.cs" />
-    <Compile Include="Processing\Triggers\CustomerCreatedTrigger.cs" />
+    <Compile Include="Processing\Triggers\CustomersCreatedTrigger.cs" />
     <Compile Include="Core\EventBindingAttribute.cs" />
     <Compile Include="Processing\Triggers\ISage50Trigger.cs" />
     <Compile Include="ProjectInstaller.cs">
