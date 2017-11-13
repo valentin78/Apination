@@ -16,24 +16,29 @@ namespace Sage50Connector.Processing
         {
             try
             {
+                // call Apination by URL and get JSON Responce
                 var apinationDTOUrl = Config.ApinationDTOToSage50Url;
 
                 // TODO: add logic
                 // activate apination action CreateCustomer event, sample
-                var action = TypeUtil.ActivateActionByEventBindingType<CreateCustomerModel>(ApinationEventBindingTypes.CreateCustomer);
-                action.Execute(
-                    Sage50Api.Value, 
-                    new CreateCustomerModel
-                    {
-                        // stub
-                        CustomerData = new object()
-                    }
-                );
+                OnCreateCustomer(customerData: new object());
             }
             catch (Exception ex)
             {
                 Log.Error("Job execution failure", ex);
             }
+        }
+
+        private void OnCreateCustomer(object customerData)
+        {
+            var action = TypeUtil.ActivateActionByEventBindingType<CreateCustomerModel>(ApinationEventBindingTypes.CreateCustomer);
+                action.Execute(
+                    Sage50Api.Value, 
+                    new CreateCustomerModel
+                    {
+                        CustomerData = customerData
+                    }
+                );
         }
     }
 }
