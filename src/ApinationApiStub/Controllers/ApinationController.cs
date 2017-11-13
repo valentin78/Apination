@@ -26,14 +26,14 @@ namespace ApinationApiStub.Controllers
                     }
                 }, 
                 
-                ApinationDTOToSage50Url = "api/sage50DTO",
+                ApinationActionEndpointUrl = "api/sage50DTO",
 
                 TriggersConfig = new []
                 {
                     new Sage50TriggersConfig
                     {
                         TriggerBindingType = Sage50EventBindingTypes.CreatedCustomers,
-                        Sage50DTOToApinationUrl = "api/sage50/createdCustomer"
+                        ApinationEndpointUrl = "api/sage50/createdCustomer"
                     }, 
                 }
             };

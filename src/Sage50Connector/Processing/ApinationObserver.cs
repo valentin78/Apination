@@ -15,8 +15,6 @@ namespace Sage50Connector.Processing
         {
             try
             {
-                var apinationDTOUrl = Config.ApinationDTOToSage50Url;
-
                 // TODO: add logic
                 // activate apination action CreateCustomer event, sample
                 var action = TypeUtil.ActivateActionByEventBindingType(ApinationEventBindingTypes.CreateCustomer);
