@@ -35,9 +35,9 @@ namespace Sage50Connector.Models
         public string HeartBeatCronSchedule { get; set; }
 
         /// <summary>
-        /// Apination ReST endpoint URL for DTO to Sage50 
+        /// Apination ReST endpoint URL for Actions
         /// </summary>
-        public string ApinationDTOToSage50Url { get; set; }
+        public string ApinationActionEndpointUrl { get; set; }
 
         /// <summary>
         /// Triggers Config
@@ -69,9 +69,9 @@ namespace Sage50Connector.Models
         public Sage50EventBindingTypes TriggerBindingType { get; set; }
 
         /// <summary>
-        /// Apination Data receiver URL for trigger type
+        /// Apination Endpoint URL for trigger type
         /// </summary>
-        public string Sage50DTOToApinationUrl { get; set; }
+        public string ApinationEndpointUrl { get; set; }
     }
 
     /// <summary>
