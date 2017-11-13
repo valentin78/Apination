@@ -13,7 +13,14 @@ namespace Sage50Connector.Processing.Actions
 
         public void Execute(Sage50Api api, object payload)
         {
+            var model = payload as CreateCustomerModel;
             Log.Info("CreateCustomerAction Executed");
         }
+    }
+
+    // TODO: fill model by DTO requirements
+    class CreateCustomerModel
+    {
+        public object CustomerData { get; set; }
     }
 }
