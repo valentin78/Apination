@@ -4,7 +4,7 @@ using System.Configuration;
 namespace Sage50Connector.Core
 {
     /// Serivce Configuration Wrapper
-    static class ApplicationConfig
+    static partial class ApplicationConfig
     {
         /// <summary>
         /// A valid application ID is needed in order to connect to regular Sage 50 companies
@@ -22,31 +22,14 @@ namespace Sage50Connector.Core
         /// </summary>
         public static Uri ApinationBaseUri => new Uri(ConfigurationManager.AppSettings["ApinationBaseUrl"]);
 
-        private const string APP_SETTINGS_KEY = "appSettings";
-        private const string CUSTOMERS_LAST_SAVED_AT_KEY = "Customers_LastSavedAt";
-        
+        /// <summary>
+        /// Customres LastSavedAt value filter
+        /// </summary>
         public static DateTime CustomersLastSavedAt
         {
-            get
-            {
-                var p = ConfigurationManager.AppSettings[CUSTOMERS_LAST_SAVED_AT_KEY];
-                if (string.IsNullOrEmpty(p)) return DateTime.MinValue;
-                return DateTime.Parse(p);
-            }
-            set
-            {
-                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-
-                config.AppSettings.Settings.Remove(CUSTOMERS_LAST_SAVED_AT_KEY);
-                config.AppSettings.Settings.Add(CUSTOMERS_LAST_SAVED_AT_KEY, value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK"));
-
-                // Save the configuration file.
-                config.Save(ConfigurationSaveMode.Modified);
-
-                // Force a reload of the changed section. This 
-                // makes the new values available for reading.
-                ConfigurationManager.RefreshSection(APP_SETTINGS_KEY);
-            }
+            get => GetAppSettingsValue<DateTime>(CUSTOMERS_LAST_SAVED_AT_KEY);
+            set => SetAppSettingsProperty(CUSTOMERS_LAST_SAVED_AT_KEY, DateToUTC(value));
         }
+        private const string CUSTOMERS_LAST_SAVED_AT_KEY = "Customers_LastSavedAt";
     }
 }

@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ApplicationConfig.Utils.cs" />
     <Compile Include="Core\ApplicationConfig.cs" />
     <Compile Include="Core\IHttpUtility.cs" />
     <Compile Include="API\ApinationApi.cs" />

@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Linq;
 using Quartz;
 using Sage.Peachtree.API;
-using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
 using Sage50Connector.Models.BindingTypes;
@@ -35,6 +34,9 @@ namespace Sage50Connector.Processing
                     customers.Load();
 
                     var lastSavedAtBefore = ApplicationConfig.CustomersLastSavedAt;
+                    
+                    Log.Info($"LastSavedBefore filter: {lastSavedAtBefore }");
+
                     var customersList = customers.Where(c => c.LastSavedAt > lastSavedAtBefore).ToList();
                     if (customersList.Count > 0)
                     {
