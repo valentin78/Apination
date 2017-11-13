@@ -17,10 +17,11 @@ namespace Sage50Connector.Processing
             try
             {
                 // call Apination by URL and get JSON Responce
-                var apinationDTOUrl = Config.ApinationDTOToSage50Url;
+                var apinationUrl = Config.ApinationActionEndpointUrl;
 
-                // TODO: add logic
-                // activate apination action CreateCustomer event, sample
+                // TODO: add processing apination responce logic
+
+                // sample to activate apination action CreateCustomer event
                 OnCreateCustomer(customerData: new object());
             }
             catch (Exception ex)
