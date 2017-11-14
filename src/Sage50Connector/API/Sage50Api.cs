@@ -10,27 +10,29 @@ namespace Sage50Connector.API
     /// </summary>
     public class Sage50Api : IDisposable
     {
-        private PeachtreeSession _apiSession;
-        private Company _companyContext;
+        // ReSharper disable once InconsistentNaming
+        private PeachtreeSession ApiSession;
+        // ReSharper disable once InconsistentNaming
+        private Company CompanyContext;
 
         protected PeachtreeSession CurrentSession
         {
             get
             {
                 // if the session has not been initialized
-                if (_apiSession != null && _apiSession.SessionActive) return _apiSession;
+                if (ApiSession != null && ApiSession.SessionActive) return ApiSession;
 
                 // dispose of the inactive session
-                _apiSession?.Dispose();
+                ApiSession?.Dispose();
 
                 // create a new session instance
-                _apiSession = new PeachtreeSession();
+                ApiSession = new PeachtreeSession();
 
                 // start the session.  
                 // with no application ID, you can only open Sample companies
-                _apiSession.Begin(ApplicationConfig.Sage50ApplicationID);
+                ApiSession.Begin(ApplicationConfig.Sage50ApplicationID);
                 // return the current session
-                return _apiSession;
+                return ApiSession;
             }
         }
 
@@ -54,7 +56,7 @@ namespace Sage50Connector.API
             {
                 case AuthorizationResult.Granted:
                     // open the company
-                    _companyContext = CurrentSession.Open(companyId);
+                    CompanyContext = CurrentSession.Open(companyId);
                     break;
                 default:
                     throw new ArgumentException($"Can not open company {companyName}. Authorization Result: {authResult}");
@@ -64,15 +66,15 @@ namespace Sage50Connector.API
         public void Dispose()
         {
             CloseCurrentCompany();
-            _apiSession?.Dispose();
+            ApiSession?.Dispose();
         }
 
         private void CloseCurrentCompany()
         {
-            if (_companyContext == null) return;
+            if (CompanyContext == null) return;
 
-            _companyContext.Close();
-            _companyContext = null;
+            CompanyContext.Close();
+            CompanyContext = null;
         }
 
         public CompanyIdentifierList CompaniesList()
@@ -89,8 +91,8 @@ namespace Sage50Connector.API
 
         public CustomerList CustomersList()
         {
-            if (_companyContext == null) throw new ArgumentException("Company must be open before");
-            return _companyContext.Factories.CustomerFactory.List();
+            if (CompanyContext == null) throw new ArgumentException("Company must be open before");
+            return CompanyContext.Factories.CustomerFactory.List();
         }
     }
 }

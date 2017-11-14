@@ -11,12 +11,12 @@ namespace Sage50Connector.Core
     {
         public static ISage50Trigger<TModel> ActivateTriggerByEventBindingType<TModel>(Sage50EventBindingTypes bindingType)
         {
-            return ActivateInstanceByEventBindingType<ISage50Trigger<TModel>>((byte) bindingType);
+            return CreateInstanceByEventBindingType<ISage50Trigger<TModel>>((byte) bindingType);
         }
         
         public static IApinationAction<TModel> ActivateActionByEventBindingType<TModel>(ApinationEventBindingTypes bindingType)
         {
-            return ActivateInstanceByEventBindingType<IApinationAction<TModel>>((byte)bindingType);
+            return CreateInstanceByEventBindingType<IApinationAction<TModel>>((byte)bindingType);
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Sage50Connector.Core
         /// </summary>
         /// <param name="bindingType"></param>
         /// <returns></returns>
-        private static T ActivateInstanceByEventBindingType<T>(byte bindingType)
+        private static T CreateInstanceByEventBindingType<T>(byte bindingType)
         {
             var typesList = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(s => s.GetTypes())

@@ -4,16 +4,12 @@ using System.Configuration;
 
 namespace Sage50Connector.Core
 {
-    /// Serivce Configuration Wrapper
+    /// Service Configuration Wrapper
     static partial class ApplicationConfig
     {
         /// <summary>
         /// Get App Settings property value by key and optional default value if property does not exist
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="defaultValue"></param>
-        /// <returns></returns>
         private static T GetAppSettingsValue<T>(string key, T? defaultValue = null) where T : struct
         {
             var propertyValue = ConfigurationManager.AppSettings[key];
@@ -25,8 +21,6 @@ namespace Sage50Connector.Core
         /// <summary>
         /// convert datetime to UTC string format
         /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
         private static string DateToUTC(DateTime value)
         {
             return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK");
@@ -35,8 +29,6 @@ namespace Sage50Connector.Core
         /// <summary>
         /// Set AppSettings property, store to app.config and refresh runtime ConfigurationManager
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
         private static void SetAppSettingsProperty(string key, string value)
         {
             Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
