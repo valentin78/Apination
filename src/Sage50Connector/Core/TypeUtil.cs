@@ -38,5 +38,26 @@ namespace Sage50Connector.Core
 
             return (T)Activator.CreateInstance(processType ?? throw new InvalidOperationException($"Can not find type by binding type {bindingType} and base type {typeof(T).Name}"));
         }
+
+        /// <summary>
+        /// convert datetime to UTC string format
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string DateToUTC(DateTime value)
+        {
+            return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK");
+        }
+
+
+        /// <summary>
+        /// convert datetime to ODBC string format
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static string DateToODBC(DateTime value)
+        {
+            return value.ToString("yyyy-MM-dd HH:mm:ss");
+        }
     }
 }
