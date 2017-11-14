@@ -40,7 +40,7 @@ namespace Sage50Connector.Core
         }
 
         /// <summary>
-        /// convert datetime to UTC string format
+        /// Convert datetime to UTC string format
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace Sage50Connector.Core
 
 
         /// <summary>
-        /// convert datetime to ODBC string format
+        /// Convert datetime to ODBC string format
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

@@ -23,13 +23,14 @@ namespace Sage50Connector.Core
         public static Uri ApinationBaseUri => new Uri(ConfigurationManager.AppSettings["ApinationBaseUrl"]);
 
         /// <summary>
-        /// Customres LastSavedAt value filter
+        /// Customers LastSavedAt value filter
         /// </summary>
         public static DateTime CustomersLastSavedAt
         {
-            get => GetAppSettingsValue<DateTime>(CUSTOMERS_LAST_SAVED_AT_KEY);
-            set => SetAppSettingsProperty(CUSTOMERS_LAST_SAVED_AT_KEY, TypeUtil.DateToUTC(value));
+            get => GetAppSettingsValue<DateTime>(CustomersLastSavedAtKey);
+            set => SetAppSettingsProperty(CustomersLastSavedAtKey, TypeUtil.DateToUTC(value));
         }
-        private const string CUSTOMERS_LAST_SAVED_AT_KEY = "Customers_LastSavedAt";
+
+        private const string CustomersLastSavedAtKey = "Customers_LastSavedAt";
     }
 }
