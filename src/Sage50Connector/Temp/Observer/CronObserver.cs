@@ -3,7 +3,6 @@ using log4net;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Impl.Matchers;
-using Sage50Connector.Temp.Observer.Interface;
 using Sage50Connector.Temp.Workflows;
 
 namespace Sage50Connector.Temp.Observer
