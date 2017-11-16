@@ -8,7 +8,7 @@ namespace Sage50Connector.Temp.Observer
     /// <summary>
     /// Fabrik Type for ApinationObserver creation
     /// </summary>
-    class ApinationObserverFabrik : IObserverFabrik
+    class ApinationObserverFabrik 
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(ApinationObserverFabrik));
 

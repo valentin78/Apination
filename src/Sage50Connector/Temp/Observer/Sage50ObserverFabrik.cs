@@ -8,7 +8,7 @@ namespace Sage50Connector.Temp.Observer
     /// <summary>
     /// Fabrik Type for Sage50Observer creation
     /// </summary>
-    class Sage50ObserverFabrik : IObserverFabrik
+    class Sage50ObserverFabrik 
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(Sage50ObserverFabrik));
 

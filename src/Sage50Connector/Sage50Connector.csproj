@@ -97,9 +97,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Temp\Observer\Interface\IObserver.cs" />
+    <Compile Include="Temp\Observer\IObserver.cs" />
     <Compile Include="Temp\Observer\CronObserver.cs" />
-    <Compile Include="Temp\Observer\Interface\IObserverFabrik.cs" />
     <Compile Include="Temp\Observer\Sage50ObserverFabrik.cs" />
     <Compile Include="Temp\Workflows\FromApination\ApinationChecker.cs" />
     <Compile Include="Temp\Workflows\FromApination\CreateCustomerToSage50.cs" />
