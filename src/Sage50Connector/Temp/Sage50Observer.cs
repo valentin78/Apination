@@ -49,33 +49,20 @@ namespace Sage50Connector.Temp
 
     class CronScheduleFabrik
     {
-
         private class ScheduledProcess : IJob
         {
             public void Execute(IJobExecutionContext context)
             {
-                TriggerOnExecuteEvent();
             }
-
-            private static void TriggerOnExecuteEvent()
-            {
-                OnExecuteEvent?.Invoke(null, EventArgs.Empty);
-            }
-
-            public static event EventHandler OnExecuteEvent;
         }
 
         public class JobListener : IJobListener
         {
             public event EventHandler OnExecuted;
 
-            public void JobToBeExecuted(IJobExecutionContext context)
-            {
-            }
+            public void JobToBeExecuted(IJobExecutionContext context) { }
 
-            public void JobExecutionVetoed(IJobExecutionContext context)
-            {
-            }
+            public void JobExecutionVetoed(IJobExecutionContext context) { }
 
             public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)
             {
@@ -115,6 +102,7 @@ namespace Sage50Connector.Temp
 
     class CronObserver : IObserver
     {
+        // ReSharper disable once InconsistentNaming
         private CronScheduleFabrik.JobListener listener;
 
         public CronObserver(string cronPeriod)
