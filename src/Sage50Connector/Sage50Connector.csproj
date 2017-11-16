@@ -110,7 +110,7 @@
     <Compile Include="Temp\Workflows\FromSage50\Sage50CustomerChecker.cs" />
     <Compile Include="Temp\Workflows\FromSage50\Sage50InvoiceChecker.cs" />
     <Compile Include="Temp\Workflows\FromSage50\UpdateCustomersToApination.cs" />
-    <Content Include="Temp\Architecture.txt" />
+    <Compile Include="Temp\Architecture.cs" />
     <Compile Include="Temp\Observer\ApinationObserverFabrik.cs" />
     <Compile Include="Temp\Workflows\FromSage50\UpdateInvoicesToApination.cs" />
   </ItemGroup>

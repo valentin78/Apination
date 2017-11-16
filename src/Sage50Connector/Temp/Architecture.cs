@@ -7,9 +7,8 @@ using Quartz.Impl;
 using Quartz.Impl.Matchers;
 using Sage50Connector.Models;
 
-namespace Sage50Connector.Temp
+namespace Sage50Connector.Architecture
 {
-
     // Fabric Types
 
     internal interface IObserverFabrik
