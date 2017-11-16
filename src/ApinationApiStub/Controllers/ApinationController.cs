@@ -15,8 +15,8 @@ namespace ApinationApiStub.Controllers
             {
                 HeartBeatCronSchedule = "0 0/1 * * * ?",
                 
-                Sage50CronSchedule = "0 0/1 * * * ?",
-                ApinationCronSchedule = "0 0/1 * * * ?",
+                Sage50CronSchedule = "0/10 * * * * ?",
+                ApinationCronSchedule = "0/10 * * * * ?",
 
                 CompaniesList = new[]
                 {
