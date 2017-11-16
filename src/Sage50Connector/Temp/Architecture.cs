@@ -76,6 +76,7 @@ namespace Sage50Connector.Temp
         public static readonly ILog Log = LogManager.GetLogger(typeof(CronScheduleFabrik));
 
         // ReSharper disable once ClassNeverInstantiated.Local
+        [DisallowConcurrentExecution]
         private class ScheduledProcess : IJob
         {
             public void Execute(IJobExecutionContext context)
@@ -110,10 +111,11 @@ namespace Sage50Connector.Temp
                 OnExecuted?.Invoke(this, EventArgs.Empty);
             }
 
-            public string Name => Guid.NewGuid().ToString();
+            public string name = Guid.NewGuid().ToString();
+            public string Name => name;
         }
 
-        private static IScheduler scheduler;
+        private IScheduler scheduler;
         private readonly string JobIdentityName = Guid.NewGuid().ToString();
 
         public JobListener Create(string cronPeriod)
