@@ -97,7 +97,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Temp\Architecture.cs" />
+    <Compile Include="Temp\Observer\Interface\IObserver.cs" />
+    <Compile Include="Temp\Observer\CronObserver.cs" />
+    <Compile Include="Temp\Observer\Interface\IObserverFabrik.cs" />
+    <Compile Include="Temp\Observer\Sage50ObserverFabrik.cs" />
+    <Compile Include="Temp\Workflows\FromApination\ApinationChecker.cs" />
+    <Compile Include="Temp\Workflows\FromApination\CreateCustomerToSage50.cs" />
+    <Compile Include="Temp\Workflows\FromApination\CreateInvoiceToSage50.cs" />
+    <Compile Include="Temp\Workflows\EventData.cs" />
+    <Compile Include="Temp\Workflows\IChecker.cs" />
+    <Compile Include="Temp\Workflows\ISaver.cs" />
+    <Compile Include="Temp\Workflows\FromSage50\Sage50CustomerChecker.cs" />
+    <Compile Include="Temp\Workflows\FromSage50\Sage50InvoiceChecker.cs" />
+    <Compile Include="Temp\Workflows\FromSage50\UpdateCustomersToApination.cs" />
+    <Content Include="Temp\Architecture.txt" />
+    <Compile Include="Temp\Observer\ApinationObserverFabrik.cs" />
+    <Compile Include="Temp\Workflows\FromSage50\UpdateInvoicesToApination.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

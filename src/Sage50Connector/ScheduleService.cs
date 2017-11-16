@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.ServiceProcess;
 using log4net;
 using log4net.Config;
-using Quartz;
-using Quartz.Impl;
-using Quartz.Impl.Matchers;
-using Sage.Peachtree.API.Factories;
 using Sage50Connector.API;
 using Sage50Connector.Core;
-using Sage50Connector.HeartBeat;
-using Sage50Connector.Models;
-using Sage50Connector.Processing;
-using Sage50Connector.Temp;
+using Sage50Connector.Temp.Observer;
+using Sage50Connector.Temp.Observer.Interface;
 
 namespace Sage50Connector
 {
@@ -55,18 +48,8 @@ namespace Sage50Connector
                 var config = _apinationApi.RetrieveConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-
                 apinationObserver = new ApinationObserverFabrik().Create(config);
                 sage50Observer = new Sage50ObserverFabrik().Create(config);
-
-
-                //Log.Info("Schedule and start Sage50 Observer ...");
-                //ScheduleObserver<Sage50Observer>(config.Sage50CronSchedule, config);
-                
-                //Log.Info("Schedule and start Apination Observer ...");
-                //ScheduleObserver<ApinationObserver>(config.ApinationCronSchedule, config);
-
-                //ScheduleHeartBeat(config.HeartBeatCronSchedule);
             }
             catch (Exception ex)
             {
