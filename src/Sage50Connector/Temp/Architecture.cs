@@ -71,7 +71,7 @@ namespace Sage50Connector.Temp
         }
     }
 
-    class CronScheduleFabrik
+    class CronScheduleFabrik: IDisposable
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(CronScheduleFabrik));
 
@@ -87,7 +87,6 @@ namespace Sage50Connector.Temp
         public class JobListener : IJobListener
         {
             public static readonly ILog Log = LogManager.GetLogger(typeof(CronScheduleFabrik));
-
 
             /// <summary>
             /// technical jobName for debuggind & logging purposes
@@ -143,6 +142,11 @@ namespace Sage50Connector.Temp
             scheduler.ListenerManager.AddJobListener(jobListener, KeyMatcher<JobKey>.KeyEquals(new JobKey(JobIdentityName)));
             return jobListener;
         }
+
+        public void Dispose()
+        {
+            scheduler.Shutdown(waitForJobsToComplete: true);
+        }
     }
 
     class CronObserver : IObserver
@@ -151,12 +155,15 @@ namespace Sage50Connector.Temp
 
         // ReSharper disable once InconsistentNaming
         private readonly CronScheduleFabrik.JobListener listener;
+        
+        private readonly CronScheduleFabrik cronScheduleFabrik;
 
         public string Identity => listener.JobIdentityName;
 
         public CronObserver(string cronPeriod)
         {
-            listener = new CronScheduleFabrik().Create(cronPeriod);
+            cronScheduleFabrik = new CronScheduleFabrik();
+            listener = cronScheduleFabrik.Create(cronPeriod);
         }
 
         public delegate void DataHandler(EventData data, EventArgs e);
@@ -195,9 +202,14 @@ namespace Sage50Connector.Temp
                 }
             };
         }
+
+        public void Dispose()
+        {
+            cronScheduleFabrik.Dispose();
+        }
     }
 
-    internal interface IObserver
+    internal interface IObserver: IDisposable
     {
         string Identity { get;  }
 

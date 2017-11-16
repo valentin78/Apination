@@ -37,6 +37,9 @@ namespace Sage50Connector
             InitializeComponent();
         }
 
+        private IObserver apinationObserver;
+        private IObserver sage50Observer;
+
       protected override void OnStart(string[] args)
         {
             Log.Info("********************************************************************************************************************");
@@ -51,10 +54,10 @@ namespace Sage50Connector
                 Log.Info("Retrieve Connector Config ...");
                 var config = _apinationApi.RetrieveConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
-                
 
-                new ApinationObserverFabrik().Create(config);
-                new Sage50ObserverFabrik().Create(config);
+
+                apinationObserver = new ApinationObserverFabrik().Create(config);
+                sage50Observer = new Sage50ObserverFabrik().Create(config);
 
 
                 //Log.Info("Schedule and start Sage50 Observer ...");
@@ -87,6 +90,9 @@ namespace Sage50Connector
 
         protected override void OnStop()
         {
+            sage50Observer.Dispose();
+            apinationObserver.Dispose();
+
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service stopped");
             Log.Info("********************************************************************************************************************");
