@@ -9,7 +9,7 @@ namespace ApinationApiStub.Controllers
         // GET api/apination
         [HttpGet]
         [Route("api/config")]
-        public Config Get(string name)
+        public Config Get()
         {
             return new Config
             {

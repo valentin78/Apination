@@ -19,7 +19,7 @@
     "ApinationApiStub": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/config",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
