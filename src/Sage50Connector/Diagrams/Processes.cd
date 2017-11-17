@@ -1,29 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Sage50Connector.Core.ProcessBase">
-    <Position X="7" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAQAAgAAAAAAAAgAAAACAAAAAAAAAAA=</HashCode>
-      <FileName>Core\ProcessBase.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="Sage50Connector.HeartBeat.HeartBeatProcess" Collapsed="true">
-    <Position X="9.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>HeartBeat\HeartBeatProcess.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Sage50Connector.ScheduleService">
-    <Position X="2.5" Y="1.25" Width="2.5" />
-    <Compartments>
-      <Compartment Name="Properties" Collapsed="true" />
-    </Compartments>
-    <TypeIdentifier>
-      <HashCode>AABIAQAAACAAAAAAEACRAAACAEgAAIAAAsAAAAAAAAA=</HashCode>
-      <FileName>ScheduleService.cs</FileName>
-    </TypeIdentifier>
-  </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

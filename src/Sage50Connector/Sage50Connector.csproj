@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Temp\Architecture2.cs" />
     <Compile Include="Temp\Observer\IObserver.cs" />
     <Compile Include="Temp\Observer\CronObserver.cs" />
     <Compile Include="Temp\Observer\Sage50ObserverFabrik.cs" />
@@ -115,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Diagrams\Processes.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
