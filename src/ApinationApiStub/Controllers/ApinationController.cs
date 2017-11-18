@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
-using Sage50Connector.Models.BindingTypes;
 using Sage50Connector.Models.Payloads;
 
 namespace ApinationApiStub.Controllers
@@ -18,25 +17,8 @@ namespace ApinationApiStub.Controllers
                 
                 Sage50CronSchedule = "0/30 * * * * ?",
                 ApinationCronSchedule = "0/30 * * * * ?",
-
-                CompaniesList = new[]
-                {
-                    new Company
-                    {
-                        CompanyName = "Chase Ridge Holdings"
-                    }
-                }, 
                 
                 ApinationActionEndpointUrl = "api/sage50DTO",
-
-                TriggersConfig = new []
-                {
-                    new Sage50TriggersConfig
-                    {
-                        TriggerBindingType = Sage50EventBindingTypes.CreatedCustomers,
-                        ApinationEndpointUrl = "api/sage50/createdCustomer"
-                    }, 
-                }
             };
         }
 

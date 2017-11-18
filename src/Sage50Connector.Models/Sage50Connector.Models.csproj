@@ -49,8 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="BindingTypes\Sage50EventBindingTypes.cs" />
-    <Compile Include="BindingTypes\ApinationEventBindingTypes.cs" />
     <Compile Include="Payloads\Account.cs" />
     <Compile Include="Payloads\Address.cs" />
     <Compile Include="Payloads\Contact.cs" />

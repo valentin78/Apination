@@ -310,7 +310,7 @@ namespace Sage50Connector.Architecture
         {
             Log.InfoFormat("Checking from Sage50 Customers List changes '{0}' ...", o.Identity);
 
-            var companiesList = _config.CompaniesList;
+            //var companiesList = _config.CompaniesList;
             // foreach companies check customers updates
 
             // for customers 
@@ -336,7 +336,7 @@ namespace Sage50Connector.Architecture
         {
             Log.InfoFormat("Checking from Sage50 Invoices List changes '{0}' ...", o.Identity);
 
-            var companiesList = _config.CompaniesList;
+            //var companiesList = _config.CompaniesList;
             // foreach companies check invoices updates
 
             // for invoices 

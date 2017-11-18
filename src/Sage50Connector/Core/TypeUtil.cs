@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Sage50Connector.Models.BindingTypes;
 
 namespace Sage50Connector.Core
 {
