@@ -36,11 +36,7 @@ namespace Sage50Connector.API
 
         public Config RetrieveConnectorConfig()
         {
-            var json = httpUtility.Get("api/config", new NameValueCollection
-            {
-                {"name", "Chase Ridge Holdings"}
-            });
-
+            var json = httpUtility.Get("api/config");
             return JsonConvert.DeserializeObject<Config>(json);
         }
 
@@ -51,9 +47,6 @@ namespace Sage50Connector.API
                 {"value", "123"}
             });
         }
-
     }
-
-
 }
 
