@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
 using Sage50Connector.Models.Payloads;
 
@@ -30,6 +33,7 @@ namespace ApinationApiStub.Controllers
             {
                 new {
                     type = "UpdateCustomer",
+                    id = "1",
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
@@ -39,6 +43,7 @@ namespace ApinationApiStub.Controllers
                 },
                 new {
                     type = "UpdateCustomer",
+                    id = "3",
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
@@ -47,6 +52,13 @@ namespace ApinationApiStub.Controllers
                     }
                 }
             };
+        }
+
+        [HttpPatch]
+        [Route("api/actions")]
+        public void ActionsPatch([FromBody]PatchAction[] list)
+        {
+            
         }
 
         //// GET api/values/5
@@ -67,5 +79,12 @@ namespace ApinationApiStub.Controllers
         //public void Delete(int id)
         //{
         //}
+    }
+    
+
+    public class PatchAction
+    {
+        public string id { get; set; }
+        public bool processed { get; set; }
     }
 }

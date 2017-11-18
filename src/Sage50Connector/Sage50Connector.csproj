@@ -73,6 +73,7 @@
     <Compile Include="Processing\Actions\ActionHandlers\UpdateCustomerSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
+    <Compile Include="Processing\Actions\SageActions\PatchAction.cs" />
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ISageActionHandler.cs" />

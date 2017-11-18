@@ -3,9 +3,12 @@ using System.Linq;
 using log4net;
 using Quartz;
 using Quartz.Impl;
+using Sage50Connector.API;
+using Sage50Connector.Core;
 using Sage50Connector.Models;
 using Sage50Connector.Processing.Actions.ActionHandlers;
 using Sage50Connector.Processing.Actions.ActionHandlers.Factory;
+using Sage50Connector.Processing.Actions.SageActions;
 using Sage50Connector.Processing.Actions.SageActions.Factory;
 
 namespace Sage50Connector.Processing.Actions
@@ -22,6 +25,7 @@ namespace Sage50Connector.Processing.Actions
 
             try
             {
+                var apinationApi = new ApinationApi(new WebClientHttpUtility());
                 // Observable creation
                 IJobDetail pollApinationJob = JobBuilder.Create<PollApinationJob>()
                     .WithIdentity("PollApinationJob")
@@ -34,7 +38,7 @@ namespace Sage50Connector.Processing.Actions
 
                 var schedulerFactory = new StdSchedulerFactory();
                 scheduler = schedulerFactory.GetScheduler();
-                scheduler.JobFactory = new PollApinationJobFactory();
+                scheduler.JobFactory = new PollApinationJobFactory(apinationApi);
 
                 // from the following observable definition it's immediately obvious that
                 // it's composed from job, particular cron trigger, scheduler and listener
@@ -61,6 +65,8 @@ namespace Sage50Connector.Processing.Actions
                                 handler.Handle(action);
                             }
                         }
+
+                        apinationApi.PatchActions(actions.Select(a => new PatchAction() { Id = a.id, Processed = true }));
                     }
                     catch (Exception ex)
                     {
