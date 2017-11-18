@@ -56,8 +56,10 @@ namespace Sage50Connector.Processing.Actions
                     {
                         foreach (var action in actions)
                         {
-                            ISageActionHandler handler = SageActionHandlerFactory.CreateHandler(action);
-                            handler.Handle(action);
+                            using (ISageActionHandler handler = SageActionHandlerFactory.CreateHandler(action))
+                            {
+                                handler.Handle(action);
+                            }
                         }
                     }
                     catch (Exception ex)

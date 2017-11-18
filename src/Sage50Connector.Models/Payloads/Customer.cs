@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sage.Peachtree.API;
+
 //using Sage.Peachtree.API;
 
 // ReSharper disable InconsistentNaming
@@ -8,6 +10,10 @@ namespace Sage50Connector.Models.Payloads
 {
     public class Customer
     {
+        public Customer()
+        {
+            BillToContact = new Contact();
+        }
         public bool IsInactive { get; set; }
         public bool IsProspect { get; set; }
         // TODO replace SAGE classes
@@ -31,10 +37,10 @@ namespace Sage50Connector.Models.Payloads
         public string Email { get; set; }
         //public CustomFieldValueCollection CustomFieldValues { get; }
         public Contact ShipToContact { get; set; }
+        public Contact BillToContact { get; set; }
 
         public string Category { get; set; }
-        // TODO replace SAGE enums
-        //public CustomerCreditStatus CreditStatus { get; set; }
+        public CustomerCreditStatus CreditStatus { get; set; }
         public DateTime? CustomerSince { get; set; }
         public List<Contact> Contacts { get; set; }
     }

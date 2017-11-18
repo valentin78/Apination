@@ -13,10 +13,10 @@ namespace ApinationApiStub.Controllers
         {
             return new Config
             {
-                HeartBeatCronSchedule = "0 0/1 * * * ?",
+                HeartBeatCronSchedule = "0 0/5 * * * ?",
                 
-                Sage50CronSchedule = "0/30 * * * * ?",
-                ApinationCronSchedule = "0/30 * * * * ?",
+                Sage50CronSchedule = "0 0/5 * * * ?",
+                ApinationCronSchedule = "0 0/5 * * * ?",
                 
                 ApinationActionEndpointUrl = "api/sage50DTO",
             };
@@ -33,8 +33,8 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
-                        Id = "CST01",
-                        Name = "Apination 1"
+                        Id = "1",
+                        Name = "Customer 1"
                     }
                 },
                 new {
@@ -42,8 +42,8 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
-                        Id = "CST02",
-                        Name = "Apination 2"
+                        Id = "3",
+                        Name = "Customer 2"
                     }
                 }
             };
