@@ -1,6 +1,5 @@
-﻿using System;
-using log4net;
-using Sage50Connector.Processing.Actions.ActionHandlers.Factory;
+﻿using log4net;
+using Sage50Connector.API;
 using Sage50Connector.Processing.Actions.SageActions;
 
 namespace Sage50Connector.Processing.Actions.ActionHandlers
@@ -15,6 +14,9 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
         public void Handle(SageAction action)
         {
             Log.InfoFormat("Handling action type: {0}", action.type);
+            
+            Sage50Api api = new Sage50Api();
+
             //throw new NotImplementedException();
         }
     }

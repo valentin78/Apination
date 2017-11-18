@@ -1,24 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Sage50Connector.Models;
 using Sage50Connector.Models.BindingTypes;
-using Sage50Connector.Processing.Actions;
-using Sage50Connector.Processing.Triggers;
 
 namespace Sage50Connector.Core
 {
     class TypeUtil
     {
-        public static ISage50Trigger<TModel> ActivateTriggerByEventBindingType<TModel>(Sage50EventBindingTypes bindingType)
-        {
-            return CreateInstanceByEventBindingType<ISage50Trigger<TModel>>((byte) bindingType);
-        }
-        
-        public static IApinationAction<TModel> ActivateActionByEventBindingType<TModel>(ApinationEventBindingTypes bindingType)
-        {
-            return CreateInstanceByEventBindingType<IApinationAction<TModel>>((byte)bindingType);
-        }
-
         /// <summary>
         /// Activate Trigger|Action by event binding type param
         /// </summary>
