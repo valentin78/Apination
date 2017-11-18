@@ -18,6 +18,18 @@ namespace Sage50Connector.API
             this.httpUtility = httpUtility;
         }
 
+        /// <summary>
+        ///  Gets actions JSON data from apination endpoint
+        /// </summary>
+        /// <returns></returns>
+        public string GetActionsJson()
+        {
+            return httpUtility.Get("api/actions", new NameValueCollection
+            {
+                {"name", "Chase Ridge Holdings"}
+            });
+        }
+
         public Config RetrieveConnectorConfig()
         {
             var json = httpUtility.Get("api/config", new NameValueCollection

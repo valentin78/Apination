@@ -1,29 +1,347 @@
 ﻿{
-  "$schema": "http://json-schema.org/draft-04/schema",
+  "$schema": "http://json-schema.org/draft-06/schema#",
   "title": "Customer JSON Schema",
 
+  "definitions": {
+    "Account": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "IsInactive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "Description",
+        "Id",
+        "IsInactive"
+      ]
+    },
+    "Address": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Address1": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Address2": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "City": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Country": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "SalesTaxCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "State": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Zip": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "Address1",
+        "Address2",
+        "City",
+        "Country",
+        "SalesTaxCode",
+        "State",
+        "Zip"
+      ]
+    },
+    "Contact": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "IsPrimaryContact": {
+          "type": "boolean"
+        },
+        "Suffix": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Prefix": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "MiddleInitial": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "LastName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "FirstName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "CompanyName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Address": {
+          "$ref": "#/definitions/Address"
+        },
+        "PhoneNumbers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/PhoneNumber"
+          }
+        }
+      },
+      "required": [
+        "IsPrimaryContact",
+        "Suffix",
+        "Prefix",
+        "Notes",
+        "Name",
+        "MiddleInitial",
+        "LastName",
+        "Title",
+        "FirstName",
+        "Email",
+        "CompanyName",
+        "Address",
+        "PhoneNumbers"
+      ]
+    },
+    "PhoneNumber": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "Number"
+      ]
+    }
+  },
   "type": "object",
-
   "properties": {
-    "ID": {
-      "type": "string",
-      "description": "Customer identity"
+    "IsInactive": {
+      "type": "boolean"
+    },
+    "IsProspect": {
+      "type": "boolean"
+    },
+    "Id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "OpenPurchaseOrderNumber": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "PaymentMethod": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "PriceLevel": {
+      "type": "integer"
+    },
+    "ReplaceInventoryItemIDWithPartNumber": {
+      "type": "boolean"
+    },
+    "ReplaceInventoryItemIDWithUPC": {
+      "type": "boolean"
+    },
+    "ResaleNumber": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ShipVia": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "WebSiteURL": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "AccountNumber": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "CashAccountReference": {
+      "$ref": "#/definitions/Account"
+    },
+    "UseEmailToDeliverForms": {
+      "type": "boolean"
     },
     "Name": {
-      "type": "string",
-      "description": "Customer Name"
+      "type": [
+        "string",
+        "null"
+      ]
     },
-    "IsInactive": {
-      "type": "boolean",
-      "description": "Indicates that customer is inactive"
+    "UsualSalesAccountReference": {
+      "$ref": "#/definitions/Account"
     },
-    "versions": {
-      "type": "array",
-      "description": "An array of version numbers.",
-      "minItems": 1,
+    "PhoneNumbers": {
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
-        "type": "number"
+        "$ref": "#/definitions/PhoneNumber"
+      }
+    },
+    "Email": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ShipToContact": {
+      "$ref": "#/definitions/Contact"
+    },
+    "Category": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "CustomerSince": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "Contacts": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/Contact"
       }
     }
-  }
+  },
+  "required": [
+    "IsInactive",
+    "IsProspect",
+    "Id",
+    "OpenPurchaseOrderNumber",
+    "PaymentMethod",
+    "PriceLevel",
+    "ReplaceInventoryItemIDWithPartNumber",
+    "ReplaceInventoryItemIDWithUPC",
+    "ResaleNumber",
+    "ShipVia",
+    "AccountNumber",
+    "CashAccountReference",
+    "UseEmailToDeliverForms",
+    "Name",
+    "UsualSalesAccountReference",
+    "PhoneNumbers",
+    "Email",
+    "ShipToContact",
+    "Category",
+    "CustomerSince",
+    "Contacts"
+  ]
 }

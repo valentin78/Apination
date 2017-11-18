@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Schema;
+using Newtonsoft.Json.Schema.Generation;
 using Sage.Peachtree.API;
+using Customer = Sage50Connector.Models.Payloads.Customer;
+using SalesInvoice = Sage50Connector.Models.Payloads.SalesInvoice;
 
 namespace Console
 {
@@ -11,7 +17,16 @@ namespace Console
     {
         static void Main(string[] args)
         {
+
+            dynamic actionsJson = JsonConvert.DeserializeObject("[{\"id\": \"...\",\"type\": \"CreateInvoice\",\"userId\": \"...\",\"workflowId\": \"...\",\"mainLogId\": \"...\",\"createdAt\": \"...\",\"payload\": [{\"ServiceOrderId\": 172060,\"ParentOrderId\": null,\"CreatedOn\": \"2017-07-13T13:58:32.653\",\"ApprovedOn\": null}]},{\"id\": \"...\",\"type\": \"CreateCustomer\",\"userId\": \"...\",\"workflowId\": \"...\",\"mainLogId\": \"...\",\"createdAt\": \"...\",\"payload\": [{\"CustomerId\": 172060,\"CreatedOn\": \"2017-07-13T13:58:32.653\"}]}]");
+            var strings = (actionsJson.Root as Newtonsoft.Json.Linq.JArray)?.Select(i => i.ToString()).ToArray();
             var api = new API();
+
+            JSchemaGenerator generator = new JSchemaGenerator();
+
+            JSchema schemaCust = generator.Generate(typeof(Customer));
+            JSchema schemaInv = generator.Generate(typeof(SalesInvoice));
+
             var companies = api.CompaniesList();
             //var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");
             api.OpenCompany(companies[0]);

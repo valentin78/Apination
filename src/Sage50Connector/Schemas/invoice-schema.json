@@ -1,25 +1,573 @@
 ﻿{
-  "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "JSON Schema for my JSON file format",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Invoice JSON Schema",
 
+  "definitions": {
+    "Account": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "IsInactive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "Description",
+        "Id",
+        "IsInactive"
+      ]
+    },
+    "Address": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Address1": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Address2": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "City": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Country": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "SalesTaxCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "State": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Zip": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "Address1",
+        "Address2",
+        "City",
+        "Country",
+        "SalesTaxCode",
+        "State",
+        "Zip"
+      ]
+    },
+    "Contact": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "IsPrimaryContact": {
+          "type": "boolean"
+        },
+        "Suffix": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Prefix": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "MiddleInitial": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "LastName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Title": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "FirstName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "CompanyName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Address": {
+          "$ref": "#/definitions/Address"
+        },
+        "PhoneNumbers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/PhoneNumber"
+          }
+        }
+      },
+      "required": [
+        "IsPrimaryContact",
+        "Suffix",
+        "Prefix",
+        "Notes",
+        "Name",
+        "MiddleInitial",
+        "LastName",
+        "Title",
+        "FirstName",
+        "Email",
+        "CompanyName",
+        "Address",
+        "PhoneNumbers"
+      ]
+    },
+    "Customer": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "IsInactive": {
+          "type": "boolean"
+        },
+        "IsProspect": {
+          "type": "boolean"
+        },
+        "Id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "OpenPurchaseOrderNumber": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "PaymentMethod": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "PriceLevel": {
+          "type": "integer"
+        },
+        "ReplaceInventoryItemIDWithPartNumber": {
+          "type": "boolean"
+        },
+        "ReplaceInventoryItemIDWithUPC": {
+          "type": "boolean"
+        },
+        "ResaleNumber": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ShipVia": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "WebSiteURL": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "AccountNumber": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "CashAccountReference": {
+          "$ref": "#/definitions/Account"
+        },
+        "UseEmailToDeliverForms": {
+          "type": "boolean"
+        },
+        "Name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "UsualSalesAccountReference": {
+          "$ref": "#/definitions/Account"
+        },
+        "PhoneNumbers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/PhoneNumber"
+          }
+        },
+        "Email": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ShipToContact": {
+          "$ref": "#/definitions/Contact"
+        },
+        "Category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "CustomerSince": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "Contacts": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Contact"
+          }
+        }
+      },
+      "required": [
+        "IsInactive",
+        "IsProspect",
+        "Id",
+        "OpenPurchaseOrderNumber",
+        "PaymentMethod",
+        "PriceLevel",
+        "ReplaceInventoryItemIDWithPartNumber",
+        "ReplaceInventoryItemIDWithUPC",
+        "ResaleNumber",
+        "ShipVia",
+        "WebSiteURL",
+        "AccountNumber",
+        "CashAccountReference",
+        "UseEmailToDeliverForms",
+        "Name",
+        "UsualSalesAccountReference",
+        "PhoneNumbers",
+        "Email",
+        "ShipToContact",
+        "Category",
+        "CustomerSince",
+        "Contacts"
+      ]
+    },
+    "NameAndAddress": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "Name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "Address": {
+          "$ref": "#/definitions/Address"
+        }
+      },
+      "required": [
+        "Name",
+        "Address"
+      ]
+    },
+    "PhoneNumber": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Number": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "Number"
+      ]
+    },
+    "SalesInvoiceLine": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Quantity": {
+          "type": "number"
+        },
+        "SalesTaxType": {
+          "type": "integer"
+        },
+        "UnitPrice": {
+          "type": "number"
+        },
+        "Amount": {
+          "type": "number"
+        },
+        "Description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "AccountReference": {
+          "$ref": "#/definitions/Account"
+        }
+      },
+      "required": [
+        "Quantity",
+        "SalesTaxType",
+        "UnitPrice",
+        "Amount",
+        "Description",
+        "AccountReference"
+      ]
+    },
+    "SalesTaxCode": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "Description": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ID": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "AppliesToFreight": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "Description",
+        "ID",
+        "AppliesToFreight"
+      ]
+    }
+  },
   "type": "object",
-
   "properties": {
-    "Amount": {
-      "type": "number",
-      "description": "The sum of amounts for each line listed on the transaction "
+    "InternalNote": {
+      "type": [
+        "string",
+        "null"
+      ]
     },
-    "AmountDue": {
-      "type": "number",
-      "description": "Gets AmountDue "
-    },
-    "versions": {
-      "type": "array",
-      "description": "An array of version numbers.",
-      "minItems": 1,
+    "ApplyToProposalLines": {
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
-        "type": "number"
+        "$ref": "#/definitions/SalesInvoiceLine"
+      }
+    },
+    "TermsDescription": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "StatementNote": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ShipVia": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "ShipDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "PrintCustomerNoteAfterLineItems": {
+      "type": "boolean"
+    },
+    "CustomerReference": {
+      "$ref": "#/definitions/Customer"
+    },
+    "FreightAmount": {
+      "type": "number"
+    },
+    "DropShip": {
+      "type": "boolean"
+    },
+    "DiscountDate": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "DiscountAmount": {
+      "type": "number"
+    },
+    "DateDue": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "CustomerPurchaseOrderNumber": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "CustomerNote": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "SalesTaxCodeReference": {
+      "$ref": "#/definitions/SalesTaxCode"
+    },
+    "FreightAccountReference": {
+      "$ref": "#/definitions/Account"
+    },
+    "ShipToAddress": {
+      "$ref": "#/definitions/NameAndAddress"
+    },
+    "ApplyToSalesLines": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/SalesInvoiceLine"
+      }
+    },
+    "ApplyToSalesOrderLines": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/SalesInvoiceLine"
       }
     }
-  }
+  },
+  "required": [
+    "InternalNote",
+    "ApplyToProposalLines",
+    "TermsDescription",
+    "StatementNote",
+    "ShipVia",
+    "ShipDate",
+    "PrintCustomerNoteAfterLineItems",
+    "CustomerReference",
+    "FreightAmount",
+    "DropShip",
+    "DiscountDate",
+    "DiscountAmount",
+    "DateDue",
+    "CustomerPurchaseOrderNumber",
+    "CustomerNote",
+    "SalesTaxCodeReference",
+    "FreightAccountReference",
+    "ShipToAddress",
+    "ApplyToSalesLines",
+    "ApplyToSalesOrderLines"
+  ]
 }
