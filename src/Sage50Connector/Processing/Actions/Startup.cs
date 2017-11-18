@@ -8,14 +8,8 @@ using Sage50Connector.Processing.Actions.SageActions.Factory;
 
 namespace Sage50Connector.Processing.Actions
 {
-    // Observes Apination for actions, abstracts away implementation details of the
-    // "observation process" by using polling mechanism internally using Quartz Scheduler
-    // Incapsulates how to do polling, how often (configurable) etc. Uses Quartz Job Listener
-    // to react on Job execution event that figures out if job got actions or not.
-    //
-    // Does NOT make any assumptions about subscribers, they are just functions.
 
-
+    // TODO Do something with this
     class Startup
     {
         public static SageActionsObserverable StartPollApination(Config config)
