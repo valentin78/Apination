@@ -23,7 +23,9 @@ namespace Sage50Connector.Processing.Actions
 
         public void Execute(IJobExecutionContext context)
         {
-            Log.Info("PollApinationJob started ...");
+            Log.Info(" --------------------------");
+            Log.Info("| PollApinationJob started |");
+            Log.Info(" --------------------------");
             
             Log.Info("Get ActionsJson from Apination...");
             var jsonString = api.GetActionsJson();

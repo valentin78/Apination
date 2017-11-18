@@ -17,8 +17,13 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
             Log.DebugFormat("Creating Sage50 Action from JSON: {0}", jsonString);
 
             dynamic sageAction = JObject.Parse(jsonString);
-            
-            var actionType = GetActionTypeByPrefix((string)sageAction.type);
+
+            var actionTypePrefix = (string)sageAction.type;
+            var actionType = GetActionTypeByPrefix(actionTypePrefix);
+            if (actionType == null)
+            {
+                throw new Exception($"Can not found action type for '{actionTypePrefix}' type");
+            }
 
             return (SageAction)JsonConvert.DeserializeObject(jsonString, actionType);
         }
