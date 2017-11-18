@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using log4net;
+using Newtonsoft.Json;
 using Quartz;
 using Quartz.Impl;
 using Sage50Connector.API;
@@ -58,15 +60,31 @@ namespace Sage50Connector.Processing.Actions
                     // ActionHandlers are what you call "Savers", but for actions
                     try
                     {
+                        List<PatchAction> patchList = new List<PatchAction>();
                         foreach (var action in actions)
                         {
-                            using (ISageActionHandler handler = SageActionHandlerFactory.CreateHandler(action))
+                            try
                             {
-                                handler.Handle(action);
+                                Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", action.type, action.id);
+                                using (ISageActionHandler handler = SageActionHandlerFactory.CreateHandler(action))
+                                {
+                                    Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", action.type, action.id);
+                                    var processed = handler.Handle(action);
+                                    Log.InfoFormat("Handling action result: {0}", processed);
+
+                                    patchList.Add(new PatchAction() { Id = action.id, Processed = processed });
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Error("Handling action failed", ex);
+                                patchList.Add(new PatchAction() { Id = action.id, Processed = false });
                             }
                         }
 
-                        apinationApi.PatchActions(actions.Select(a => new PatchAction() { Id = a.id, Processed = true }));
+                        Log.InfoFormat("Sending actions Patch: {0}", JsonConvert.SerializeObject(patchList));
+
+                        apinationApi.PatchActions(patchList);
                     }
                     catch (Exception ex)
                     {

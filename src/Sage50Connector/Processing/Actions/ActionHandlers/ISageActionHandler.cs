@@ -8,6 +8,6 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
     /// </summary>
     public interface ISageActionHandler: IDisposable
     {
-        void Handle(SageAction action);
+        bool Handle(SageAction action);
     }
 }

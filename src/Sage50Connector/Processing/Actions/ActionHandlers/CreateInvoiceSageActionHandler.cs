@@ -13,7 +13,7 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
         public static readonly ILog Log = LogManager.GetLogger(typeof(CreateInvoiceSageActionHandler));
         private readonly Sage50Api api = new Sage50Api();
 
-        public void Handle(SageAction action)
+        public bool Handle(SageAction action)
         {
             Log.InfoFormat("Handling action type: {0}", action.type);
 
@@ -25,9 +25,12 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
 
             Log.Info("Create Invoice Data ...");
 
+
             // TODO: implement this
             //api.CreateOrUpdateCustomer(updateCustomerSageAction.payload);
             //Log.Info("Success!");
+
+            return false;
         }
 
         public void Dispose()

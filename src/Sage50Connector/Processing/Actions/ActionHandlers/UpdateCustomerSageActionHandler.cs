@@ -13,10 +13,8 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
         public static readonly ILog Log = LogManager.GetLogger(typeof(UpdateCustomerSageActionHandler));
         private readonly Sage50Api api = new Sage50Api();
 
-        public void Handle(SageAction action)
+        public bool Handle(SageAction action)
         {
-            Log.InfoFormat("Handling action type: {0}", action.type);
-
             if (!(action is UpdateCustomerSageAction updateCustomerSageAction)) 
                 throw new ArgumentException($"Type for argument {nameof(action)} invalid. Must be <UpdateCustomerSageAction>");
 
@@ -27,6 +25,7 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
             api.CreateOrUpdateCustomer(updateCustomerSageAction.payload);
             Log.Info("Success!");
 
+            return true;
         }
 
         public void Dispose()
