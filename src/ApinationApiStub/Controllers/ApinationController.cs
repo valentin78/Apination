@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
 using Sage50Connector.Models.BindingTypes;
+using Sage50Connector.Models.Payloads;
 
 namespace ApinationApiStub.Controllers
 {
@@ -39,12 +40,32 @@ namespace ApinationApiStub.Controllers
             };
         }
 
-        //[HttpPost]
-        //[Route("api/heartbeat")]
-        //public string Post(string value)
-        //{
-        //    return value+ "!";
-        //}
+        [HttpGet]
+        [Route("api/actions")]
+        public dynamic Actions()
+        {
+            return new []
+            {
+                new {
+                    type = "UpdateCustomer",
+                    companyName = "Chase Ridge Holdings",
+                    payload = new Customer
+                    {
+                        Id = "CST01",
+                        Name = "Apination 1"
+                    }
+                },
+                new {
+                    type = "UpdateCustomer",
+                    companyName = "Chase Ridge Holdings",
+                    payload = new Customer
+                    {
+                        Id = "CST02",
+                        Name = "Apination 2"
+                    }
+                }
+            };
+        }
 
         //// GET api/values/5
         //[HttpGet("{id}")]

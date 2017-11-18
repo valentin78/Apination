@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using log4net;
 using Quartz;
 using Sage50Connector.Processing.Actions.SageActions;
 using Sage50Connector.Processing.Actions.SageActions.Factory;
@@ -13,6 +14,8 @@ namespace Sage50Connector.Processing.Actions
     /// </summary>
     public class PollApinationJobListener : IJobListener, IApinationListener
     {
+        public static readonly ILog Log = LogManager.GetLogger(typeof(PollApinationJobListener));
+
         // ReSharper disable once InconsistentNaming
         private readonly ISageActionFactory actionFactory;
 
@@ -27,17 +30,19 @@ namespace Sage50Connector.Processing.Actions
 
         public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)
         {
-
             if (context.JobDetail.JobDataMap["actions"] == null) return;
 
-            var sageActions = ((IEnumerable<string>)context.JobDetail.JobDataMap["actions"])
-                .Select(actionJson => actionFactory.Create(actionJson));
-            NewSageActions(sageActions);
+            var sageActionsJson = ((IEnumerable<string>)context.JobDetail.JobDataMap["actions"]);
+            
+            Log.Info("Creating Sage50 actions from JSON ...");
+            var sageActions = sageActionsJson.Select(actionJson => actionFactory.Create(actionJson));
 
+            NewSageActions(sageActions);
         }
 
         protected virtual void NewSageActions(IEnumerable<SageAction> actions)
         {
+            Log.Info("Trigger NewSageActions event ...");
             OnNewSageActions?.Invoke(this, actions);
         }
 

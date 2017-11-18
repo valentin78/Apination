@@ -5,7 +5,7 @@ using log4net;
 using log4net.Config;
 using Sage50Connector.API;
 using Sage50Connector.Core;
-using Sage50Connector.Temp.Observer;
+using Sage50Connector.Processing.Actions;
 
 namespace Sage50Connector
 {
@@ -15,7 +15,7 @@ namespace Sage50Connector
         /// Apination Api Util 
         /// </summary>
         private ApinationApi _apinationApi => new ApinationApi(new WebClientHttpUtility());
-        
+
         public static readonly ILog Log = LogManager.GetLogger(typeof(ScheduleService));
         public static void InitializeLogger() { XmlConfigurator.Configure(); }
 
@@ -29,17 +29,16 @@ namespace Sage50Connector
             InitializeComponent();
         }
 
-        private IObserver apinationObserver;
-        private IObserver sage50Observer;
-        private IObserver heartbeatObserver;
+        private ApinationProcessor apinationProcess;
 
-      protected override void OnStart(string[] args)
+
+        protected override void OnStart(string[] args)
         {
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service starting");
             Log.Info("********************************************************************************************************************");
 
-            try 
+            try
             {
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -48,9 +47,8 @@ namespace Sage50Connector
                 var config = _apinationApi.RetrieveConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-                apinationObserver = new ApinationObserverFabrik().Create(config);
-                sage50Observer = new Sage50ObserverFabrik().Create(config);
-                heartbeatObserver = new HeartbeatObserverFabrik().Create(config);
+                apinationProcess = new ApinationProcessor();
+                apinationProcess.StartPollApination(config);
             }
             catch (Exception ex)
             {
@@ -74,9 +72,7 @@ namespace Sage50Connector
 
         protected override void OnStop()
         {
-            sage50Observer.Dispose();
-            apinationObserver.Dispose();
-            heartbeatObserver.Dispose();
+            apinationProcess.Dispose();
 
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service stopped");

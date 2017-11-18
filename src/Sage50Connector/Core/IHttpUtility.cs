@@ -9,5 +9,6 @@ namespace Sage50Connector.Core
     {
         string Post(string uri, NameValueCollection parameters);
         string Get(string uri, NameValueCollection parameters);
+        string Get(string uri);
     }
 }

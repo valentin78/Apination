@@ -24,10 +24,7 @@ namespace Sage50Connector.API
         /// <returns></returns>
         public string GetActionsJson()
         {
-            return httpUtility.Get("api/actions", new NameValueCollection
-            {
-                {"name", "Chase Ridge Holdings"}
-            });
+            return httpUtility.Get("api/actions");
         }
 
         public Config RetrieveConnectorConfig()

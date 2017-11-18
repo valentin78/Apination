@@ -55,5 +55,10 @@ namespace Sage50Connector.Core
                 return client.DownloadString(ToAbsoluteUrl(uri));
             }
         }
+
+        public string Get(string uri)
+        {
+            return Get(uri, new NameValueCollection());
+        }
     }
 }
