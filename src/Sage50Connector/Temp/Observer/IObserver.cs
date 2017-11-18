@@ -1,7 +1,7 @@
 using System;
 using Sage50Connector.Temp.Workflows;
 
-namespace Sage50Connector.Temp.Observer.Interface
+namespace Sage50Connector.Temp.Observer
 {
     internal interface IObserver: IDisposable
     {

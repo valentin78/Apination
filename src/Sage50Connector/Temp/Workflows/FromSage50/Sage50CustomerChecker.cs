@@ -1,7 +1,6 @@
 using log4net;
 using Sage50Connector.Models;
 using Sage50Connector.Temp.Observer;
-using Sage50Connector.Temp.Observer.Interface;
 using Sage50Connector.Temp.Workflows.FromApination;
 
 namespace Sage50Connector.Temp.Workflows.FromSage50

@@ -6,7 +6,6 @@ using log4net.Config;
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Temp.Observer;
-using Sage50Connector.Temp.Observer.Interface;
 
 namespace Sage50Connector
 {
@@ -32,6 +31,7 @@ namespace Sage50Connector
 
         private IObserver apinationObserver;
         private IObserver sage50Observer;
+        private IObserver heartbeatObserver;
 
       protected override void OnStart(string[] args)
         {
@@ -50,6 +50,7 @@ namespace Sage50Connector
 
                 apinationObserver = new ApinationObserverFabrik().Create(config);
                 sage50Observer = new Sage50ObserverFabrik().Create(config);
+                heartbeatObserver = new HeartbeatObserverFabrik().Create(config);
             }
             catch (Exception ex)
             {
@@ -75,6 +76,7 @@ namespace Sage50Connector
         {
             sage50Observer.Dispose();
             apinationObserver.Dispose();
+            heartbeatObserver.Dispose();
 
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service stopped");
