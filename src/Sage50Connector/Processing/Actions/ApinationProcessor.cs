@@ -61,7 +61,7 @@ namespace Sage50Connector.Processing.Actions
                     try
                     {
                         List<PatchAction> patchList = new List<PatchAction>();
-                        foreach (dynamic action in actions)
+                        foreach (var action in actions)
                         {
                             try
                             {
@@ -69,7 +69,8 @@ namespace Sage50Connector.Processing.Actions
                                 using (var handler = SageActionHandlerFactory.CreateHandler(action))
                                 {
                                     Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", action.type, action.id);
-                                    var processed = handler.Handle(action);
+                                    // dynamic ActionHandler generic type require derived type, not base SageAction type
+                                    var processed = handler.Handle((dynamic)action);
                                     Log.InfoFormat("Handling action result: {0}", processed);
 
                                     patchList.Add(new PatchAction() { Id = action.id, Processed = processed });

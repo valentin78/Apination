@@ -12,6 +12,11 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionHandlerFactory));
 
+        /// <summary>
+        /// Create Action handler by action type. Uses dynamic ad result because generic interface ISageActionHandler uses contravariant type and cannot cast to generic by base type 
+        /// </summary>
+        /// <param name="action"></param>
+        /// <returns></returns>
         public static dynamic CreateHandler(SageAction action)
         {
             Log.DebugFormat("Creating ISageActionHandler for received SageAction ...");

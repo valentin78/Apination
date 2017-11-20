@@ -42,7 +42,6 @@ namespace ApinationApiStub.Controllers
                         CashAccount = new Account
                         {
                             Id = "ACC1",
-                            Classification = "Account classification", 
                             IsInactive = false, 
                             Description = "Test"
                         }
