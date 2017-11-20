@@ -5,7 +5,9 @@
         public string Description { get; set; }
         public string Id { get; set; }
         public bool IsInactive { get; set; }
-        //TODO: replace SAGE classes
-        //public AccountClassification Classification { get; set; }
+        /// <summary>
+        /// AccountClassification enum
+        /// </summary>
+        public string Classification { get; set; }
     }
 }

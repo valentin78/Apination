@@ -50,6 +50,7 @@
     <Compile Include="Payloads\Contact.cs" />
     <Compile Include="Payloads\Customer.cs" />
     <Compile Include="Payloads\Employee.cs" />
+    <Compile Include="Payloads\PhoneNumber.cs" />
     <Compile Include="Payloads\SalesInvoice.cs" />
     <Compile Include="Payloads\NameAndAddress.cs" />
     <Compile Include="Payloads\SalesInvoiceProposalLine.cs" />

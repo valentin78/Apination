@@ -96,9 +96,9 @@
         "null"
       ],
       "properties": {
-        "IsPrimaryContact": {
-          "type": "boolean"
-        },
+        //"IsPrimaryContact": {
+        //  "type": "boolean"
+        //},
         "Suffix": {
           "type": [
             "string",
