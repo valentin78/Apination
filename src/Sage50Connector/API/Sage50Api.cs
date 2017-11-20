@@ -15,7 +15,7 @@ namespace Sage50Connector.API
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
         // ReSharper disable once InconsistentNaming
-        private Company CompanyContext;
+        private Company CompanyContext { get; set; }
 
         protected PeachtreeSession CurrentSession
         {
@@ -102,7 +102,8 @@ namespace Sage50Connector.API
             var customers = CustomersList();
 
             var sageCustomer = customers.SingleOrDefault(customer.Id) ?? CompanyContext.Factories.CustomerFactory.Create();
-            sageCustomer.PopulateFromModel(customer);
+
+            sageCustomer.PopulateFromModel(CompanyContext, customer);
             sageCustomer.Save();
         }
     }

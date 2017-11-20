@@ -11,11 +11,7 @@ namespace Sage50Connector.Models.Payloads
     {
         public Customer()
         {
-            CashAccount = new Account();
-            UsualSalesAccount = new Account();
-            PhoneNumbers = new List<PhoneNumber>();
-            ShipToContact = new Contact();
-            BillToContact = new Contact();
+            CreditStatus = "NoLimit";
         }
 
         public bool IsInactive { get; set; }

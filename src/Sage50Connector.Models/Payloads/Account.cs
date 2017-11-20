@@ -2,6 +2,10 @@
 {
     public class Account
     {
+        public Account()
+        {
+            Classification = "Cash";
+        }
         public string Description { get; set; }
         public string Id { get; set; }
         public bool IsInactive { get; set; }

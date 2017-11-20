@@ -17,10 +17,10 @@ namespace ApinationApiStub.Controllers
             return new Config
             {
                 HeartBeatCronSchedule = "0 0/5 * * * ?",
-                
+
                 Sage50CronSchedule = "0 0/5 * * * ?",
                 ApinationCronSchedule = "0 0/5 * * * ?",
-                
+
                 ApinationActionEndpointUrl = "api/sage50DTO",
             };
         }
@@ -29,7 +29,7 @@ namespace ApinationApiStub.Controllers
         [Route("api/actions")]
         public dynamic Actions()
         {
-            return new []
+            return new[]
             {
                 new {
                     type = "UpdateCustomer",
@@ -38,7 +38,14 @@ namespace ApinationApiStub.Controllers
                     payload = new Customer
                     {
                         Id = "1",
-                        Name = "Customer 1"
+                        Name = "Customer 1",
+                        CashAccount = new Account
+                        {
+                            Id = "ACC1",
+                            Classification = "Account classification", 
+                            IsInactive = false, 
+                            Description = "Test"
+                        }
                     }
                 },
                 new {
@@ -58,7 +65,7 @@ namespace ApinationApiStub.Controllers
         [Route("api/actions")]
         public void ActionsPatch([FromBody]PatchAction[] list)
         {
-            
+
         }
 
         //// GET api/values/5
@@ -80,7 +87,7 @@ namespace ApinationApiStub.Controllers
         //{
         //}
     }
-    
+
 
     public class PatchAction
     {

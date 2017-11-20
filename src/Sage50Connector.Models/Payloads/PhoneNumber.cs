@@ -3,10 +3,9 @@
     public class PhoneNumber
     {
         public string Number { get; set; }
-        // TODO replace SAGE enums
         /// <summary>
-        /// PhoneNumberKind enum
+        /// one of: PhoneNumber1, PhoneNumber2, Fax1
         /// </summary>
-        public string Key { get; }
+        public string Key { get; set; }
     }
 }

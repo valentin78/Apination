@@ -7,6 +7,9 @@ namespace Sage50Connector.Models.Payloads
         public Contact()
         {
             Address = new Address();
+            PhoneNumbers = new List<PhoneNumber>(2);
+            Gender = "NotSpecified";
+            NameToUseOnForms = "ContactName";
         }
         //readonly public bool IsPrimaryContact { get; set; }
         public string Suffix { get; set; }
