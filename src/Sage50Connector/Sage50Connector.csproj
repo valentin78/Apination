@@ -35,12 +35,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Core, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Core.3.3.1\lib\net40\Common.Logging.Core.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -66,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\Sage50Extensions.cs" />
     <Compile Include="Core\ApplicationConfig.Utils.cs" />
     <Compile Include="Core\ApplicationConfig.cs" />
     <Compile Include="Core\IHttpUtility.cs" />
@@ -74,17 +69,12 @@
     <Compile Include="Core\WebClientHttpUtility.cs" />
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\TypeUtil.cs" />
-    <Compile Include="HeartBeat\HeartBeatProcess.cs" />
-    <Compile Include="OldProcessing\Actions\CreateCustomerAction.cs" />
-    <Compile Include="OldProcessing\Actions\IApinationAction.cs" />
-    <Compile Include="OldProcessing\ApinationObserver.cs" />
-    <Compile Include="OldProcessing\BaseObserver.cs" />
-    <Compile Include="OldProcessing\Sage50Observer.cs" />
-    <Compile Include="OldProcessing\Triggers\CustomersCreatedTrigger.cs" />
     <Compile Include="Core\EventBindingAttribute.cs" />
-    <Compile Include="OldProcessing\Triggers\ISage50Trigger.cs" />
+    <Compile Include="Processing\Actions\ActionHandlers\CreateInvoiceSageActionHandler.cs" />
+    <Compile Include="Processing\Actions\ActionHandlers\UpdateCustomerSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
+    <Compile Include="Processing\Actions\SageActions\PatchAction.cs" />
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ISageActionHandler.cs" />
@@ -110,22 +100,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Processing\Actions\Startup.cs" />
-    <Compile Include="Temp\Observer\IObserver.cs" />
-    <Compile Include="Temp\Observer\CronObserver.cs" />
-    <Compile Include="Temp\Observer\Sage50ObserverFabrik.cs" />
-    <Compile Include="Temp\Workflows\FromApination\ApinationChecker.cs" />
-    <Compile Include="Temp\Workflows\FromApination\CreateCustomerToSage50.cs" />
-    <Compile Include="Temp\Workflows\FromApination\CreateInvoiceToSage50.cs" />
-    <Compile Include="Temp\Workflows\EventData.cs" />
-    <Compile Include="Temp\Workflows\IChecker.cs" />
-    <Compile Include="Temp\Workflows\ISaver.cs" />
-    <Compile Include="Temp\Workflows\FromSage50\Sage50CustomerChecker.cs" />
-    <Compile Include="Temp\Workflows\FromSage50\Sage50InvoiceChecker.cs" />
-    <Compile Include="Temp\Workflows\FromSage50\UpdateCustomersToApination.cs" />
+    <Compile Include="Processing\Actions\ApinationProcessor.cs" />
     <Compile Include="Temp\Architecture.cs" />
-    <Compile Include="Temp\Observer\ApinationObserverFabrik.cs" />
-    <Compile Include="Temp\Workflows\FromSage50\UpdateInvoicesToApination.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

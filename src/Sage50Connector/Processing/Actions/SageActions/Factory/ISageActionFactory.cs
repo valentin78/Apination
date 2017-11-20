@@ -5,6 +5,6 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
     /// </summary>
     public interface ISageActionFactory
     {
-        SageAction Create(object obj);
+        SageAction Create(string json);
     }
 }

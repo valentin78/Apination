@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using Sage.Peachtree.API;
+using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
 
 namespace Sage50Connector.API
@@ -13,7 +15,7 @@ namespace Sage50Connector.API
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
         // ReSharper disable once InconsistentNaming
-        private Company CompanyContext;
+        private Company CompanyContext { get; set; }
 
         protected PeachtreeSession CurrentSession
         {
@@ -85,7 +87,7 @@ namespace Sage50Connector.API
         public CompanyIdentifier FindCompany(string companyName)
         {
             var result = CompaniesList().SingleOrDefault(c => c.CompanyName == companyName);
-            if (result == null) throw new ArgumentException($"Can not find company by name: {companyName}");
+            if (result == null) throw new ArgumentException($"Can not find company by name: \"{companyName}\"");
             return result;
         }
 
@@ -93,6 +95,16 @@ namespace Sage50Connector.API
         {
             if (CompanyContext == null) throw new ArgumentException("Company must be open before");
             return CompanyContext.Factories.CustomerFactory.List();
+        }
+
+        public void CreateOrUpdateCustomer(Models.Payloads.Customer customer)
+        {
+            var customers = CustomersList();
+
+            var sageCustomer = customers.SingleOrDefault(customer.Id) ?? CompanyContext.Factories.CustomerFactory.Create();
+
+            sageCustomer.PopulateFromModel(CompanyContext, customer);
+            sageCustomer.Save();
         }
     }
 }

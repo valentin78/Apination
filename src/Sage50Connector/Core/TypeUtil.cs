@@ -1,24 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Sage50Connector.Models;
-using Sage50Connector.Models.BindingTypes;
-using Sage50Connector.Processing.Actions;
-using Sage50Connector.Processing.Triggers;
 
 namespace Sage50Connector.Core
 {
     class TypeUtil
     {
-        public static ISage50Trigger<TModel> ActivateTriggerByEventBindingType<TModel>(Sage50EventBindingTypes bindingType)
-        {
-            return CreateInstanceByEventBindingType<ISage50Trigger<TModel>>((byte) bindingType);
-        }
-        
-        public static IApinationAction<TModel> ActivateActionByEventBindingType<TModel>(ApinationEventBindingTypes bindingType)
-        {
-            return CreateInstanceByEventBindingType<IApinationAction<TModel>>((byte)bindingType);
-        }
-
         /// <summary>
         /// Activate Trigger|Action by event binding type param
         /// </summary>
@@ -36,7 +22,9 @@ namespace Sage50Connector.Core
                 return attrs.Length != 0 && attrs.Select(attr => ((EventBindingAttribute) attr).Type).Any(type => type == bindingType);
             });
 
-            return (T)Activator.CreateInstance(processType ?? throw new InvalidOperationException($"Can not find type by binding type {bindingType} and base type {typeof(T).Name}"));
+            if (processType == null) throw new InvalidOperationException($"Can not find type by binding type {bindingType} and base type {typeof(T).Name}");
+
+            return (T)Activator.CreateInstance(processType);
         }
 
         /// <summary>

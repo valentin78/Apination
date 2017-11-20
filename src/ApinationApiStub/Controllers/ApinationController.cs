@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Diagnostics;
+using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
-using Sage50Connector.Models.BindingTypes;
+using Sage50Connector.Models.Payloads;
 
 namespace ApinationApiStub.Controllers
 {
@@ -13,38 +16,56 @@ namespace ApinationApiStub.Controllers
         {
             return new Config
             {
-                HeartBeatCronSchedule = "0 0/1 * * * ?",
-                
-                Sage50CronSchedule = "0/30 * * * * ?",
-                ApinationCronSchedule = "0/30 * * * * ?",
+                HeartBeatCronSchedule = "0 0/5 * * * ?",
 
-                CompaniesList = new[]
-                {
-                    new Company
-                    {
-                        CompanyName = "Chase Ridge Holdings"
-                    }
-                }, 
-                
+                Sage50CronSchedule = "0 0/5 * * * ?",
+                ApinationCronSchedule = "0 0/5 * * * ?",
+
                 ApinationActionEndpointUrl = "api/sage50DTO",
+            };
+        }
 
-                TriggersConfig = new []
-                {
-                    new Sage50TriggersConfig
+        [HttpGet]
+        [Route("api/actions")]
+        public dynamic Actions()
+        {
+            return new[]
+            {
+                new {
+                    type = "UpdateCustomer",
+                    id = "1",
+                    companyName = "Chase Ridge Holdings",
+                    payload = new Customer
                     {
-                        TriggerBindingType = Sage50EventBindingTypes.CreatedCustomers,
-                        ApinationEndpointUrl = "api/sage50/createdCustomer"
-                    }, 
+                        Id = "1",
+                        Name = "Customer 1",
+                        CashAccount = new Account
+                        {
+                            Id = "ACC1",
+                            IsInactive = false, 
+                            Description = "Test"
+                        }
+                    }
+                },
+                new {
+                    type = "UpdateCustomer",
+                    id = "3",
+                    companyName = "Chase Ridge Holdings",
+                    payload = new Customer
+                    {
+                        Id = "3",
+                        Name = "Customer 2"
+                    }
                 }
             };
         }
 
-        //[HttpPost]
-        //[Route("api/heartbeat")]
-        //public string Post(string value)
-        //{
-        //    return value+ "!";
-        //}
+        [HttpPatch]
+        [Route("api/actions")]
+        public void ActionsPatch([FromBody]PatchAction[] list)
+        {
+
+        }
 
         //// GET api/values/5
         //[HttpGet("{id}")]
@@ -64,5 +85,12 @@ namespace ApinationApiStub.Controllers
         //public void Delete(int id)
         //{
         //}
+    }
+
+
+    public class PatchAction
+    {
+        public string id { get; set; }
+        public bool processed { get; set; }
     }
 }

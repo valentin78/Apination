@@ -1,7 +1,9 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using Newtonsoft.Json;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
+using Sage50Connector.Processing.Actions.SageActions;
 
 namespace Sage50Connector.API
 {
@@ -24,19 +26,17 @@ namespace Sage50Connector.API
         /// <returns></returns>
         public string GetActionsJson()
         {
-            return httpUtility.Get("api/actions", new NameValueCollection
-            {
-                {"name", "Chase Ridge Holdings"}
-            });
+            return httpUtility.Get("api/actions");
+        }
+
+        public string PatchActions(IEnumerable<PatchAction> actions)
+        {
+            return httpUtility.Patch("api/actions", JsonConvert.SerializeObject(actions), "application/json");
         }
 
         public Config RetrieveConnectorConfig()
         {
-            var json = httpUtility.Get("api/config", new NameValueCollection
-            {
-                {"name", "Chase Ridge Holdings"}
-            });
-
+            var json = httpUtility.Get("api/config");
             return JsonConvert.DeserializeObject<Config>(json);
         }
 

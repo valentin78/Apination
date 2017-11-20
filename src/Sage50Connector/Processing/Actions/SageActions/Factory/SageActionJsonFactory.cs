@@ -1,4 +1,7 @@
 using System;
+using log4net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Sage50Connector.Processing.Actions.SageActions.Factory
 {
@@ -7,14 +10,27 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
     /// </summary>
     class SageActionJsonFactory : ISageActionFactory
     {
-        public SageAction Create(object obj)
+        public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionJsonFactory));
+
+        public SageAction Create(string jsonString)
         {
-            if (!(obj is string json))
-                return null;
+            Log.DebugFormat("Creating Sage50 Action from JSON: {0}", jsonString);
 
-            // TODO need to implement factory
+            dynamic sageAction = JObject.Parse(jsonString);
 
-            throw new NotImplementedException();
+            var actionTypePrefix = (string)sageAction.type;
+            var actionType = GetActionTypeByPrefix(actionTypePrefix);
+            if (actionType == null)
+            {
+                throw new Exception($"Can not found action type for '{actionTypePrefix}' type");
+            }
+
+            return (SageAction)JsonConvert.DeserializeObject(jsonString, actionType);
+        }
+
+        public static Type GetActionTypeByPrefix(string actionPrefix)
+        {
+            return Type.GetType($"Sage50Connector.Processing.Actions.SageActions.{actionPrefix}SageAction");
         }
     }
 }

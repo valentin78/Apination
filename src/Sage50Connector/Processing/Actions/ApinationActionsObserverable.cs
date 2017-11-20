@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using log4net;
 using Quartz;
 using Quartz.Impl.Matchers;
 using Sage50Connector.Models;
@@ -12,6 +13,8 @@ namespace Sage50Connector.Processing.Actions
     /// </summary>
     class SageActionsObserverable : IObservable<IEnumerable<SageAction>>
     {
+        public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionsObserverable));
+
         private Action<IEnumerable<SageAction>> subscriber;
         private readonly IJobDetail job;
         private readonly ITrigger trigger;
@@ -37,6 +40,9 @@ namespace Sage50Connector.Processing.Actions
         {
             scheduler.ListenerManager.AddJobListener(apinationJobListener, KeyMatcher<JobKey>.KeyEquals(job.Key));
             scheduler.ScheduleJob(job, trigger);
+            
+            scheduler.TriggerJob(job.Key);
+            
             return apinationJobListener;
         }
 

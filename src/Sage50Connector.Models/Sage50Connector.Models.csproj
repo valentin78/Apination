@@ -34,10 +34,6 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Sage.Peachtree.API, Version=2018.0.0.52, Culture=neutral, PublicKeyToken=d06c16dde04d83e4, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\SageSDK\Sage.Peachtree.API.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,13 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="BindingTypes\Sage50EventBindingTypes.cs" />
-    <Compile Include="BindingTypes\ApinationEventBindingTypes.cs" />
     <Compile Include="Payloads\Account.cs" />
     <Compile Include="Payloads\Address.cs" />
     <Compile Include="Payloads\Contact.cs" />
     <Compile Include="Payloads\Customer.cs" />
     <Compile Include="Payloads\Employee.cs" />
+    <Compile Include="Payloads\PhoneNumber.cs" />
     <Compile Include="Payloads\SalesInvoice.cs" />
     <Compile Include="Payloads\NameAndAddress.cs" />
     <Compile Include="Payloads\SalesInvoiceProposalLine.cs" />
@@ -66,5 +61,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
