@@ -35,8 +35,7 @@ namespace Sage50Connector.API
         {
             if (!typeof(TEnum).IsEnum) throw new ArgumentException("Invalid generic type, must me enum", nameof(TEnum));
 
-            TEnum result;
-            if (Enum.TryParse<TEnum>(value, out result)) return result;
+            if (Enum.TryParse(value, out TEnum result)) return result;
 
             throw new ArgumentException($"Can not convert value: '{value}' to enum type: '{typeof(TEnum)}'");
         }
