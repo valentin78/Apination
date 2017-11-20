@@ -61,12 +61,12 @@ namespace Sage50Connector.Processing.Actions
                     try
                     {
                         List<PatchAction> patchList = new List<PatchAction>();
-                        foreach (var action in actions)
+                        foreach (dynamic action in actions)
                         {
                             try
                             {
                                 Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", action.type, action.id);
-                                using (ISageActionHandler handler = SageActionHandlerFactory.CreateHandler(action))
+                                using (var handler = SageActionHandlerFactory.CreateHandler(action))
                                 {
                                     Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", action.type, action.id);
                                     var processed = handler.Handle(action);

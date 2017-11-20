@@ -28,7 +28,7 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
             return (SageAction)JsonConvert.DeserializeObject(jsonString, actionType);
         }
 
-        private Type GetActionTypeByPrefix(string actionPrefix)
+        public static Type GetActionTypeByPrefix(string actionPrefix)
         {
             return Type.GetType($"Sage50Connector.Processing.Actions.SageActions.{actionPrefix}SageAction");
         }

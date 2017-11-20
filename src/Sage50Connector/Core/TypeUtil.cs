@@ -22,7 +22,9 @@ namespace Sage50Connector.Core
                 return attrs.Length != 0 && attrs.Select(attr => ((EventBindingAttribute) attr).Type).Any(type => type == bindingType);
             });
 
-            return (T)Activator.CreateInstance(processType ?? throw new InvalidOperationException($"Can not find type by binding type {bindingType} and base type {typeof(T).Name}"));
+            if (processType == null) throw new InvalidOperationException($"Can not find type by binding type {bindingType} and base type {typeof(T).Name}");
+
+            return (T)Activator.CreateInstance(processType);
         }
 
         /// <summary>
