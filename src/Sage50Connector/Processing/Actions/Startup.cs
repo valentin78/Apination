@@ -27,32 +27,28 @@ namespace Sage50Connector.Processing.Actions
             var scheduler = schedulerFactory.GetScheduler();
             scheduler.JobFactory = new PollApinationJobFactory();
 
-            // from the following observable definition it's immediately obvious that
-            // it's composed from job, particular cron trigger, scheduler and listener
-            SageActionsObserverable apinationObservable = new SageActionsObserverable(
+            SageActionsObserverable sageApinationObservable = new SageActionsObserverable(
                     job: pollApinationJob,
                     trigger: cronTrigger,
                     scheduler: scheduler,
-                    apinationListener: new PollApinationJobListener(new SageActionJsonFactory()), config: config
+                    apinationJobListener: new PollApinationJobListener(new SageActionJsonFactory()), config: config
                 );
 
-            //and for apination
-            apinationObservable.Subscribe(actions =>
+            // for apination
+            sageApinationObservable.Subscribe(sageActions =>
             {
                 // actions can be handled in any order, this is the right place to put this logic
                 // most of the time it will be just 1-1 action to handler assocciation
-                // ActionHandlers are what you call "Savers", but for actions
-                actions.Select(action =>
+                foreach (var sageAction in sageActions)
                 {
-                    ISageActionHandler handler = SageActionHandlerFactory.CreateHandler(action);
-                    handler.Handle(action);
-                    return handler;
-                });
+                    var handler = SageActionHandlerFactory.CreateHandler(sageAction);
+                    handler.Handle(sageAction);
+                }
             });
 
             scheduler.Start();
 
-            return apinationObservable;
+            return sageApinationObservable;
         }
     }
 }

@@ -16,28 +16,28 @@ namespace Sage50Connector.Processing.Actions
         private readonly IJobDetail job;
         private readonly ITrigger trigger;
         private readonly IScheduler scheduler;
-        private readonly PollApinationJobListener apinationListener;
+        private readonly PollApinationJobListener apinationJobListener;
         private Config config;
 
         public SageActionsObserverable(
             IJobDetail job,
             ITrigger trigger,
             IScheduler scheduler,
-            PollApinationJobListener apinationListener,
+            PollApinationJobListener apinationJobListener,
             Config config)
         {
             this.job = job;
             this.trigger = trigger;
             this.scheduler = scheduler;
-            this.apinationListener = apinationListener;
+            this.apinationJobListener = apinationJobListener;
             this.config = config;
         }
 
         private IApinationListener StartApinationPolling()
         {
-            scheduler.ListenerManager.AddJobListener(apinationListener, KeyMatcher<JobKey>.KeyEquals(new JobKey("PollApinationJob")));
+            scheduler.ListenerManager.AddJobListener(apinationJobListener, KeyMatcher<JobKey>.KeyEquals(job.Key));
             scheduler.ScheduleJob(job, trigger);
-            return apinationListener;
+            return apinationJobListener;
         }
 
         /// <summary>
@@ -54,9 +54,9 @@ namespace Sage50Connector.Processing.Actions
             if (this.subscriber != null) { throw new NotSupportedException(); }
 
             this.subscriber = subscriber;
-            // ReSharper disable once LocalVariableHidesMember
-            IApinationListener apinationListener = StartApinationPolling();
-            apinationListener.OnNewSageActions += (sender, actions) =>
+
+            IApinationListener listener = StartApinationPolling();
+            listener.OnNewSageActions += (sender, actions) =>
             {
                 // send all actions at once, so if multiple actions came up
                 // subscriber can decide how to deal with this situation and in which order to
