@@ -31,6 +31,12 @@ namespace Sage50Connector.API
             sageCustomer.BillToContact.Gender = customer.BillToContact.Gender.ToEnum<Gender>();
         }
 
+        /// <summary>
+        /// extension method convert string representation of enum value to appropriate enum value
+        /// </summary>
+        /// <typeparam name="TEnum"></typeparam>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public static TEnum ToEnum<TEnum>(this string value) where TEnum: struct 
         {
             if (!typeof(TEnum).IsEnum) throw new ArgumentException("Invalid generic type, must me enum", nameof(TEnum));
