@@ -2,8 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using Sage.Peachtree.API;
+using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
-using Customer = Sage50Connector.Models.Payloads.Customer;
 
 namespace Sage50Connector.API
 {
@@ -97,37 +97,13 @@ namespace Sage50Connector.API
             return CompanyContext.Factories.CustomerFactory.List();
         }
 
-        public void CreateOrUpdateCustomer(Customer customer)
+        public void CreateOrUpdateCustomer(Models.Payloads.Customer customer)
         {
             var customers = CustomersList();
-            customers.Load();
-            
-            var sageCustomer = customers.SingleOrDefault(c => c.ID == customer.Id) ?? CompanyContext.Factories.CustomerFactory.Create();
 
-            sageCustomer.ID = customer.Id;
-            sageCustomer.Name = customer.Name;
-            sageCustomer.IsInactive = false;
-            sageCustomer.AccountNumber = "";
-
-            //Debugger.Launch();
-
-            // set customer bill to contact properties
-            sageCustomer.BillToContact.FirstName = customer.BillToContact.FirstName;
-            sageCustomer.BillToContact.MiddleInitial = customer.BillToContact.MiddleInitial;
-            sageCustomer.BillToContact.LastName = customer.BillToContact.LastName;
-            sageCustomer.BillToContact.CompanyName = customer.BillToContact.CompanyName;
-            sageCustomer.BillToContact.Address.Address1 = customer.BillToContact.Address.Address1;
-            sageCustomer.BillToContact.Address.Address2 = customer.BillToContact.Address.Address2;
-            sageCustomer.BillToContact.Address.City = customer.BillToContact.Address.City;
-            sageCustomer.BillToContact.Address.State = customer.BillToContact.Address.State;
-            sageCustomer.BillToContact.Address.Zip = customer.BillToContact.Address.Zip;
-            sageCustomer.BillToContact.Address.Country = customer.BillToContact.Address.Country;
-
-            sageCustomer.BillToContact.Gender = customer.BillToContact.Gender;
-
+            var sageCustomer = customers.SingleOrDefault(customer.Id) ?? CompanyContext.Factories.CustomerFactory.Create();
+            sageCustomer.PopulateFromModel(customer);
             sageCustomer.Save();
-
-            // TODO: ...
         }
     }
 }

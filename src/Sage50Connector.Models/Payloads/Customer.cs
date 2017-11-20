@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sage.Peachtree.API;
 
 //using Sage.Peachtree.API;
 
@@ -40,7 +39,8 @@ namespace Sage50Connector.Models.Payloads
         public Contact BillToContact { get; set; }
 
         public string Category { get; set; }
-        public CustomerCreditStatus CreditStatus { get; set; }
+        //TODO: replace SAGE classes
+        //public CustomerCreditStatus CreditStatus { get; set; }
         public DateTime? CustomerSince { get; set; }
         public List<Contact> Contacts { get; set; }
     }
