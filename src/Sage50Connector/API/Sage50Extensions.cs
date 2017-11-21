@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
@@ -8,6 +9,33 @@ namespace Sage50Connector.API
 {
     internal static class Sage50Extensions
     {
+        public static void PopulateFromModel(this SalesInvoice sageInvoice, Company company, Models.Payloads.SalesInvoice invoice)
+        {
+            sageInvoice.ShipDate = invoice.ShipDate;
+            sageInvoice.CustomerNote = invoice.CustomerNote;
+
+            sageInvoice.InternalNote = invoice.InternalNote;
+            sageInvoice.TermsDescription = invoice.TermsDescription;
+            sageInvoice.StatementNote = invoice.StatementNote;
+            sageInvoice.ShipVia = invoice.ShipVia;
+            sageInvoice.PrintCustomerNoteAfterLineItems = invoice.PrintCustomerNoteAfterLineItems;
+            sageInvoice.FreightAmount = invoice.FreightAmount;
+            sageInvoice.DropShip = invoice.DropShip;
+            sageInvoice.DiscountDate = invoice.DiscountDate;
+            sageInvoice.DiscountAmount = invoice.DiscountAmount;
+            sageInvoice.DateDue = invoice.DateDue;
+            sageInvoice.CustomerPurchaseOrderNumber = invoice.CustomerPurchaseOrderNumber;
+
+            sageInvoice.FreightAccountReference = sageInvoice.FreightAccountReference.PopulateFromModel(invoice.FreightAccount, company);
+            sageInvoice.ShipToAddress.PopulateFromModel(invoice.ShipToAddress);
+        }
+
+        public static void PopulateFromModel(this NameAndAddress sageNameAndAddress, Models.Payloads.NameAndAddress nameAndAddress)
+        {
+            sageNameAndAddress.Name = nameAndAddress.Name;
+            sageNameAndAddress.Address.PopulateFromModel(nameAndAddress.Address);
+        }
+
         public static void PopulateFromModel(this PhoneNumber sagePhoneNumber, Models.Payloads.PhoneNumber phoneNumber)
         {
             sagePhoneNumber.Number = phoneNumber.Number;
@@ -43,7 +71,7 @@ namespace Sage50Connector.API
                 sageCashAccount.Save();
                 return sageCashAccount.Key;
             }
-            
+
             var cashAccount = entityReference.Load(company);
             cashAccount.PopulateFromModel(account);
             return entityReference;
@@ -69,7 +97,7 @@ namespace Sage50Connector.API
             sageContact.LastName = contact.LastName;
             sageContact.CompanyName = contact.CompanyName;
             sageContact.Gender = contact.Gender.ToEnum<Gender>();
-            
+
             sageContact.Address.PopulateFromModel(contact.Address);
 
             sageContact.Suffix = contact.Suffix;
@@ -83,16 +111,12 @@ namespace Sage50Connector.API
             sageContact.PhoneNumbers.PopulateFromModel(contact.PhoneNumbers);
         }
 
-        public static void PopulateFromModel(this ContactList sageContacts, List<Models.Payloads.Contact> customerContacts, Company company)
-        {
-            // TODO: доработать
-        }
-
         public static void PopulateFromModel(this Customer sageCustomer, Company company, Models.Payloads.Customer customer)
         {
             if (customer == null) return;
 
-            // simple properties & enums
+            Debugger.Launch();
+
             sageCustomer.ID = customer.Id;
             sageCustomer.Name = customer.Name;
             sageCustomer.IsInactive = customer.IsInactive;
@@ -110,20 +134,15 @@ namespace Sage50Connector.API
             sageCustomer.Category = customer.Category;
             sageCustomer.CreditStatus = customer.CreditStatus.ToEnum<CustomerCreditStatus>();
             sageCustomer.CustomerSince = customer.CustomerSince;
+
             sageCustomer.ShipToContact.PopulateFromModel(company, customer.ShipToContact);
             sageCustomer.BillToContact.PopulateFromModel(company, customer.BillToContact);
 
-            // phone numbers
             sageCustomer.PhoneNumbers.PopulateFromModel(customer.PhoneNumbers);
 
-            // collections
-            sageCustomer.Contacts.PopulateFromModel(customer.Contacts, company);
-
-            // reference properties
             sageCustomer.CashAccountReference = sageCustomer.CashAccountReference.PopulateFromModel(customer.CashAccount, company);
             sageCustomer.UsualSalesAccountReference = sageCustomer.UsualSalesAccountReference.PopulateFromModel(customer.UsualSalesAccount, company);
         }
-
 
         /// <summary>
         /// extension method convert string representation of enum value to appropriate enum value

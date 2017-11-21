@@ -16,8 +16,6 @@ namespace Sage50Connector.Models.Payloads
 
         public bool IsInactive { get; set; }
         public bool IsProspect { get; set; }
-        // TODO replace SAGE classes
-        //public PaymentTerms Terms { get; set; }
         public string Id { get; set; }
         public string OpenPurchaseOrderNumber { get; set; }
         public string PaymentMethod { get; set; }
@@ -32,10 +30,8 @@ namespace Sage50Connector.Models.Payloads
         public bool UseEmailToDeliverForms { get; set; }
         public string Name { get; set; }
         public Account UsualSalesAccount { get; set; }
-        //public Employee SalesRepresentativeReference { get; set; }
         public List<PhoneNumber> PhoneNumbers { get; set; }
         public string Email { get; set; }
-        //public CustomFieldValueCollection CustomFieldValues { get; }
         public Contact ShipToContact { get; set; }
         public Contact BillToContact { get; set; }
 
@@ -45,6 +41,15 @@ namespace Sage50Connector.Models.Payloads
         /// </summary>
         public string CreditStatus { get; set; }
         public DateTime? CustomerSince { get; set; }
-        public List<Contact> Contacts { get; set; }
+
+        // TODO: unknown purpose
+        //public CustomFieldValueCollection CustomFieldValues { get; }
+
+        // TODO: skip because all public properties in structure readonly
+        //public string Terms { get; set; }
+
+        // TODO: factory not support create() 
+        //public List<Contact> Contacts { get; set; }
+        //public Employee SalesRepresentative { get; set; }
     }
 }

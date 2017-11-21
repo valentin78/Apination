@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace ApinationApiStub.Controllers
         [Route("api/actions")]
         public dynamic Actions()
         {
-            return new[]
+            return new dynamic[]
             {
                 new {
                     type = "UpdateCustomer",
@@ -42,19 +43,41 @@ namespace ApinationApiStub.Controllers
                         CashAccount = new Account
                         {
                             Id = "ACC1",
-                            IsInactive = false, 
+                            IsInactive = false,
                             Description = "Test"
                         }
                     }
                 },
                 new {
-                    type = "UpdateCustomer",
-                    id = "3",
+                    type = "CreateInvoice",
+                    id = "2",
                     companyName = "Chase Ridge Holdings",
-                    payload = new Customer
+                    payload = new SalesInvoice
                     {
-                        Id = "3",
-                        Name = "Customer 2"
+                        FreightAmount = 0,
+                        DiscountAmount = 0,
+                        CustomerNote = "Note",
+                        ShipDate = DateTime.Today,
+                        ShipToAddress = new NameAndAddress()
+                        {
+                            Name = "Name 1",
+                            Address = new Address
+                            {
+                                Address1 = "Addr1",
+                                Address2 = "Addr2",
+                            }
+                        },
+                        Customer = new Customer
+                        {
+                            Id = "3",
+                            Name = "Customer 3",
+                            CashAccount = new Account
+                            {
+                                Id = "ACC1",
+                                IsInactive = false,
+                                Description = "Test"
+                            }
+                        }
                     }
                 }
             };
