@@ -5,10 +5,12 @@ namespace Sage50Connector.Models.Payloads
 {
     public class SalesInvoice
     {
+        public string ReferenceNumber { get; set; }
         public string InternalNote { get; set; }
         public string TermsDescription { get; set; }
         public string StatementNote { get; set; }
         public string ShipVia { get; set; }
+        public DateTime Date { get; set; }
         public DateTime? ShipDate { get; set; }
         public bool PrintCustomerNoteAfterLineItems { get; set; }
         public decimal FreightAmount { get; set; }
@@ -22,6 +24,8 @@ namespace Sage50Connector.Models.Payloads
         public NameAndAddress ShipToAddress { get; set; }
 
         public Customer Customer { get; set; }
+
+        public decimal Amount { get; set; }
 
         // TODO: factory not support create() 
         //public SalesTaxCode SalesTaxCode { get; set; }

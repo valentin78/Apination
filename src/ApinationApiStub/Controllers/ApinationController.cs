@@ -54,10 +54,13 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new SalesInvoice
                     {
+                        ReferenceNumber = "1",
+                        Amount = 1,
                         FreightAmount = 0,
                         DiscountAmount = 0,
                         CustomerNote = "Note",
-                        ShipDate = DateTime.Today,
+                        Date = DateTime.Parse("2019-3-15"),
+                        DateDue = DateTime.Parse("2019-4-14"),
                         ShipToAddress = new NameAndAddress()
                         {
                             Name = "Name 1",

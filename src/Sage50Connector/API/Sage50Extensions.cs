@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
+using log4net;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
 
@@ -11,9 +11,11 @@ namespace Sage50Connector.API
     {
         public static void PopulateFromModel(this SalesInvoice sageInvoice, Company company, Models.Payloads.SalesInvoice invoice)
         {
+            sageInvoice.ReferenceNumber = invoice.ReferenceNumber;
+
+            sageInvoice.Date = invoice.Date;
             sageInvoice.ShipDate = invoice.ShipDate;
             sageInvoice.CustomerNote = invoice.CustomerNote;
-
             sageInvoice.InternalNote = invoice.InternalNote;
             sageInvoice.TermsDescription = invoice.TermsDescription;
             sageInvoice.StatementNote = invoice.StatementNote;
@@ -25,6 +27,8 @@ namespace Sage50Connector.API
             sageInvoice.DiscountAmount = invoice.DiscountAmount;
             sageInvoice.DateDue = invoice.DateDue;
             sageInvoice.CustomerPurchaseOrderNumber = invoice.CustomerPurchaseOrderNumber;
+            var line = sageInvoice.AddSalesLine();
+            line.Amount = invoice.Amount;
 
             sageInvoice.FreightAccountReference = sageInvoice.FreightAccountReference.PopulateFromModel(invoice.FreightAccount, company);
             sageInvoice.ShipToAddress.PopulateFromModel(invoice.ShipToAddress);
