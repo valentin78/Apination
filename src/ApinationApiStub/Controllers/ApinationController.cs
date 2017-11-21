@@ -38,13 +38,13 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
-                        Id = "1",
+                        Id = "5",
                         Name = "Customer 1",
-                        CashAccount = new Account
+                        AccountNumber = "123",
+                        BillToContact = new Contact()
                         {
-                            Id = "ACC1",
-                            IsInactive = false,
-                            Description = "Test"
+                            FirstName = "Name",
+                            LastName = "Lastname"
                         }
                     }
                 },
@@ -71,11 +71,11 @@ namespace ApinationApiStub.Controllers
                         {
                             Id = "3",
                             Name = "Customer 3",
-                            CashAccount = new Account
+                            AccountNumber = "123",
+                            BillToContact = new Contact()
                             {
-                                Id = "ACC1",
-                                IsInactive = false,
-                                Description = "Test"
+                                FirstName = "Name",
+                                LastName = "Lastname"
                             }
                         }
                     }

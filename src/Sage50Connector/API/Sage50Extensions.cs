@@ -66,7 +66,8 @@ namespace Sage50Connector.API
 
             if (entityReference.IsEmpty)
             {
-                var sageCashAccount = company.Factories.AccountFactory.Create();
+                var accountsList = company.Factories.AccountFactory.List();
+                var sageCashAccount =  accountsList.SingleOrDefault(account.Id) ?? company.Factories.AccountFactory.Create();
                 sageCashAccount.PopulateFromModel(account);
                 sageCashAccount.Save();
                 return sageCashAccount.Key;
@@ -114,8 +115,6 @@ namespace Sage50Connector.API
         public static void PopulateFromModel(this Customer sageCustomer, Company company, Models.Payloads.Customer customer)
         {
             if (customer == null) return;
-
-            Debugger.Launch();
 
             sageCustomer.ID = customer.Id;
             sageCustomer.Name = customer.Name;
