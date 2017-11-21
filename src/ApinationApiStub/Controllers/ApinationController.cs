@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +30,7 @@ namespace ApinationApiStub.Controllers
         [Route("api/actions")]
         public dynamic Actions()
         {
-            return new[]
+            return new dynamic[]
             {
                 new {
                     type = "UpdateCustomer",
@@ -37,24 +38,49 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
-                        Id = "1",
+                        Id = "5",
                         Name = "Customer 1",
-                        CashAccount = new Account
+                        AccountNumber = "123",
+                        BillToContact = new Contact()
                         {
-                            Id = "ACC1",
-                            IsInactive = false, 
-                            Description = "Test"
+                            FirstName = "Name",
+                            LastName = "Lastname"
                         }
                     }
                 },
                 new {
-                    type = "UpdateCustomer",
-                    id = "3",
+                    type = "CreateInvoice",
+                    id = "2",
                     companyName = "Chase Ridge Holdings",
-                    payload = new Customer
+                    payload = new SalesInvoice
                     {
-                        Id = "3",
-                        Name = "Customer 2"
+                        ReferenceNumber = "1",
+                        Amount = 1,
+                        FreightAmount = 0,
+                        DiscountAmount = 0,
+                        CustomerNote = "Note",
+                        Date = DateTime.Parse("2019-3-15"),
+                        DateDue = DateTime.Parse("2019-4-14"),
+                        ShipToAddress = new NameAndAddress()
+                        {
+                            Name = "Name 1",
+                            Address = new Address
+                            {
+                                Address1 = "Addr1",
+                                Address2 = "Addr2",
+                            }
+                        },
+                        Customer = new Customer
+                        {
+                            Id = "3",
+                            Name = "Customer 3",
+                            AccountNumber = "123",
+                            BillToContact = new Contact()
+                            {
+                                FirstName = "Name",
+                                LastName = "Lastname"
+                            }
+                        }
                     }
                 }
             };

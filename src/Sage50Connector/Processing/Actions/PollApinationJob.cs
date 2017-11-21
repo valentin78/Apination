@@ -23,19 +23,26 @@ namespace Sage50Connector.Processing.Actions
 
         public void Execute(IJobExecutionContext context)
         {
-            Log.Info(" --------------------------");
-            Log.Info("| PollApinationJob started |");
-            Log.Info(" --------------------------");
-            
-            Log.Info("Get ActionsJson from Apination...");
-            var jsonString = api.GetActionsJson();
-            Log.DebugFormat("Received JSON: '{0}'", jsonString);
+            try
+            {
+                Log.Info(" ------------------------------------------------------------------------------------------------------------------------------");
+                Log.Info("| PollApinationJob started ");
+                Log.Info(" ------------------------------------------------------------------------------------------------------------------------------");
 
-            // Splits actions to array and put them in context.JobDetail.JobDataMap
-            dynamic actionsDynamic = JsonConvert.DeserializeObject(jsonString);
-            var actionsStrings = (actionsDynamic.Root as Newtonsoft.Json.Linq.JArray)?.Select(i => i.ToString());
+                Log.Info("Get ActionsJson from Apination...");
+                var jsonString = api.GetActionsJson();
+                Log.DebugFormat("Received JSON: '{0}'", jsonString);
 
-            context.JobDetail.JobDataMap.Add("actions", actionsStrings);
+                // Splits actions to array and put them in context.JobDetail.JobDataMap
+                dynamic actionsDynamic = JsonConvert.DeserializeObject(jsonString);
+                var actionsStrings = (actionsDynamic.Root as Newtonsoft.Json.Linq.JArray)?.Select(i => i.ToString());
+
+                context.JobDetail.JobDataMap.Add("actions", actionsStrings);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Unknown exception was handled while getting JSON from Apination: ", ex);
+            }
         }
     }
 }

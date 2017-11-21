@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
+using log4net;
 using Sage.Peachtree.API;
-using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
+using SalesInvoice = Sage50Connector.Models.Payloads.SalesInvoice;
 
 namespace Sage50Connector.API
 {
@@ -12,10 +12,12 @@ namespace Sage50Connector.API
     /// </summary>
     public class Sage50Api : IDisposable
     {
+        public static readonly ILog Log = LogManager.GetLogger(typeof(Sage50Api));
+
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
         // ReSharper disable once InconsistentNaming
-        private Company CompanyContext { get; set; }
+        public Company CompanyContext { get; set; }
 
         protected PeachtreeSession CurrentSession
         {
@@ -97,7 +99,7 @@ namespace Sage50Connector.API
             return CompanyContext.Factories.CustomerFactory.List();
         }
 
-        public void CreateOrUpdateCustomer(Models.Payloads.Customer customer)
+        public EntityReference<Customer> CreateOrUpdateCustomer(Models.Payloads.Customer customer)
         {
             var customers = CustomersList();
 
@@ -105,6 +107,18 @@ namespace Sage50Connector.API
 
             sageCustomer.PopulateFromModel(CompanyContext, customer);
             sageCustomer.Save();
+
+            return sageCustomer.Key;
+        }
+
+        public void CreateInvoice(SalesInvoice invoice)
+        {
+            var sageInvoice = CompanyContext.Factories.SalesInvoiceFactory.Create();
+
+            sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
+
+            sageInvoice.PopulateFromModel(CompanyContext, invoice);
+            sageInvoice.Save();
         }
     }
 }
