@@ -31,7 +31,7 @@ namespace Sage50Connector.API
             {
                 sageInvoiceApplyToSalesLine.MarkForDeletion();
             }
-            foreach (var salesLine in invoice.ApplyToSalesLines)
+            foreach (var salesLine in invoice.SalesLines)
             {
                 var sageSalesLine = sageInvoice.AddSalesLine();
                 sageSalesLine.Amount = salesLine.Amount;
@@ -167,7 +167,7 @@ namespace Sage50Connector.API
         /// <returns></returns>
         public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
         {
-            if (!typeof(TEnum).IsEnum) throw new ArgumentException("Invalid generic type, must me enum", nameof(TEnum));
+            if (!typeof(TEnum).IsEnum) throw new ArgumentException(@"Invalid generic type, must me enum", nameof(TEnum));
 
             if (Enum.TryParse(value, out TEnum result)) return result;
 

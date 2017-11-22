@@ -28,7 +28,7 @@ namespace Sage50Connector.Models.Payloads
         public List<SalesInvoiceLine> SalesLines { get; set; }
         
         //public decimal Amount { get; set; }
-        public List<SalesInvoiceSalesLine> ApplyToSalesLines { get; set; }
+        //public List<SalesInvoiceSalesLine> ApplyToSalesLines { get; set; }
         //readonly
         //public decimal AmountDue { get; set; }
 

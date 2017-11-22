@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
 using Sage50Connector.Models.Payloads;
@@ -62,14 +59,14 @@ namespace ApinationApiStub.Controllers
                         CustomerNote = "Note3",
                         Date = DateTime.Parse("2019-3-15"),
                         DateDue = DateTime.Parse("2019-4-14"),
-                        ApplyToSalesLines = new List<SalesInvoiceSalesLine>
+                        SalesLines = new List<SalesInvoiceLine>
                         {
-                            new SalesInvoiceSalesLine
+                            new SalesInvoiceLine
                             {
                                 Amount = 2,
                                 Description = "zzz3", 
                                 SalesTaxType = 1, 
-                                Account = new Account()
+                                Account = new Account
                                 {
                                     Id = "1",
                                     Classification = "Cash"
@@ -131,7 +128,9 @@ namespace ApinationApiStub.Controllers
 
     public class PatchAction
     {
+        // ReSharper disable once InconsistentNaming
         public string id { get; set; }
+        // ReSharper disable once InconsistentNaming
         public bool processed { get; set; }
     }
 }
