@@ -35,8 +35,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiteDB, Version=4.0.0.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\packages\LiteDB.4.0.0\lib\net40\LiteDB.dll</HintPath>
+    <Reference Include="LiteDB, Version=2.0.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.2.0.4\lib\net35\LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -82,7 +82,6 @@
     <Compile Include="Processing\Actions\IApinationListener.cs" />
     <Compile Include="Processing\Actions\SageActions\SageActionPatch.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />
-
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ISageActionHandler.cs" />
@@ -115,9 +114,11 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Schemas\upsertCustomerPayload-schema.json" />
+    <None Include="Schemas\createUpdateInvoicePayload-schema.json" />
     <None Include="Schemas\customer-schema.json" />
     <None Include="Schemas\invoice-schema.json" />
-    <None Include="Schemas\actions-json-example.json" />
+    <None Include="Schemas\action-schema.json" />
     <None Include="Schemas\payment-schema.json" />
   </ItemGroup>
   <ItemGroup>

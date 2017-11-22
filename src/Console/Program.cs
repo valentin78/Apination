@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using Sage.Peachtree.API;
+using Sage50Connector.Models.Payloads;
 using Customer = Sage50Connector.Models.Payloads.Customer;
 using SalesInvoice = Sage50Connector.Models.Payloads.SalesInvoice;
 
@@ -25,7 +26,7 @@ namespace Console
             JSchemaGenerator generator = new JSchemaGenerator();
 
             JSchema schemaCust = generator.Generate(typeof(Customer));
-            JSchema schemaInv = generator.Generate(typeof(SalesInvoice));
+            JSchema schemaInv = generator.Generate(typeof(SalesInvoiceLine));
 
             var companies = api.CompaniesList();
             //var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");

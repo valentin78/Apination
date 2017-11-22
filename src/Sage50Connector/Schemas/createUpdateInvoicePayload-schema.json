@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Create/Update Invoice Payload JSON Schema",
+
+  "type": "object",
+  "properties": {
+    "companyName": { "type": "string" }, // Defines Sage Company Name to select
+    "invoice": { "$ref": "invoice-schema.json" } 
+  },
+  "required": [
+    "companyName",
+    "invoice"
+  ]
+}

@@ -1,0 +1,14 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Upsert Customer Payload JSON Schema",
+
+  "type": "object",
+  "properties": {
+    "companyName": { "type": "string" }, // Defines Sage Company Name to select
+    "customer": { "$ref": "customer-schema.json" } 
+  },
+  "required": [
+    "companyName",
+    "customer"
+  ]
+}

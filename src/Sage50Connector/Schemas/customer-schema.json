@@ -4,344 +4,156 @@
 
   "definitions": {
     "Account": {
-      "type": [
-        "object",
-        "null"
-      ],
+      "type": "object",
       "properties": {
-        "Description": {
-          "type": [
-            "string",
-            "null"
+        "Description": { "type": "string" },
+        "ExternalId": { "type": "string"},
+        "IsInactive": { "type": "boolean" },
+        "Classification": {
+          "type": "string" ,
+          "enum": [
+            "Cash",
+            "Receivable",
+            "Inventory",
+            "ReceivableRetainage",
+            "OtherCurrentAsset",
+            "FixedAsset",
+            "AccumulatedDepreciation",
+            "OtherAssets",
+            "Payable",
+            "PayableRetainage",
+            "OtherCurrentLiability",
+            "OtherLiability",
+            "EquityNoClose",
+            "RetainedEarnings",
+            "EquityClose",
+            "Income",
+            "CostSales",
+            "Expense"
           ]
-        },
-        "Id": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "IsInactive": {
-          "type": "boolean"
         }
       },
-      "required": [
-        "Description",
-        "Id",
-        "IsInactive"
-      ]
+      "required": [ "Id", "Classification" ]
     },
+
     "Address": {
-      "type": [
-        "object",
-        "null"
-      ],
+      "type": "object",
       "properties": {
-        "Address1": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Address2": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "City": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Country": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "SalesTaxCode": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "State": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Zip": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
+        "Address1": { "type": "string" },
+        "Address2": { "type": "string" },
+        "City": { "type": "string" },
+        "Country": { "type": "string" },
+        "SalesTaxCode": { "type": "string" },
+        "State": { "type": "string" },
+        "Zip": { "type": "string" }
       },
-      "required": [
-        "Address1",
-        "Address2",
-        "City",
-        "Country",
-        "SalesTaxCode",
-        "State",
-        "Zip"
-      ]
+      "required": [ "Address1" ]
     },
+
     "Contact": {
-      "type": [
-        "object",
-        "null"
-      ],
+      "type": "object",
       "properties": {
-        //"IsPrimaryContact": {
-        //  "type": "boolean"
-        //},
-        "Suffix": {
-          "type": [
-            "string",
-            "null"
+        "Address": { "$ref": "#/definitions/Address" },
+        "CompanyName": { "type": "string" },
+        "Email": { "type": "string" },
+        "FirstName": { "type": "string" },
+        "Gender": {
+          "type": "string",
+          "enum": [
+            "NotSpecified", 
+            "Male", 
+            "Female" 
           ]
         },
-        "Prefix": {
-          "type": [
-            "string",
-            "null"
+        "LastName": { "type": "string" },
+        "MiddleInitial": { "type": "string" },
+        "NameToUseOnForms": {
+          "type": "string",
+          "enum": [
+            "ContactName", 
+            "CompanyName" 
           ]
         },
-        "Notes": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Name": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "MiddleInitial": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "LastName": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Title": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "FirstName": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Email": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "CompanyName": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "Address": {
-          "$ref": "#/definitions/Address"
-        },
+        "Notes": { "type": "string" },
         "PhoneNumbers": {
-          "type": [
-            "array",
-            "null"
-          ],
+          "type": [ "array" ],
+          "maxItems": 3,
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/PhoneNumber"
-          }
+          },
+          "Prefix": { "type": "string" },
+          "Suffix": { "type": "string" },
+          "Title": { "type": "string" }
         }
       },
-      "required": [
-        "IsPrimaryContact",
-        "Suffix",
-        "Prefix",
-        "Notes",
-        "Name",
-        "MiddleInitial",
-        "LastName",
-        "Title",
-        "FirstName",
-        "Email",
-        "CompanyName",
-        "Address",
-        "PhoneNumbers"
-      ]
+      "required": [ "LastName", "FirstName" ]
     },
+
     "PhoneNumber": {
-      "type": [
-        "object",
-        "null"
-      ],
+      "type": "object",
       "properties": {
-        "Number": {
-          "type": [
-            "string",
-            "null"
+        "Number": { "type": "string" },
+        "Key": {
+          "type": "string",
+          "enum": [
+            "NotUsed", 
+            "PhoneNumber1", 
+            "PhoneNumber2", 
+            "Fax1", 
+            "Fax2", 
+            "Mobile1",
+            "Mobile2" 
           ]
         }
       },
-      "required": [
-        "Number"
-      ]
+      "required": [ "Number", "Key" ]
     }
   },
+
   "type": "object",
   "properties": {
-    "IsInactive": {
-      "type": "boolean"
-    },
-    "IsProspect": {
-      "type": "boolean"
-    },
-    "Id": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "OpenPurchaseOrderNumber": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "PaymentMethod": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "PriceLevel": {
-      "type": "integer"
-    },
-    "ReplaceInventoryItemIDWithPartNumber": {
-      "type": "boolean"
-    },
-    "ReplaceInventoryItemIDWithUPC": {
-      "type": "boolean"
-    },
-    "ResaleNumber": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "ShipVia": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "WebSiteURL": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "AccountNumber": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "CashAccountReference": {
-      "$ref": "#/definitions/Account"
-    },
-    "UseEmailToDeliverForms": {
-      "type": "boolean"
-    },
-    "Name": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "UsualSalesAccountReference": {
-      "$ref": "#/definitions/Account"
-    },
-    "PhoneNumbers": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
-        "$ref": "#/definitions/PhoneNumber"
-      }
-    },
-    "Email": {
-      "type": [
-        "string",
-        "null"
-      ]
-    },
-    "ShipToContact": {
-      "$ref": "#/definitions/Contact"
-    },
-    "Category": {
-      "type": [
-        "string",
-        "null"
+    "AccountNumber": { "type": "string" },
+    "BillToContact": { "$ref": "#/definitions/Contact" },
+    "CashAccount": { "$ref": "#/definitions/Account" },
+    "Category": { "type": "string" },
+    "CreditStatus": {
+      "type": "string",
+      "enum": [
+        "NoLimit", 
+        "NotifyOverLimit", 
+        "Notify", 
+        "HoldoverLimit", 
+        "Hold" 
       ]
     },
     "CustomerSince": {
-      "type": [
-        "string",
-        "null"
-      ],
+      "type": "string",
       "format": "date-time"
     },
-    "Contacts": {
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
-        "$ref": "#/definitions/Contact"
-      }
-    }
+    "Email": { "type": "string" },
+    "IsInactive": { "type": "boolean" },
+    "IsProspect": { "type": "boolean" },
+    "Id": { "type": "string" },
+    "Name": { "type": "string" },
+    "OpenPurchaseOrderNumber": { "type": "string" },
+    "PaymentMethod": { "type": "string" },
+    "PhoneNumbers": {
+      "type": [ "array" ],
+      "items": { "$ref": "#/definitions/PhoneNumber" }
+    },
+    "PriceLevel": { "type": "integer" },
+    "ReplaceInventoryItemIDWithPartNumber": { "type": "boolean" },
+    "ReplaceInventoryItemIDWithUPC": { "type": "boolean" },
+    "ResaleNumber": { "type": "string" },
+    "ShipToContact": { "$ref": "#/definitions/Contact" },
+    "ShipVia": { "type": "string" },
+    "WebSiteURL": { "type": "string" },
+    "UseEmailToDeliverForms": { "type": "boolean" },
+    "UsualSalesAccount": { "$ref": "#/definitions/Account" }
   },
   "required": [
-    "IsInactive",
-    "IsProspect",
-    "Id",
-    "OpenPurchaseOrderNumber",
-    "PaymentMethod",
-    "PriceLevel",
-    "ReplaceInventoryItemIDWithPartNumber",
-    "ReplaceInventoryItemIDWithUPC",
-    "ResaleNumber",
-    "ShipVia",
-    "AccountNumber",
-    "CashAccountReference",
-    "UseEmailToDeliverForms",
-    "Name",
-    "UsualSalesAccountReference",
-    "PhoneNumbers",
-    "Email",
-    "ShipToContact",
-    "Category",
-    "CustomerSince",
-    "Contacts"
+    "ExternalId",
+    "Name"
   ]
 }

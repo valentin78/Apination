@@ -25,13 +25,14 @@ namespace Sage50Connector.Models.Payloads
 
         public Customer Customer { get; set; }
 
-        public decimal Amount { get; set; }
+        public List<SalesInvoiceLine> SalesLines { get; set; }
+        
+        //public decimal Amount { get; set; }
         //readonly
         //public decimal AmountDue { get; set; }
 
         // TODO: factory not support create() 
         //public SalesTaxCode SalesTaxCode { get; set; }
-        //public List<SalesInvoiceLine> ApplyToSalesLines { get; set; }
         //public List<SalesInvoiceLine> ApplyToSalesOrderLines { get; set; }
         //public List<SalesInvoiceLine> ApplyToProposalLines { get; set; }
         //public Employee SalesRepresentativeReference { get; set; }

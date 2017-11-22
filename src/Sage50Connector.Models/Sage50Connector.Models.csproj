@@ -53,7 +53,7 @@
     <Compile Include="Payloads\PhoneNumber.cs" />
     <Compile Include="Payloads\SalesInvoice.cs" />
     <Compile Include="Payloads\NameAndAddress.cs" />
-    <Compile Include="Payloads\SalesInvoiceProposalLine.cs" />
+    <Compile Include="Payloads\SalesInvoiceLine.cs" />
     <Compile Include="Payloads\SalesTaxCode.cs" />
     <Compile Include="Payloads\TransactionLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
