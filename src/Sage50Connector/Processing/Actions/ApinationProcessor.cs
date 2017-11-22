@@ -76,6 +76,11 @@ namespace Sage50Connector.Processing.Actions
                                     patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = processed });
                                 }
                             }
+                            catch (MessageException ex)
+                            {
+                                Log.ErrorFormat("HANDLING ERROR MESSAGE: {0}", ex.Message);
+                                patchList.Add(new PatchAction() { Id = action.id, Processed = false });
+                            }
                             catch (Exception ex)
                             {
                                 Log.Error("Handling action failed", ex);
@@ -87,9 +92,13 @@ namespace Sage50Connector.Processing.Actions
 
                         apinationApi.PatchActions(patchList);
                     }
+                    catch (MessageException ex)
+                    {
+                        Log.ErrorFormat("HANDLING ERROR MESSAGE: {0}", ex.Message);
+                    }
                     catch (Exception ex)
                     {
-                        Log.Error("Actions processing error: ", ex);
+                        Log.Error("ACTIONS PROCESSING ERROR: ", ex);
                     }
                 });
 

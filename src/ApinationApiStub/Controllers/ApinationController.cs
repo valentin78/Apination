@@ -49,7 +49,7 @@ namespace ApinationApiStub.Controllers
                     }
                 },
                 new {
-                    type = "CreateInvoice",
+                    type = "UpdateInvoice",
                     id = "2",
                     companyName = "Chase Ridge Holdings",
                     payload = new SalesInvoice
@@ -58,7 +58,7 @@ namespace ApinationApiStub.Controllers
                         Amount = 1,
                         FreightAmount = 0,
                         DiscountAmount = 0,
-                        CustomerNote = "Note",
+                        CustomerNote = "Note2",
                         Date = DateTime.Parse("2019-3-15"),
                         DateDue = DateTime.Parse("2019-4-14"),
                         ShipToAddress = new NameAndAddress()
@@ -67,7 +67,7 @@ namespace ApinationApiStub.Controllers
                             Address = new Address
                             {
                                 Address1 = "Addr1",
-                                Address2 = "Addr2",
+                                Address2 = "Addr3",
                             }
                         },
                         Customer = new Customer

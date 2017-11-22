@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\MessageException.cs" />
     <Compile Include="API\Sage50Extensions.cs" />
     <Compile Include="Core\ApplicationConfig.Utils.cs" />
     <Compile Include="Core\ApplicationConfig.cs" />
@@ -70,11 +71,14 @@
     <Compile Include="Core\Extensions.cs" />
     <Compile Include="Core\TypeUtil.cs" />
     <Compile Include="Core\EventBindingAttribute.cs" />
+    <Compile Include="Processing\Actions\ActionHandlers\UpdateInvoiceSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\CreateInvoiceSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\UpdateCustomerSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
     <Compile Include="Processing\Actions\SageActions\SageActionPatch.cs" />
+    <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />
+
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ISageActionHandler.cs" />
