@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq;
 using log4net;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
-using SalesInvoice = Sage50Connector.Models.Payloads.SalesInvoice;
 
 namespace Sage50Connector.API
 {
@@ -110,6 +108,70 @@ namespace Sage50Connector.API
             return CompanyContext.Factories.SalesInvoiceFactory.List();
         }
 
+        public EntityReference<Customer> CreateOrUpdateCustomer(Models.Payloads.Customer customer)
+        {
+            var sageCustomer = FindSageCustomer(customer) ?? CompanyContext.Factories.CustomerFactory.Create();
+
+            sageCustomer.PopulateFromModel(CompanyContext, customer);
+            sageCustomer.Save();
+
+            return sageCustomer.Key;
+        }
+
+        public void CreateInvoice(Models.Payloads.SalesInvoice invoice)
+        {
+            var customer = FindSageCustomer(invoice.Customer);
+
+            SalesInvoice sageInvoice;
+            if (customer != null)
+            {
+                sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
+                if (sageInvoice != null)
+                    throw new MessageException(
+                        $"Found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
+            }
+
+            // if no exist invoice, we can create new
+            sageInvoice = CompanyContext.Factories.SalesInvoiceFactory.Create();
+
+            sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
+
+            sageInvoice.PopulateFromModel(CompanyContext, invoice);
+            sageInvoice.Save();
+        }
+
+        public void UpdateInvoice(Models.Payloads.SalesInvoice invoice)
+        {
+            var customer = FindSageCustomer(invoice.Customer);
+
+            if (customer == null)
+                throw new MessageException($"Not found customer with CustomerId: '{invoice.Customer.ExternalId}'. Transaction aborted.");
+
+            var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
+            if (sageInvoice == null)
+                throw new MessageException($"Not found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
+
+            sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
+
+            sageInvoice.PopulateFromModel(CompanyContext, invoice);
+            sageInvoice.Save();
+        }
+
+        /// <summary>
+        /// find invoice by reference number and customer id
+        /// </summary>
+        private SalesInvoice FindInvoice(string referenceNumber, string customerId)
+        {
+            // load invoices list by ReferenceNumber 
+            var invoices = SalesInvoicesList().FilterBy("ReferenceNumber", referenceNumber);
+            return invoices.SingleOrDefault(i =>
+            {
+                // load Customer
+                var customer = i.CustomerReference.Load(CompanyContext);
+                return customer.ID == customerId;
+            });
+        }
+
         private Customer FindSageCustomer(Models.Payloads.Customer customer)
         {
             var sageCustomers = CustomersList();
@@ -134,7 +196,8 @@ namespace Sage50Connector.API
                     FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(customer.Name)),
                     FilterExpression.Equal(FilterExpression.Property("Customer.Email"), FilterExpression.Constant(customer.Email))
                 );
-            } else if (!string.IsNullOrEmpty(customer.Name))
+            }
+            else if (!string.IsNullOrEmpty(customer.Name))
             {
                 expression = FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(customer.Name));
             }
@@ -160,70 +223,6 @@ namespace Sage50Connector.API
             sageCustomer = sageCustomers.First();
             localDbApi.StoreCustomerId(customer.ExternalId, sageCustomer.ID);
             return sageCustomer;
-        }
-
-        public EntityReference<Customer> CreateOrUpdateCustomer(Models.Payloads.Customer customer)
-        {
-            var sageCustomer = FindSageCustomer(customer) ?? CompanyContext.Factories.CustomerFactory.Create();
-
-            sageCustomer.PopulateFromModel(CompanyContext, customer);
-            sageCustomer.Save();
-
-            return sageCustomer.Key;
-        }
-
-        public void CreateInvoice(SalesInvoice invoice)
-        {
-            var customer = FindSageCustomer(invoice.Customer);
-
-            Sage.Peachtree.API.SalesInvoice sageInvoice;
-            if (customer != null)
-            {
-                sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
-                if (sageInvoice != null)
-                    throw new MessageException(
-                        $"Found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
-            }
-
-            // if no exist invoice, we can create new
-            sageInvoice = CompanyContext.Factories.SalesInvoiceFactory.Create();
-
-            sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
-
-            sageInvoice.PopulateFromModel(CompanyContext, invoice);
-            sageInvoice.Save();
-        }
-
-        public void UpdateInvoice(SalesInvoice invoice)
-        {
-            var customer = FindSageCustomer(invoice.Customer);
-
-            if (customer == null)
-                throw new MessageException($"Not found customer with CustomerId: '{invoice.Customer.ExternalId}'. Transaction aborted.");
-
-            var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
-            if (sageInvoice == null)
-                throw new MessageException($"Not found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
-
-            sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
-
-            sageInvoice.PopulateFromModel(CompanyContext, invoice);
-            sageInvoice.Save();
-        }
-
-        /// <summary>
-        /// find invoice by reference number and customer id
-        /// </summary>
-        private Sage.Peachtree.API.SalesInvoice FindInvoice(string referenceNumber, string customerId)
-        {
-            // load invoices list by ReferenceNumber 
-            var invoices = SalesInvoicesList().FilterBy("ReferenceNumber", referenceNumber);
-            return invoices.SingleOrDefault(i =>
-            {
-                // load Customer
-                var customer = i.CustomerReference.Load(CompanyContext);
-                return customer.ID == customerId;
-            });
         }
     }
 }
