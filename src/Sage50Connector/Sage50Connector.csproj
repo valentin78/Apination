@@ -80,8 +80,9 @@
     <Compile Include="Processing\Actions\ActionHandlers\UpdateCustomerSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
+    <Compile Include="Processing\Actions\SageActions\SageActionPatch.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />
-    <Compile Include="Processing\Actions\SageActions\PatchAction.cs" />
+
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ISageActionHandler.cs" />
@@ -89,7 +90,7 @@
     <Compile Include="Processing\Actions\PollApinationJobFactory.cs" />
     <Compile Include="Processing\Actions\PollApinationJobListener.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\Factory\SageActionHandlerFactory.cs" />
-    <Compile Include="Processing\Actions\SageActions\Factory\SageActionJsonFactory.cs" />
+    <Compile Include="Processing\Actions\SageActions\Factory\SageActionFromJsonFactory.cs" />
     <Compile Include="Processing\Actions\SageActions\CreateInvoiceSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateCustomerSageAction.cs" />
     <Compile Include="Processing\IObservable.cs" />
@@ -108,11 +109,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Processing\Actions\ApinationProcessor.cs" />
-    <Compile Include="Temp\Architecture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
