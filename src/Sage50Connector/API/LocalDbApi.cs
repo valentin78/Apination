@@ -64,10 +64,10 @@ namespace Sage50Connector.API
         {
             public CustomerIdMapping()
             {
-                _id = ObjectId.NewObjectId();
+                Id = ObjectId.NewObjectId();
             }
 
-            public ObjectId _id { get; set; }
+            public ObjectId Id { get; set; }
             public string ExternalId { get; set; }
             public string SageCustomerId { get; set; }
         }
