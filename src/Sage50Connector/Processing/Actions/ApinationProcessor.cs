@@ -79,7 +79,7 @@ namespace Sage50Connector.Processing.Actions
                             catch (MessageException ex)
                             {
                                 Log.ErrorFormat("HANDLING ERROR MESSAGE: {0}", ex.Message);
-                                patchList.Add(new PatchAction() { Id = action.id, Processed = false });
+                                patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = false });
                             }
                             catch (Exception ex)
                             {
