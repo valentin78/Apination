@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -55,13 +56,26 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new SalesInvoice
                     {
-                        ReferenceNumber = "1",
-                        Amount = 1,
+                        ReferenceNumber = "3",
                         FreightAmount = 0,
                         DiscountAmount = 0,
-                        CustomerNote = "Note2",
+                        CustomerNote = "Note3",
                         Date = DateTime.Parse("2019-3-15"),
                         DateDue = DateTime.Parse("2019-4-14"),
+                        ApplyToSalesLines = new List<SalesInvoiceSalesLine>
+                        {
+                            new SalesInvoiceSalesLine
+                            {
+                                Amount = 2,
+                                Description = "zzz3", 
+                                SalesTaxType = 1, 
+                                Account = new Account()
+                                {
+                                    Id = "1",
+                                    Classification = "Cash"
+                                }
+                            }
+                        },
                         ShipToAddress = new NameAndAddress()
                         {
                             Name = "Name 1",
@@ -73,8 +87,8 @@ namespace ApinationApiStub.Controllers
                         },
                         Customer = new Customer
                         {
-                            ExternalId = "CST-03",
-                            Name = "Customer 3",
+                            ExternalId = "CST-07",
+                            Name = "Customer 7",
                             AccountNumber = "123",
                             BillToContact = new Contact()
                             {

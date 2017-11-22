@@ -27,8 +27,20 @@ namespace Sage50Connector.API
             sageInvoice.DateDue = invoice.DateDue;
             sageInvoice.CustomerPurchaseOrderNumber = invoice.CustomerPurchaseOrderNumber;
 
-            var line = sageInvoice.AddSalesLine();
-            line.Amount = invoice.Amount;
+            foreach (var sageInvoiceApplyToSalesLine in sageInvoice.ApplyToSalesLines)
+            {
+                sageInvoiceApplyToSalesLine.MarkForDeletion();
+            }
+            foreach (var salesLine in invoice.ApplyToSalesLines)
+            {
+                var sageSalesLine = sageInvoice.AddSalesLine();
+                sageSalesLine.Amount = salesLine.Amount;
+                sageSalesLine.Quantity = salesLine.Quantity;
+                sageSalesLine.SalesTaxType = salesLine.SalesTaxType;
+                sageSalesLine.UnitPrice= salesLine.UnitPrice;
+                sageSalesLine.Description = salesLine.Description;
+                sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext);
+            }
 
             sageInvoice.FreightAccountReference = sageInvoice.FreightAccountReference.PopulateFromModel(invoice.FreightAccount, companyContext);
             sageInvoice.ShipToAddress.PopulateFromModel(invoice.ShipToAddress);
