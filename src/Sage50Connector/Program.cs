@@ -1,5 +1,4 @@
 ﻿using System.ServiceProcess;
-using Sage50Connector.Core;
 
 namespace Sage50Connector
 {
@@ -10,12 +9,11 @@ namespace Sage50Connector
         /// </summary>
         static void Main()
         {
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[]
+            var servicesToRun = new ServiceBase[]
             {
                 new ScheduleService()
             };
-            ServiceBase.Run(ServicesToRun);
+            ServiceBase.Run(servicesToRun);
         }
     }
 }

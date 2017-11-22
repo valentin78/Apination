@@ -14,9 +14,9 @@ namespace Sage50Connector.Models.Payloads
             CreditStatus = "NoLimit";
         }
 
+        public string ExternalId { get; set; }
         public bool IsInactive { get; set; }
         public bool IsProspect { get; set; }
-        public string Id { get; set; }
         public string OpenPurchaseOrderNumber { get; set; }
         public string PaymentMethod { get; set; }
         public short PriceLevel { get; set; }

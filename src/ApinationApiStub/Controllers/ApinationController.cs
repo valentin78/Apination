@@ -38,8 +38,9 @@ namespace ApinationApiStub.Controllers
                     companyName = "Chase Ridge Holdings",
                     payload = new Customer
                     {
-                        Id = "5",
+                        ExternalId = "CST-05",
                         Name = "Customer 1",
+                        Email = "emal",
                         AccountNumber = "123",
                         BillToContact = new Contact()
                         {
@@ -72,7 +73,7 @@ namespace ApinationApiStub.Controllers
                         },
                         Customer = new Customer
                         {
-                            Id = "3",
+                            ExternalId = "CST-03",
                             Name = "Customer 3",
                             AccountNumber = "123",
                             BillToContact = new Contact()

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using log4net;
 using Sage.Peachtree.API;
+using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
 using SalesInvoice = Sage50Connector.Models.Payloads.SalesInvoice;
 
@@ -13,6 +15,9 @@ namespace Sage50Connector.API
     public class Sage50Api : IDisposable
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(Sage50Api));
+
+        // ReSharper disable once InconsistentNaming
+        private readonly LocalDbApi localDbApi = new LocalDbApi();
 
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
@@ -105,11 +110,61 @@ namespace Sage50Connector.API
             return CompanyContext.Factories.SalesInvoiceFactory.List();
         }
 
+        private Customer FindSageCustomer(Models.Payloads.Customer customer)
+        {
+            var sageCustomers = CustomersList();
+
+            // find mapping for externalId
+            var sageCustomerId = localDbApi.GetCustomerIdByExternalId(customer.ExternalId);
+            if (sageCustomerId != null) return sageCustomers.SingleOrDefault(sageCustomerId);
+
+            // find by externalId in Sage50
+            var sageCustomer = sageCustomers.SingleOrDefault(customer.ExternalId);
+            if (sageCustomer != null)
+            {
+                localDbApi.StoreCustomerId(customer.ExternalId, sageCustomer.ID);
+                return sageCustomer;
+            }
+
+            // if no mapping found and by extrnalId, find customer by name or email and store mapping to localDb
+            FilterExpression expression;
+            if (!string.IsNullOrEmpty(customer.Name) && !string.IsNullOrEmpty(customer.Email))
+            {
+                expression = FilterExpression.AndAlso(
+                    FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(customer.Name)),
+                    FilterExpression.Equal(FilterExpression.Property("Customer.Email"), FilterExpression.Constant(customer.Email))
+                );
+            } else if (!string.IsNullOrEmpty(customer.Name))
+            {
+                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(customer.Name));
+            }
+            else if (!string.IsNullOrEmpty(customer.Email))
+            {
+                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Email"),
+                    FilterExpression.Constant(customer.Email));
+            }
+            else
+            {
+                throw new MessageException($"Can not find customer because name and email is null");
+            }
+
+            var modifier = LoadModifiers.Create();
+            modifier.Filters = expression;
+            sageCustomers.Load(modifier);
+
+            if (sageCustomers.Count == 0) return null;
+
+            if (sageCustomers.Count > 1)
+                throw new MessageException($"Found more that one customer by name: '{customer.Name}' or email: '{customer.Email}'");
+
+            sageCustomer = sageCustomers.First();
+            localDbApi.StoreCustomerId(customer.ExternalId, sageCustomer.ID);
+            return sageCustomer;
+        }
+
         public EntityReference<Customer> CreateOrUpdateCustomer(Models.Payloads.Customer customer)
         {
-            var customers = CustomersList();
-
-            var sageCustomer = customers.SingleOrDefault(customer.Id) ?? CompanyContext.Factories.CustomerFactory.Create();
+            var sageCustomer = FindSageCustomer(customer) ?? CompanyContext.Factories.CustomerFactory.Create();
 
             sageCustomer.PopulateFromModel(CompanyContext, customer);
             sageCustomer.Save();
@@ -119,9 +174,16 @@ namespace Sage50Connector.API
 
         public void CreateInvoice(SalesInvoice invoice)
         {
-            var sageInvoice = FindInvoice(invoice.ReferenceNumber, invoice.Customer.Id);
-            if (sageInvoice != null)
-                throw new MessageException($"Found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{invoice.Customer.Id}'. Transaction aborted.");
+            var customer = FindSageCustomer(invoice.Customer);
+
+            Sage.Peachtree.API.SalesInvoice sageInvoice;
+            if (customer != null)
+            {
+                sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
+                if (sageInvoice != null)
+                    throw new MessageException(
+                        $"Found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
+            }
 
             // if no exist invoice, we can create new
             sageInvoice = CompanyContext.Factories.SalesInvoiceFactory.Create();
@@ -134,9 +196,14 @@ namespace Sage50Connector.API
 
         public void UpdateInvoice(SalesInvoice invoice)
         {
-            var sageInvoice = FindInvoice(invoice.ReferenceNumber, invoice.Customer.Id);
+            var customer = FindSageCustomer(invoice.Customer);
+
+            if (customer == null)
+                throw new MessageException($"Not found customer with CustomerId: '{invoice.Customer.ExternalId}'. Transaction aborted.");
+
+            var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
             if (sageInvoice == null)
-                throw new MessageException($"Not found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{invoice.Customer.Id}'. Transaction aborted.");
+                throw new MessageException($"Not found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
 
             sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
 

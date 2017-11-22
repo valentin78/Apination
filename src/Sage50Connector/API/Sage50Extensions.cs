@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using log4net;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
 
@@ -27,6 +26,7 @@ namespace Sage50Connector.API
             sageInvoice.DiscountAmount = invoice.DiscountAmount;
             sageInvoice.DateDue = invoice.DateDue;
             sageInvoice.CustomerPurchaseOrderNumber = invoice.CustomerPurchaseOrderNumber;
+
             var line = sageInvoice.AddSalesLine();
             line.Amount = invoice.Amount;
 
@@ -120,7 +120,7 @@ namespace Sage50Connector.API
         {
             if (customer == null) return;
 
-            sageCustomer.ID = customer.Id;
+            sageCustomer.ID = customer.ExternalId;
             sageCustomer.Name = customer.Name;
             sageCustomer.IsInactive = customer.IsInactive;
             sageCustomer.IsProspect = customer.IsProspect;
