@@ -9,7 +9,7 @@ namespace Sage50Connector.API
 {
     internal static class Sage50Extensions
     {
-        public static void PopulateFromModel(this SalesInvoice sageInvoice, Company company, Models.Payloads.SalesInvoice invoice)
+        public static void PopulateFromModel(this SalesInvoice sageInvoice, Company companyContext, Models.Payloads.SalesInvoice invoice)
         {
             sageInvoice.ReferenceNumber = invoice.ReferenceNumber;
 
@@ -30,7 +30,7 @@ namespace Sage50Connector.API
             var line = sageInvoice.AddSalesLine();
             line.Amount = invoice.Amount;
 
-            sageInvoice.FreightAccountReference = sageInvoice.FreightAccountReference.PopulateFromModel(invoice.FreightAccount, company);
+            sageInvoice.FreightAccountReference = sageInvoice.FreightAccountReference.PopulateFromModel(invoice.FreightAccount, companyContext);
             sageInvoice.ShipToAddress.PopulateFromModel(invoice.ShipToAddress);
         }
 
@@ -64,20 +64,20 @@ namespace Sage50Connector.API
             sageAccount.Classification = account.Classification.ToEnum<AccountClassification>();
         }
 
-        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Payloads.Account account, Company company)
+        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Payloads.Account account, Company companyContext)
         {
             if (account == null) return entityReference;
 
             if (entityReference.IsEmpty)
             {
-                var accountsList = company.Factories.AccountFactory.List();
-                var sageCashAccount =  accountsList.SingleOrDefault(account.Id) ?? company.Factories.AccountFactory.Create();
+                var accountsList = companyContext.Factories.AccountFactory.List();
+                var sageCashAccount =  accountsList.SingleOrDefault(account.Id) ?? companyContext.Factories.AccountFactory.Create();
                 sageCashAccount.PopulateFromModel(account);
                 sageCashAccount.Save();
                 return sageCashAccount.Key;
             }
 
-            var cashAccount = entityReference.Load(company);
+            var cashAccount = entityReference.Load(companyContext);
             cashAccount.PopulateFromModel(account);
             return entityReference;
         }
@@ -94,7 +94,7 @@ namespace Sage50Connector.API
             sageAddress.SalesTaxCode = address.SalesTaxCode;
         }
 
-        public static void PopulateFromModel(this Contact sageContact, Company company, Models.Payloads.Contact contact)
+        public static void PopulateFromModel(this Contact sageContact, Company companyContext, Models.Payloads.Contact contact)
         {
             if (contact == null) return;
             sageContact.FirstName = contact.FirstName;
@@ -116,7 +116,7 @@ namespace Sage50Connector.API
             sageContact.PhoneNumbers.PopulateFromModel(contact.PhoneNumbers);
         }
 
-        public static void PopulateFromModel(this Customer sageCustomer, Company company, Models.Payloads.Customer customer)
+        public static void PopulateFromModel(this Customer sageCustomer, Company companyContext, Models.Payloads.Customer customer)
         {
             if (customer == null) return;
 
@@ -138,13 +138,13 @@ namespace Sage50Connector.API
             sageCustomer.CreditStatus = customer.CreditStatus.ToEnum<CustomerCreditStatus>();
             sageCustomer.CustomerSince = customer.CustomerSince;
 
-            sageCustomer.ShipToContact.PopulateFromModel(company, customer.ShipToContact);
-            sageCustomer.BillToContact.PopulateFromModel(company, customer.BillToContact);
+            sageCustomer.ShipToContact.PopulateFromModel(companyContext, customer.ShipToContact);
+            sageCustomer.BillToContact.PopulateFromModel(companyContext, customer.BillToContact);
 
             sageCustomer.PhoneNumbers.PopulateFromModel(customer.PhoneNumbers);
 
-            sageCustomer.CashAccountReference = sageCustomer.CashAccountReference.PopulateFromModel(customer.CashAccount, company);
-            sageCustomer.UsualSalesAccountReference = sageCustomer.UsualSalesAccountReference.PopulateFromModel(customer.UsualSalesAccount, company);
+            sageCustomer.CashAccountReference = sageCustomer.CashAccountReference.PopulateFromModel(customer.CashAccount, companyContext);
+            sageCustomer.UsualSalesAccountReference = sageCustomer.UsualSalesAccountReference.PopulateFromModel(customer.UsualSalesAccount, companyContext);
         }
 
         /// <summary>
@@ -165,20 +165,25 @@ namespace Sage50Connector.API
         /// <summary>
         /// apply filter on EntityList by ID and load single or default item from list
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list"></param>
-        /// <param name="id"></param>
         public static T SingleOrDefault<T>(this EntityList<T> list, object id) where T : Entity
         {
+            return list.FilterBy("ID", id).SingleOrDefault();
+        }
+
+        /// <summary>
+        /// apply filter on EntityList by propertyName it value load single or default item from list
+        /// </summary>
+        public static EntityList<T> FilterBy<T>(this EntityList<T> list, string propertyName, object propertyValue) where T : Entity
+        {
             FilterExpression expression = FilterExpression.Equal(
-                FilterExpression.Property($"{typeof(T).Name}.ID"),
-                FilterExpression.Constant(id.ToString()));
+                FilterExpression.Property($"{typeof(T).Name}.{propertyName}"),
+                FilterExpression.Constant(propertyValue.ToString()));
 
             var modifier = LoadModifiers.Create();
             modifier.Filters = expression;
             list.Load(modifier);
 
-            return list.SingleOrDefault();
+            return list;
         }
     }
 }
