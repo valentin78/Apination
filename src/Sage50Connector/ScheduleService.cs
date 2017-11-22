@@ -14,7 +14,7 @@ namespace Sage50Connector
         /// <summary>
         /// Apination Api Util 
         /// </summary>
-        private ApinationApi _apinationApi => new ApinationApi(new WebClientHttpUtility());
+        private ApinationApi apinationApi => new ApinationApi(new WebClientHttpUtility());
 
         public static readonly ILog Log = LogManager.GetLogger(typeof(ScheduleService));
         public static void InitializeLogger() { XmlConfigurator.Configure(); }
@@ -29,7 +29,7 @@ namespace Sage50Connector
             InitializeComponent();
         }
 
-        private ApinationProcessor apinationProcess;
+        private ApinationProcessor apinationProcessor;
 
 
         protected override void OnStart(string[] args)
@@ -44,11 +44,11 @@ namespace Sage50Connector
 
                 // retrieve config
                 Log.Info("Retrieve Connector Config ...");
-                var config = _apinationApi.RetrieveConnectorConfig();
+                var config = apinationApi.RetrieveConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-                apinationProcess = new ApinationProcessor();
-                apinationProcess.StartPollApination(config);
+                apinationProcessor = new ApinationProcessor();
+                apinationProcessor.StartPollApination(config);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace Sage50Connector
 
         protected override void OnStop()
         {
-            apinationProcess.Dispose();
+            apinationProcessor.Dispose();
 
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service stopped");

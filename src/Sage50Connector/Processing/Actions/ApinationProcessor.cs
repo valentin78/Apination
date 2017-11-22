@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using log4net;
 using Newtonsoft.Json;
 using Quartz;
@@ -8,13 +7,15 @@ using Quartz.Impl;
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
-using Sage50Connector.Processing.Actions.ActionHandlers;
 using Sage50Connector.Processing.Actions.ActionHandlers.Factory;
 using Sage50Connector.Processing.Actions.SageActions;
 using Sage50Connector.Processing.Actions.SageActions.Factory;
 
 namespace Sage50Connector.Processing.Actions
 {
+    /// <summary>
+    /// 
+    /// </summary>
     class ApinationProcessor : IDisposable
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(ApinationProcessor));
@@ -23,7 +24,7 @@ namespace Sage50Connector.Processing.Actions
 
         public SageActionsObserverable StartPollApination(Config config)
         {
-            Log.InfoFormat("StartPollApination running width config: '{0}'", config);
+            Log.InfoFormat("StartPollApination running with config: '{0}'", config);
 
             try
             {
@@ -48,38 +49,37 @@ namespace Sage50Connector.Processing.Actions
                     job: pollApinationJob,
                     trigger: cronTrigger,
                     scheduler: scheduler,
-                    apinationListener: new PollApinationJobListener(new SageActionJsonFactory()),
+                    apinationJobListener: new PollApinationJobListener(new SageActionFromJsonFactory()),
                     config: config
                 );
 
                 //and for apination
-                apinationObservable.Subscribe(actions =>
+                apinationObservable.Subscribe(sageActions =>
                 {
                     // actions can be handled in any order, this is the right place to put this logic
                     // most of the time it will be just 1-1 action to handler assocciation
-                    // ActionHandlers are what you call "Savers", but for actions
                     try
                     {
-                        List<PatchAction> patchList = new List<PatchAction>();
-                        foreach (var action in actions)
+                        var patchList = new List<SageActionPatch>();
+                        foreach (var sageAction in sageActions)
                         {
                             try
                             {
-                                Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", action.type, action.id);
-                                using (var handler = SageActionHandlerFactory.CreateHandler(action))
+                                Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
+                                using (var handler = SageActionHandlerFactory.CreateHandler(sageAction))
                                 {
-                                    Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", action.type, action.id);
+                                    Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
                                     // dynamic ActionHandler generic type require derived type, not base SageAction type
-                                    var processed = handler.Handle((dynamic)action);
+                                    var processed = handler.Handle((dynamic)sageAction);
                                     Log.InfoFormat("Handling action result: {0}", processed);
 
-                                    patchList.Add(new PatchAction() { Id = action.id, Processed = processed });
+                                    patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = processed });
                                 }
                             }
                             catch (Exception ex)
                             {
                                 Log.Error("Handling action failed", ex);
-                                patchList.Add(new PatchAction() { Id = action.id, Processed = false });
+                                patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = false });
                             }
                         }
 

@@ -29,7 +29,7 @@ namespace Sage50Connector.API
             return httpUtility.Get("api/actions");
         }
 
-        public string PatchActions(IEnumerable<PatchAction> actions)
+        public string PatchActions(IEnumerable<SageActionPatch> actions)
         {
             return httpUtility.Patch("api/actions", JsonConvert.SerializeObject(actions), "application/json");
         }

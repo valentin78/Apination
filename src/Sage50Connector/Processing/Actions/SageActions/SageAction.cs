@@ -1,4 +1,6 @@
 // ReSharper disable InconsistentNaming
+using System;
+
 namespace Sage50Connector.Processing.Actions.SageActions
 {
     public class SageAction
@@ -10,5 +12,11 @@ namespace Sage50Connector.Processing.Actions.SageActions
         public string mainLogId { get; set; }
         public string createdAt { get; set; }
         public string companyName { get; set; }
+
+        public static Type GetActionClassType(string actionType)
+        {
+            return Type.GetType($"Sage50Connector.Processing.Actions.SageActions.{actionType}SageAction");
+        }
+
     }
 }

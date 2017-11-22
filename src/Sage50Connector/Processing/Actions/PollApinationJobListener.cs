@@ -32,7 +32,7 @@ namespace Sage50Connector.Processing.Actions
         {
             if (context.JobDetail.JobDataMap["actions"] == null) return;
 
-            var sageActionsJson = ((IEnumerable<string>)context.JobDetail.JobDataMap["actions"]);
+            var sageActionsJson = (IEnumerable<string>)context.JobDetail.JobDataMap["actions"];
             
             Log.Info("Creating Sage50 actions from JSON ...");
             var sageActions = sageActionsJson.Select(actionJson => actionFactory.Create(actionJson));

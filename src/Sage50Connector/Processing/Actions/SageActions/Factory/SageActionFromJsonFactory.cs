@@ -8,9 +8,9 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
     /// <summary>
     /// Creates Sage Actions from JSON strings
     /// </summary>
-    class SageActionJsonFactory : ISageActionFactory
+    class SageActionFromJsonFactory : ISageActionFactory
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionJsonFactory));
+        public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionFromJsonFactory));
 
         public SageAction Create(string jsonString)
         {
@@ -19,7 +19,7 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
             dynamic sageAction = JObject.Parse(jsonString);
 
             var actionTypePrefix = (string)sageAction.type;
-            var actionType = GetActionTypeByPrefix(actionTypePrefix);
+            var actionType = SageAction.GetActionClassType(actionTypePrefix);
             if (actionType == null)
             {
                 throw new Exception($"Can not found action type for '{actionTypePrefix}' type");
@@ -28,9 +28,5 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
             return (SageAction)JsonConvert.DeserializeObject(jsonString, actionType);
         }
 
-        public static Type GetActionTypeByPrefix(string actionPrefix)
-        {
-            return Type.GetType($"Sage50Connector.Processing.Actions.SageActions.{actionPrefix}SageAction");
-        }
     }
 }

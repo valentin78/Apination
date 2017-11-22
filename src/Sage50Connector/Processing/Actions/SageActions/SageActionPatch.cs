@@ -2,7 +2,7 @@
 
 namespace Sage50Connector.Processing.Actions.SageActions
 {
-    public class PatchAction
+    public class SageActionPatch
     {
         [JsonProperty(propertyName: "id")]
         public string Id { get; set; }
