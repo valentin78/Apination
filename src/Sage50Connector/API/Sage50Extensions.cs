@@ -8,7 +8,7 @@ namespace Sage50Connector.API
 {
     internal static class Sage50Extensions
     {
-        public static void PopulateFromModel(this SalesInvoice sageInvoice, Company companyContext, Models.Payloads.SalesInvoice invoice)
+        public static void PopulateFromModel(this SalesInvoice sageInvoice, Company companyContext, Models.Data.SalesInvoice invoice)
         {
             sageInvoice.ReferenceNumber = invoice.ReferenceNumber;
 
@@ -46,18 +46,18 @@ namespace Sage50Connector.API
             sageInvoice.ShipToAddress.PopulateFromModel(invoice.ShipToAddress);
         }
 
-        public static void PopulateFromModel(this NameAndAddress sageNameAndAddress, Models.Payloads.NameAndAddress nameAndAddress)
+        public static void PopulateFromModel(this NameAndAddress sageNameAndAddress, Models.Data.NameAndAddress nameAndAddress)
         {
             sageNameAndAddress.Name = nameAndAddress.Name;
             sageNameAndAddress.Address.PopulateFromModel(nameAndAddress.Address);
         }
 
-        public static void PopulateFromModel(this PhoneNumber sagePhoneNumber, Models.Payloads.PhoneNumber phoneNumber)
+        public static void PopulateFromModel(this PhoneNumber sagePhoneNumber, Models.Data.PhoneNumber phoneNumber)
         {
             sagePhoneNumber.Number = phoneNumber.Number;
         }
 
-        public static void PopulateFromModel(this PhoneNumberCollection sagePhoneNumberCollection, List<Models.Payloads.PhoneNumber> contactPhoneNumbers)
+        public static void PopulateFromModel(this PhoneNumberCollection sagePhoneNumberCollection, List<Models.Data.PhoneNumber> contactPhoneNumbers)
         {
             if (contactPhoneNumbers == null) return;
             foreach (var contactPhoneNumber in contactPhoneNumbers)
@@ -67,7 +67,7 @@ namespace Sage50Connector.API
             }
         }
 
-        public static void PopulateFromModel(this Account sageAccount, Models.Payloads.Account account)
+        public static void PopulateFromModel(this Account sageAccount, Models.Data.Account account)
         {
             if (account == null) return;
             sageAccount.Description = account.Description;
@@ -76,7 +76,7 @@ namespace Sage50Connector.API
             sageAccount.Classification = account.Classification.ToEnum<AccountClassification>();
         }
 
-        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Payloads.Account account, Company companyContext)
+        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext)
         {
             if (account == null) return entityReference;
 
@@ -94,7 +94,7 @@ namespace Sage50Connector.API
             return entityReference;
         }
 
-        public static void PopulateFromModel(this Address sageAddress, Models.Payloads.Address address)
+        public static void PopulateFromModel(this Address sageAddress, Models.Data.Address address)
         {
             if (address == null) return;
             sageAddress.Address1 = address.Address1;
@@ -106,7 +106,7 @@ namespace Sage50Connector.API
             sageAddress.SalesTaxCode = address.SalesTaxCode;
         }
 
-        public static void PopulateFromModel(this Contact sageContact, Company companyContext, Models.Payloads.Contact contact)
+        public static void PopulateFromModel(this Contact sageContact, Company companyContext, Models.Data.Contact contact)
         {
             if (contact == null) return;
             sageContact.FirstName = contact.FirstName;
@@ -128,7 +128,7 @@ namespace Sage50Connector.API
             sageContact.PhoneNumbers.PopulateFromModel(contact.PhoneNumbers);
         }
 
-        public static void PopulateFromModel(this Customer sageCustomer, Company companyContext, Models.Payloads.Customer customer)
+        public static void PopulateFromModel(this Customer sageCustomer, Company companyContext, Models.Data.Customer customer)
         {
             if (customer == null) return;
 

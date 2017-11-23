@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sage50Connector.Models.Payloads
+namespace Sage50Connector.Models.Data
 {
     public class SalesInvoice
     {

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
+using Sage50Connector.Models.Data;
 using Sage50Connector.Models.Payloads;
-using Sage50Connector.Processing.Actions.SageActions;
-using Sage50Connector.Processing.Actions.SageActions.Payloads;
 
 namespace ApinationApiStub.Controllers
 {

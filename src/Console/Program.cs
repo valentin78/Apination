@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using Sage.Peachtree.API;
-using Sage50Connector.Models.Payloads;
-using Customer = Sage50Connector.Models.Payloads.Customer;
-using SalesInvoice = Sage50Connector.Models.Payloads.SalesInvoice;
+using Sage50Connector.Models.Data;
+using Customer = Sage50Connector.Models.Data.Customer;
+using SalesInvoice = Sage50Connector.Models.Data.SalesInvoice;
 
 namespace Console
 {

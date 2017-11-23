@@ -1,4 +1,5 @@
-namespace Sage50Connector.Processing.Actions.SageActions.Payloads
+// ReSharper disable InconsistentNaming
+namespace Sage50Connector.Models.Payloads
 {
     public class Payload
     {

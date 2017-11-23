@@ -108,7 +108,7 @@ namespace Sage50Connector.API
             return CompanyContext.Factories.SalesInvoiceFactory.List();
         }
 
-        public EntityReference<Customer> CreateOrUpdateCustomer(Models.Payloads.Customer customer)
+        public EntityReference<Customer> CreateOrUpdateCustomer(Models.Data.Customer customer)
         {
             var sageCustomer = FindSageCustomer(customer) ?? CompanyContext.Factories.CustomerFactory.Create();
 
@@ -118,7 +118,7 @@ namespace Sage50Connector.API
             return sageCustomer.Key;
         }
 
-        public void CreateInvoice(Models.Payloads.SalesInvoice invoice)
+        public void CreateInvoice(Models.Data.SalesInvoice invoice)
         {
             var customer = FindSageCustomer(invoice.Customer);
 
@@ -140,7 +140,7 @@ namespace Sage50Connector.API
             sageInvoice.Save();
         }
 
-        public void UpdateInvoice(Models.Payloads.SalesInvoice invoice)
+        public void UpdateInvoice(Models.Data.SalesInvoice invoice)
         {
             var customer = FindSageCustomer(invoice.Customer);
 
@@ -172,7 +172,7 @@ namespace Sage50Connector.API
             });
         }
 
-        private Customer FindSageCustomer(Models.Payloads.Customer customer)
+        private Customer FindSageCustomer(Models.Data.Customer customer)
         {
             var sageCustomers = CustomersList();
 

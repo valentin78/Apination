@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 // ReSharper disable InconsistentNaming
 
-namespace Sage50Connector.Models.Payloads
+namespace Sage50Connector.Models.Data
 {
     public class Customer
     {

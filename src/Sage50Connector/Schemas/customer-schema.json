@@ -7,7 +7,7 @@
       "type": "object",
       "properties": {
         "Description": { "type": "string" },
-        "ExternalId": { "type": "string"},
+        "Id": { "type": "string"},
         "IsInactive": { "type": "boolean" },
         "Classification": {
           "type": "string" ,
@@ -120,11 +120,11 @@
     "CreditStatus": {
       "type": "string",
       "enum": [
-        "NoLimit", 
-        "NotifyOverLimit", 
-        "Notify", 
-        "HoldoverLimit", 
-        "Hold" 
+        "NoLimit",
+        "NotifyOverLimit",
+        "Notify",
+        "HoldoverLimit",
+        "Hold"
       ]
     },
     "CustomerSince": {
@@ -134,7 +134,7 @@
     "Email": { "type": "string" },
     "IsInactive": { "type": "boolean" },
     "IsProspect": { "type": "boolean" },
-    "Id": { "type": "string" },
+    "ExternalId": { "type": "string" },
     "Name": { "type": "string" },
     "OpenPurchaseOrderNumber": { "type": "string" },
     "PaymentMethod": { "type": "string" },
