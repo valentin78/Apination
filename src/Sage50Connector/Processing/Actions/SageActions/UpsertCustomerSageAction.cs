@@ -4,8 +4,8 @@ using Sage50Connector.Processing.Actions.SageActions.Payloads;
 
 namespace Sage50Connector.Processing.Actions.SageActions
 {
-    public class UpdateInvoiceSageAction : SageAction
+    public class UpsertCustomerSageAction : SageAction
     {
-        public SalesInvoicePayload payload { get; set; }
+        public UpsertCustomerPayload payload { get; set; }
     }
 }

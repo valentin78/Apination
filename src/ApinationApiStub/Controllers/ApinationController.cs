@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Sage50Connector.Models;
 using Sage50Connector.Models.Payloads;
+using Sage50Connector.Processing.Actions.SageActions;
+using Sage50Connector.Processing.Actions.SageActions.Payloads;
 
 namespace ApinationApiStub.Controllers
 {
@@ -33,64 +35,70 @@ namespace ApinationApiStub.Controllers
                 new {
                     type = "UpdateCustomer",
                     id = "1",
-                    companyName = "Chase Ridge Holdings",
-                    payload = new Customer
+                    payload = new UpsertCustomerPayload
                     {
-                        ExternalId = "CST-05",
-                        Name = "Customer 1",
-                        Email = "emal",
-                        AccountNumber = "123",
-                        BillToContact = new Contact()
+                        companyName = "Chase Ridge Holdings",
+                        customer = new Customer
                         {
-                            FirstName = "Name",
-                            LastName = "Lastname"
+                            ExternalId = "CST-05",
+                            Name = "Customer 1",
+                            Email = "emal",
+                            AccountNumber = "123",
+                            BillToContact = new Contact()
+                            {
+                                FirstName = "Name",
+                                LastName = "Lastname"
+                            }
                         }
                     }
                 },
                 new {
                     type = "UpdateInvoice",
                     id = "2",
-                    companyName = "Chase Ridge Holdings",
-                    payload = new SalesInvoice
+                    payload = new SalesInvoicePayload
                     {
-                        ReferenceNumber = "3",
-                        FreightAmount = 0,
-                        DiscountAmount = 0,
-                        CustomerNote = "Note3",
-                        Date = DateTime.Parse("2019-3-15"),
-                        DateDue = DateTime.Parse("2019-4-14"),
-                        SalesLines = new List<SalesInvoiceLine>
+                        companyName = "Chase Ridge Holdings",
+                        invoice = new SalesInvoice
                         {
-                            new SalesInvoiceLine
+                            ReferenceNumber = "3",
+                            FreightAmount = 0,
+                            DiscountAmount = 0,
+                            CustomerNote = "Note3",
+                            Date = DateTime.Parse("2019-3-15"),
+                            DateDue = DateTime.Parse("2019-4-14"),
+                            SalesLines = new List<SalesInvoiceLine>
                             {
-                                Amount = 2,
-                                Description = "zzz3", 
-                                SalesTaxType = 1, 
-                                Account = new Account
+                                new SalesInvoiceLine
                                 {
-                                    Id = "1",
-                                    Classification = "Cash"
+                                    Amount = 2,
+                                    Description = "zzz3",
+                                    SalesTaxType = 1,
+                                    Account = new Account
+                                    {
+                                        Id = "1",
+                                        Classification = "Cash"
+                                    }
                                 }
-                            }
-                        },
-                        ShipToAddress = new NameAndAddress()
-                        {
-                            Name = "Name 1",
-                            Address = new Address
+                            },
+                            ShipToAddress = new NameAndAddress()
                             {
-                                Address1 = "Addr1",
-                                Address2 = "Addr3",
-                            }
-                        },
-                        Customer = new Customer
-                        {
-                            ExternalId = "CST-07",
-                            Name = "Customer 7",
-                            AccountNumber = "123",
-                            BillToContact = new Contact()
+                                Name = "Name 1",
+                                Address = new Address
+                                {
+                                    Address1 = "Addr1",
+                                    Address2 = "Addr3",
+                                }
+                            },
+                            Customer = new Customer
                             {
-                                FirstName = "Name",
-                                LastName = "Lastname"
+                                ExternalId = "CST-07",
+                                Name = "Customer 7",
+                                AccountNumber = "123",
+                                BillToContact = new Contact()
+                                {
+                                    FirstName = "Name",
+                                    LastName = "Lastname"
+                                }
                             }
                         }
                     }

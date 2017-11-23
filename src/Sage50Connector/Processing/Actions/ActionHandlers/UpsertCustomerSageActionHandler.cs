@@ -8,18 +8,18 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
     /// <summary>
     /// Update Customer to Sage50 action handler
     /// </summary>
-    class UpdateCustomerSageActionHandler: ISageActionHandler<UpdateCustomerSageAction>
+    class UpsertCustomerSageActionHandler: ISageActionHandler<UpsertCustomerSageAction>
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(UpdateCustomerSageActionHandler));
+        public static readonly ILog Log = LogManager.GetLogger(typeof(UpsertCustomerSageActionHandler));
         private readonly Sage50Api api = new Sage50Api();
 
-        public bool Handle(UpdateCustomerSageAction action)
+        public bool Handle(UpsertCustomerSageAction action)
         {
-            Log.InfoFormat("Open Sage50 company: \"{0}\"", action.companyName);
-            api.OpenCompany(action.companyName);
+            Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
+            api.OpenCompany(action.payload.companyName);
 
             Log.Info("Create or Update Customer Data ...");
-            api.CreateOrUpdateCustomer(action.payload);
+            api.CreateOrUpdateCustomer(action.payload.customer);
             Log.Info("Success!");
 
             return true;

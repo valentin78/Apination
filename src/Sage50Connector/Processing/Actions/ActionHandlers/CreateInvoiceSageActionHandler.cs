@@ -11,11 +11,11 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
 
         public bool Handle(CreateInvoiceSageAction action)
         {
-            Log.InfoFormat("Open Sage50 company: \"{0}\"", action.companyName);
-            api.OpenCompany(action.companyName);
+            Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
+            api.OpenCompany(action.payload.companyName);
 
             Log.Info("Create Invoice Data to Sage50 ...");
-            api.CreateInvoice(action.payload);
+            api.CreateInvoice(action.payload.invoice);
             Log.Info("Success!");
 
             return true;

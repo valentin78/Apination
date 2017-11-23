@@ -11,7 +11,6 @@ namespace Sage50Connector.Processing.Actions.SageActions
         public string workflowId { get; set; }
         public string mainLogId { get; set; }
         public string createdAt { get; set; }
-        public string companyName { get; set; }
 
         public static Type GetActionClassType(string actionType)
         {

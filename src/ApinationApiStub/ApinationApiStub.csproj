@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sage50Connector.Models\Sage50Connector.Models.csproj" />
+    <ProjectReference Include="..\Sage50Connector\Sage50Connector.csproj" />
   </ItemGroup>
 
 </Project>

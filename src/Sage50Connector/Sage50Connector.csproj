@@ -83,10 +83,12 @@
     <Compile Include="Core\EventBindingAttribute.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\UpdateInvoiceSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\CreateInvoiceSageActionHandler.cs" />
-    <Compile Include="Processing\Actions\ActionHandlers\UpdateCustomerSageActionHandler.cs" />
+    <Compile Include="Processing\Actions\ActionHandlers\UpsertCustomerSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
+    <Compile Include="Processing\Actions\SageActions\Payloads\Payload.cs" />
     <Compile Include="Processing\Actions\SageActions\SageActionPatch.cs" />
+    <Compile Include="Processing\Actions\SageActions\Payloads\SalesInvoicePayload.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
@@ -97,7 +99,8 @@
     <Compile Include="Processing\Actions\ActionHandlers\Factory\SageActionHandlerFactory.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\SageActionFromJsonFactory.cs" />
     <Compile Include="Processing\Actions\SageActions\CreateInvoiceSageAction.cs" />
-    <Compile Include="Processing\Actions\SageActions\UpdateCustomerSageAction.cs" />
+    <Compile Include="Processing\Actions\SageActions\Payloads\UpsertCustomerPayload.cs" />
+    <Compile Include="Processing\Actions\SageActions\UpsertCustomerSageAction.cs" />
     <Compile Include="Processing\IObservable.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
