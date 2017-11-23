@@ -41,7 +41,7 @@ namespace Sage50Connector.Processing.Actions
 
                 var schedulerFactory = new StdSchedulerFactory();
                 scheduler = schedulerFactory.GetScheduler();
-                scheduler.JobFactory = new PollApinationJobFactory(apinationApi);
+                scheduler.JobFactory = new JobFactory(apinationApi);
 
                 // from the following observable definition it's immediately obvious that
                 // it's composed from job, particular cron trigger, scheduler and listener

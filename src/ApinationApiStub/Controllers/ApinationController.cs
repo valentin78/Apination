@@ -32,7 +32,7 @@ namespace ApinationApiStub.Controllers
             return new dynamic[]
             {
                 new {
-                    type = "UpdateCustomer",
+                    type = "UpsertCustomer",
                     id = "1",
                     payload = new UpsertCustomerPayload
                     {
@@ -110,6 +110,13 @@ namespace ApinationApiStub.Controllers
         public void ActionsPatch([FromBody]PatchAction[] list)
         {
 
+        }
+
+        // GET api/heartbeat
+        [HttpGet]
+        [Route("api/heartbeat")]
+        public void Heartbeat()
+        {
         }
 
         //// GET api/values/5

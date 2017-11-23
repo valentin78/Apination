@@ -10,6 +10,7 @@ namespace Sage50Connector.Processing.Actions
     /// <summary>
     /// Polls Apination endpoint to check if new actions appeared
     /// </summary>
+    [DisallowConcurrentExecution]
     class PollApinationJob : IJob
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(PollApinationJob));
