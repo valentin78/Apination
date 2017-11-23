@@ -12,7 +12,7 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
         /// <summary>
         /// Create Action handler by action data. 
         /// (Type only currently used)
-        /// Uses dynamic ad result because generic interface ISageActionHandler uses contravariant type and cannot cast to generic by base type 
+        /// Uses dynamic as result because generic interface ISageActionHandler uses contravariant type and cannot cast to generic by base type 
         /// </summary>
         public static dynamic CreateHandler(SageAction action)
         {

@@ -9,7 +9,7 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
         public static readonly ILog Log = LogManager.GetLogger(typeof(UpdateInvoiceSageActionHandler));
         private readonly Sage50Api api = new Sage50Api();
 
-        public bool Handle(UpdateInvoiceSageAction action)
+        public void Handle(UpdateInvoiceSageAction action)
         {
             Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
             api.OpenCompany(action.payload.companyName);
@@ -17,8 +17,6 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
             Log.Info("Update Invoice Data to Sage50 ...");
             api.UpdateInvoice(action.payload.invoice);
             Log.Info("Success!");
-
-            return true;
         }
 
         public void Dispose()

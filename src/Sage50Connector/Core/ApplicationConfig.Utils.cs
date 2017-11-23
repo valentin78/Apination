@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Configuration;
 
 namespace Sage50Connector.Core
@@ -16,14 +15,6 @@ namespace Sage50Connector.Core
             if (string.IsNullOrEmpty(propertyValue)) return defaultValue ?? default(T);
             var converter = TypeDescriptor.GetConverter(typeof(T));
             return (T)converter.ConvertFrom(propertyValue);
-        }
-
-        /// <summary>
-        /// convert datetime to UTC string format
-        /// </summary>
-        private static string DateToUTC(DateTime value)
-        {
-            return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK");
         }
 
         /// <summary>

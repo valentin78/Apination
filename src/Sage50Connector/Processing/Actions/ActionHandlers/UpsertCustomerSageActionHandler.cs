@@ -13,7 +13,7 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
         public static readonly ILog Log = LogManager.GetLogger(typeof(UpsertCustomerSageActionHandler));
         private readonly Sage50Api api = new Sage50Api();
 
-        public bool Handle(UpsertCustomerSageAction action)
+        public void Handle(UpsertCustomerSageAction action)
         {
             Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
             api.OpenCompany(action.payload.companyName);
@@ -21,8 +21,6 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
             Log.Info("Create or Update Customer Data ...");
             api.CreateOrUpdateCustomer(action.payload.customer);
             Log.Info("Success!");
-
-            return true;
         }
 
         public void Dispose()

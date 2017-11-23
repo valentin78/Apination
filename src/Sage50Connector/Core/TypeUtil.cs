@@ -14,7 +14,6 @@ namespace Sage50Connector.Core
             return value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fffK");
         }
 
-
         /// <summary>
         /// Convert datetime to ODBC string format
         /// </summary>

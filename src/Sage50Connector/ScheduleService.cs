@@ -29,7 +29,7 @@ namespace Sage50Connector
             InitializeComponent();
         }
 
-        private ApinationProcessor apinationProcessor;
+        private SageActionsProcessor sageActionsProcessor;
 
 
         protected override void OnStart(string[] args)
@@ -47,8 +47,8 @@ namespace Sage50Connector
                 var config = apinationApi.RetrieveConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-                apinationProcessor = new ApinationProcessor();
-                apinationProcessor.StartPollApination(config);
+                sageActionsProcessor = new SageActionsProcessor();
+                sageActionsProcessor.StartPollApination(config);
             }
             catch (Exception ex)
             {
@@ -72,7 +72,7 @@ namespace Sage50Connector
 
         protected override void OnStop()
         {
-            apinationProcessor.Dispose();
+            sageActionsProcessor.Dispose();
 
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service stopped");

@@ -6,6 +6,10 @@ using LiteDB;
 
 namespace Sage50Connector.API
 {
+    /// <summary>
+    /// Local DB Interface wrapper
+    /// Hides DB-dependent implementation
+    /// </summary>
     public class LocalDbApi
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(LocalDbApi));
@@ -28,6 +32,11 @@ namespace Sage50Connector.API
             }
         }
 
+        /// <summary>
+        /// Saves new id pair in LocalDB
+        /// </summary>
+        /// <param name="externalId"></param>
+        /// <param name="sageCustomerId"></param>
         public void StoreCustomerId(string externalId, string sageCustomerId)
         {
             using (var db = new LiteDatabase(DbPath))
@@ -47,6 +56,11 @@ namespace Sage50Connector.API
             }
         }
 
+        /// <summary>
+        /// Get Sage50 Customer Id by ExternalId
+        /// </summary>
+        /// <param name="externalId">Composite unique key</param>
+        /// <returns>Sage50 Customer Id or null if external Id is not found</returns>
         public string GetCustomerIdByExternalId(string externalId)
         {
             using (var db = new LiteDatabase(DbPath))
