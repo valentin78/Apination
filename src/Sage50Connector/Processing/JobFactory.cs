@@ -1,24 +1,26 @@
+using System;
 using Quartz;
 using Quartz.Spi;
 using Sage50Connector.API;
+using Sage50Connector.Processing.Actions;
 
-namespace Sage50Connector.Processing.Actions
+namespace Sage50Connector.Processing
 {
     /// <summary>
     /// Creates PollApinationJob using ApinationApi
     /// </summary>
-    public class PollApinationJobFactory : IJobFactory
+    public class JobFactory : IJobFactory
     {
         // ReSharper disable once InconsistentNaming
         private readonly ApinationApi apinationApi;
 
-        public PollApinationJobFactory(ApinationApi apinationApi)
+        public JobFactory(ApinationApi apinationApi)
         {
             this.apinationApi = apinationApi;
         }
         public IJob NewJob(TriggerFiredBundle bundle, IScheduler scheduler)
         {
-            return new PollApinationJob(apinationApi);
+            return Activator.CreateInstance(bundle.JobDetail.JobType, apinationApi) as IJob;
         }
 
         public void ReturnJob(IJob job)

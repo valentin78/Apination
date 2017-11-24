@@ -92,12 +92,14 @@
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ISageActionHandler.cs" />
     <Compile Include="Processing\Actions\PollApinationJob.cs" />
-    <Compile Include="Processing\Actions\PollApinationJobFactory.cs" />
+    <Compile Include="Processing\JobFactory.cs" />
     <Compile Include="Processing\Actions\PollApinationJobListener.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\Factory\SageActionHandlerFactory.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\SageActionFromJsonFactory.cs" />
     <Compile Include="Processing\Actions\SageActions\CreateInvoiceSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\UpsertCustomerSageAction.cs" />
+    <Compile Include="Processing\HeartBeat\HeartBeatProcessor.cs" />
+    <Compile Include="Processing\HeartBeat\HeartBeatJob.cs" />
     <Compile Include="Processing\IObservable.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

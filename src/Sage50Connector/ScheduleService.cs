@@ -6,6 +6,7 @@ using log4net.Config;
 using Sage50Connector.API;
 using Sage50Connector.Core;
 using Sage50Connector.Processing.Actions;
+using Sage50Connector.Processing.HeartBeat;
 
 namespace Sage50Connector
 {
@@ -29,6 +30,7 @@ namespace Sage50Connector
             InitializeComponent();
         }
 
+        private HeartBeatProcessor heartBeatProcessor;
         private SageActionsProcessor sageActionsProcessor;
 
 
@@ -47,6 +49,10 @@ namespace Sage50Connector
                 var config = apinationApi.RetrieveConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
+
+
+                heartBeatProcessor = new HeartBeatProcessor();
+                heartBeatProcessor.StartHeartBeat(config);
                 sageActionsProcessor = new SageActionsProcessor();
                 sageActionsProcessor.StartPollApination(config);
             }
@@ -72,6 +78,7 @@ namespace Sage50Connector
 
         protected override void OnStop()
         {
+            heartBeatProcessor.Dispose();
             sageActionsProcessor.Dispose();
 
             Log.Info("********************************************************************************************************************");

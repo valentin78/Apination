@@ -40,12 +40,12 @@ namespace Sage50Connector.API
             return JsonConvert.DeserializeObject<Config>(json);
         }
 
-        public void HeartBeat()
+        /// <summary>
+        /// Send handshake to apination from HeartBeat Job
+        /// </summary>
+        public void Handshake()
         {
-            httpUtility.Post("api/heartbeat", new NameValueCollection
-            {
-                {"value", "123"}
-            });
+            httpUtility.Get("api/heartbeat");
         }
     }
 }
