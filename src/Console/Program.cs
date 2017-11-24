@@ -28,6 +28,7 @@ namespace Console
             JSchema schemaCust = generator.Generate(typeof(Customer));
             JSchema schemaInv = generator.Generate(typeof(SalesInvoiceLine));
 
+
             var companies = api.CompaniesList();
             //var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");
             api.OpenCompany(companies[0]);

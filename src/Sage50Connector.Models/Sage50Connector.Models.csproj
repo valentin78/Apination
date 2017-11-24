@@ -50,6 +50,9 @@
     <Compile Include="Data\Contact.cs" />
     <Compile Include="Data\Customer.cs" />
     <Compile Include="Data\Employee.cs" />
+    <Compile Include="Data\Payment.cs" />
+    <Compile Include="Data\PaymentExpenseLine.cs" />
+    <Compile Include="Data\PaymentInvoiceLine.cs" />
     <Compile Include="Data\PhoneNumber.cs" />
     <Compile Include="Data\SalesInvoice.cs" />
     <Compile Include="Data\NameAndAddress.cs" />
@@ -57,6 +60,7 @@
     <Compile Include="Data\SalesTaxCode.cs" />
     <Compile Include="Data\TransactionLine.cs" />
     <Compile Include="Payloads\Payload.cs" />
+    <Compile Include="Payloads\CreatePaymentPayload.cs" />
     <Compile Include="Payloads\SalesInvoicePayload.cs" />
     <Compile Include="Payloads\UpsertCustomerPayload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
