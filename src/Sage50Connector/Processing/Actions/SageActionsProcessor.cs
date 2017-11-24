@@ -10,6 +10,7 @@ using Sage50Connector.Models;
 using Sage50Connector.Processing.Actions.ActionHandlers.Factory;
 using Sage50Connector.Processing.Actions.SageActions;
 using Sage50Connector.Processing.Actions.SageActions.Factory;
+using Sage50Connector.Processing;
 
 namespace Sage50Connector.Processing.Actions
 {
@@ -39,7 +40,7 @@ namespace Sage50Connector.Processing.Actions
             var schedulerFactory = new StdSchedulerFactory();
             scheduler = schedulerFactory.GetScheduler();
             var apinationApi = new ApinationApi(new WebClientHttpUtility());
-            scheduler.JobFactory = new PollApinationJobFactory(apinationApi);
+            scheduler.JobFactory = new JobFactory(apinationApi);
 
             var apinationObservable = new SageActionsObserverable(
                 job: pollApinationJob,

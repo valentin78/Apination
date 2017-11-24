@@ -2,7 +2,6 @@ using System;
 using Quartz;
 using Quartz.Spi;
 using Sage50Connector.API;
-using Sage50Connector.Processing.Actions;
 
 namespace Sage50Connector.Processing
 {
