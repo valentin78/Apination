@@ -3,7 +3,7 @@
 
 namespace Sage50Connector.Models.Payloads
 {
-    public class CreatePaymentPayload : Payload
+    public class PaymentPayload : Payload
     {
         public SalesInvoice invoice { get; set; }
 

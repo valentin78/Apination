@@ -9,10 +9,16 @@ namespace Sage50Connector.API
     /// </summary>
     internal static class Sage50Populations
     {
+        public static void PopulateFromModel(this Payment sagePayment, Company companyContext, Models.Data.Payment payment)
+        {
+            
+        }
+
         public static void PopulateFromModel(this SalesInvoice sageInvoice, Company companyContext, Models.Data.SalesInvoice invoice)
         {
             sageInvoice.ReferenceNumber = invoice.ReferenceNumber;
 
+            sageInvoice.Date = invoice.Date;
             sageInvoice.Date = invoice.Date;
             sageInvoice.ShipDate = invoice.ShipDate;
             sageInvoice.CustomerNote = invoice.CustomerNote;

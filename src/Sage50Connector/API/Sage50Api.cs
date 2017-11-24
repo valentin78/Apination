@@ -4,6 +4,8 @@ using log4net;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
+using Sage50Connector.Models.Payloads;
+using Payment = Sage50Connector.Models.Data.Payment;
 
 namespace Sage50Connector.API
 {
@@ -223,6 +225,30 @@ namespace Sage50Connector.API
             sageCustomer = sageCustomers.First();
             localDbApi.StoreCustomerId(customer.ExternalId, sageCustomer.ID);
             return sageCustomer;
+        }
+
+        public void UpsertInvoice(Models.Data.SalesInvoice invoice)
+        {
+            var customer = FindSageCustomer(invoice.Customer);
+            // if no exist Customer, goto CreateInvoice
+            if (customer == null) CreateInvoice(invoice);
+            else
+            {
+                var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
+                if (sageInvoice == null) CreateInvoice(invoice);
+                else UpdateInvoice(invoice);
+            }
+        }
+
+        public void CreatePayment(PaymentPayload paymentPayload)
+        {
+            UpsertInvoice(paymentPayload.invoice);
+
+            //foreach (var payment in payments)
+            //{
+            //    payment.pap
+            //}
+            throw new NotImplementedException();
         }
     }
 }

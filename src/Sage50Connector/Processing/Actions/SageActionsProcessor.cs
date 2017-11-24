@@ -65,11 +65,12 @@ namespace Sage50Connector.Processing.Actions
                             using (var handler = SageActionHandlerFactory.CreateHandler(sageAction))
                             {
                                 Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
-                                    // dynamic ActionHandler generic type require derived type, not base SageAction type
-                                    var processed = handler.Handle((dynamic)sageAction);
-                                Log.InfoFormat("Handling action result: {0}", processed);
+                                // dynamic ActionHandler generic type require derived type, not base SageAction type
+                                handler.Handle((dynamic)sageAction);
+                                
+                                Log.InfoFormat("Handling finnished success (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
 
-                                patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = processed });
+                                patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = true });
                             }
                         }
                         catch (MessageException ex)
