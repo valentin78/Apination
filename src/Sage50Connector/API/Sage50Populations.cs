@@ -133,7 +133,7 @@ namespace Sage50Connector.API
             sageAddress.SalesTaxCode = address.SalesTaxCode;
         }
 
-        public static void PopulateFromModel(this Contact sageContact, Company companyContext, Models.Data.Contact contact)
+        public static void PopulateFromModel(this Contact sageContact, Models.Data.Contact contact)
         {
             if (contact == null) return;
             sageContact.FirstName = contact.FirstName;
@@ -176,8 +176,8 @@ namespace Sage50Connector.API
             sageCustomer.CreditStatus = customer.CreditStatus.ToEnum<CustomerCreditStatus>();
             sageCustomer.CustomerSince = customer.CustomerSince;
 
-            sageCustomer.ShipToContact.PopulateFromModel(companyContext, customer.ShipToContact);
-            sageCustomer.BillToContact.PopulateFromModel(companyContext, customer.BillToContact);
+            sageCustomer.ShipToContact.PopulateFromModel(customer.ShipToContact);
+            sageCustomer.BillToContact.PopulateFromModel(customer.BillToContact);
 
             sageCustomer.PhoneNumbers.PopulateFromModel(customer.PhoneNumbers);
 
@@ -196,9 +196,9 @@ namespace Sage50Connector.API
             sageVendor.VendorSince = vendor.VendorSince;
 
             sageVendor.ExpenseAccountReference = sageVendor.ExpenseAccountReference.PopulateFromModel(vendor.ExpenseAccount, companyContext);
-            sageVendor.ShipmentsContact.PopulateFromModel(companyContext, vendor.ShipmentsContact);
-            sageVendor.PurchaseOrdersContact.PopulateFromModel(companyContext, vendor.PurchaseOrdersContact);
-            sageVendor.PaymentsContact.PopulateFromModel(companyContext, vendor.PaymentsContact);
+            sageVendor.ShipmentsContact.PopulateFromModel(vendor.ShipmentsContact);
+            sageVendor.PurchaseOrdersContact.PopulateFromModel(vendor.PurchaseOrdersContact);
+            sageVendor.PaymentsContact.PopulateFromModel(vendor.PaymentsContact);
 
             sageVendor.Name = vendor.Name;
             sageVendor.IsInactive = vendor.IsInactive;
