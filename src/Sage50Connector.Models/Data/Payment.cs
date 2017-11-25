@@ -2,10 +2,10 @@
 
 namespace Sage50Connector.Models.Data
 {
-    public class Payment
+    public class Payment : Transaction
     {
-        // public Vendor Vendor { get; set; }
-        // public Account DiscountAccount { get; set; }
+        public Vendor Vendor { get; set; }
+        public Account DiscountAccount { get; set; }
         public List<PaymentInvoiceLine> ApplyToInvoiceLines { get; set; }
         public List<PaymentExpenseLine> ApplyToExpenseLines { get; set; }
         public string Memo { get; set; }

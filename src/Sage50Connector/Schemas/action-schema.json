@@ -20,6 +20,7 @@
       "type": "string",
       "format": "date-time"
     },
+    "source": { "type": "string" },
     "payload": { "type": "object" } // depends from "type" field of Action
   },
   "required": [

@@ -134,7 +134,6 @@ namespace Sage50Connector.API
 
             sageContact.PhoneNumbers.PopulateFromModel(contact.PhoneNumbers);
         }
-
         public static void PopulateFromModel(this Customer sageCustomer, Company companyContext, Models.Data.Customer customer)
         {
             if (customer == null) return;
@@ -164,6 +163,37 @@ namespace Sage50Connector.API
 
             sageCustomer.CashAccountReference = sageCustomer.CashAccountReference.PopulateFromModel(customer.CashAccount, companyContext);
             sageCustomer.UsualSalesAccountReference = sageCustomer.UsualSalesAccountReference.PopulateFromModel(customer.UsualSalesAccount, companyContext);
+        }
+        public static void PopulateFromModel(this Vendor sageVendor, Company companyContext, Models.Data.Vendor vendor)
+        {
+            if (vendor == null) return;
+
+            sageVendor.ID = vendor.ExternalId;
+            sageVendor.TaxIDNumber = vendor.TaxIDNumber;
+            sageVendor.Form1099Type = vendor.Form1099Type.ToEnum<VendorForm1099Type>();
+            sageVendor.UsingPaymentDefaults = vendor.UsingPaymentDefaults;
+            sageVendor.VendorSince = vendor.VendorSince;
+
+            sageVendor.ExpenseAccountReference = sageVendor.ExpenseAccountReference.PopulateFromModel(vendor.ExpenseAccount, companyContext);
+            sageVendor.ShipmentsContact.PopulateFromModel(companyContext, vendor.ShipmentsContact);
+            sageVendor.PurchaseOrdersContact.PopulateFromModel(companyContext, vendor.PurchaseOrdersContact);
+            sageVendor.PaymentsContact.PopulateFromModel(companyContext, vendor.PaymentsContact);
+
+            sageVendor.Name = vendor.Name;
+            sageVendor.IsInactive = vendor.IsInactive;
+            sageVendor.AccountNumber = vendor.AccountNumber;
+            sageVendor.ReplaceInventoryItemIDWithPartNumber = vendor.ReplaceInventoryItemIDWithPartNumber;
+            sageVendor.ReplaceInventoryItemIDWithUPC = vendor.ReplaceInventoryItemIDWithUPC;
+            sageVendor.IncludePurchaseRepresentativeOnEmailedForms = vendor.IncludePurchaseRepresentativeOnEmailedForms;
+            sageVendor.ShipVia = vendor.ShipVia;
+            sageVendor.WebSiteURL = vendor.WebSiteURL;
+            sageVendor.UseEmailToDeliverForms = vendor.UseEmailToDeliverForms;
+            sageVendor.Email = vendor.Email;
+            sageVendor.Category = vendor.Category;
+
+            sageVendor.PhoneNumbers.PopulateFromModel(vendor.PhoneNumbers);
+
+            sageVendor.CashAccountReference = sageVendor.CashAccountReference.PopulateFromModel(vendor.CashAccount, companyContext);
         }
     }
 }
