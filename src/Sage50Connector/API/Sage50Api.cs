@@ -112,6 +112,12 @@ namespace Sage50Connector.API
             return CompanyContext.Factories.CustomerFactory.List();
         }
 
+        public VendorList VendorsList()
+        {
+            if (CompanyContext == null) throw new ArgumentException("Company must be open before");
+            return CompanyContext.Factories.VendorFactory.List();
+        }
+
         public SalesInvoiceList SalesInvoicesList()
         {
             if (CompanyContext == null) throw new ArgumentException("Company must be open before");
@@ -184,17 +190,18 @@ namespace Sage50Connector.API
 
         private Customer FindSageCustomer(Models.Data.Customer customer)
         {
+            var customerKey = customer.GlobalKey(_actionSource);
             var sageCustomers = CustomersList();
 
             // find mapping for customer globalKey
-            var sageCustomerId = localDbApi.GetCustomerIdByKey(customer.GlobalKey(_actionSource));
+            var sageCustomerId = localDbApi.GetCustomerIdByKey(customerKey);
             if (sageCustomerId != null) return sageCustomers.SingleOrDefault(sageCustomerId);
 
             // find by GlobalKey in Sage50
-            var sageCustomer = sageCustomers.SingleOrDefault(customer.GlobalKey(_actionSource));
+            var sageCustomer = sageCustomers.SingleOrDefault(customerKey);
             if (sageCustomer != null)
             {
-                localDbApi.StoreCustomerId(customer.GlobalKey(_actionSource), sageCustomer.ID);
+                localDbApi.StoreCustomerId(customerKey, sageCustomer.ID);
                 return sageCustomer;
             }
 
@@ -231,7 +238,61 @@ namespace Sage50Connector.API
                 throw new MessageException($"Found more that one customer by name: '{customer.Name}' or email: '{customer.Email}'");
 
             sageCustomer = sageCustomers.First();
-            localDbApi.StoreCustomerId(customer.GlobalKey(_actionSource), sageCustomer.ID);
+            localDbApi.StoreCustomerId(customerKey, sageCustomer.ID);
+            return sageCustomer;
+        }
+
+        private Vendor FindSageVendor(Models.Data.Vendor vendor)
+        {
+            var vendorKey = vendor.GlobalKey(_actionSource);
+            var sageVendors = VendorsList();
+
+            // find mapping for vendor globalKey
+            var sageVendorId = localDbApi.GetVendorIdByKey(vendorKey);
+            if (sageVendorId != null) return sageVendors.SingleOrDefault(sageVendorId);
+
+            // find by GlobalKey in Sage50
+            var sageCustomer = sageVendors.SingleOrDefault(vendorKey);
+            if (sageCustomer != null)
+            {
+                localDbApi.StoreCustomerId(vendorKey, sageCustomer.ID);
+                return sageCustomer;
+            }
+
+            // if no mapping found and by extrnalId, find customer by name or email and store mapping to localDb
+            FilterExpression expression;
+            if (!string.IsNullOrEmpty(vendor.Name) && !string.IsNullOrEmpty(vendor.Email))
+            {
+                expression = FilterExpression.AndAlso(
+                    FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(vendor.Name)),
+                    FilterExpression.Equal(FilterExpression.Property("Customer.Email"), FilterExpression.Constant(vendor.Email))
+                );
+            }
+            else if (!string.IsNullOrEmpty(vendor.Name))
+            {
+                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(vendor.Name));
+            }
+            else if (!string.IsNullOrEmpty(vendor.Email))
+            {
+                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Email"),
+                    FilterExpression.Constant(vendor.Email));
+            }
+            else
+            {
+                throw new MessageException($"Can not find customer because name and email is null");
+            }
+
+            var modifier = LoadModifiers.Create();
+            modifier.Filters = expression;
+            sageVendors.Load(modifier);
+
+            if (sageVendors.Count == 0) return null;
+
+            if (sageVendors.Count > 1)
+                throw new MessageException($"Found more that one vendor by name: '{vendor.Name}' or email: '{vendor.Email}'");
+
+            sageCustomer = sageVendors.First();
+            localDbApi.StoreCustomerId(vendorKey, sageCustomer.ID);
             return sageCustomer;
         }
 
@@ -255,6 +316,14 @@ namespace Sage50Connector.API
             foreach (var payment in paymentPayload.payments)
             {
                 var sagePayment = CompanyContext.Factories.PaymentFactory.Create();
+                
+                // Find or Create and after that Populate Vendor data
+                var vendor = FindSageVendor(payment.Vendor);
+                var sageVendor = vendor ?? CompanyContext.Factories.VendorFactory.Create();
+                sageVendor.PopulateFromModel(CompanyContext, payment.Vendor);
+                sageVendor.Save();
+                sagePayment.VendorReference = sageVendor.Key;
+
                 sagePayment.PopulateFromModel(CompanyContext, payment);
             }
         }

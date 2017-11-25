@@ -6,6 +6,8 @@ namespace Sage50Connector.Models.Data
 {
     public class Vendor
     {
+        public string GlobalKey(string source) => $"{source} : {ExternalId}";
+
         public bool ReplaceInventoryItemIDWithUPC { get; set; }
         public string PaymentMethod { get; set; }
         public bool ReplaceInventoryItemIDWithPartNumber { get; set; }

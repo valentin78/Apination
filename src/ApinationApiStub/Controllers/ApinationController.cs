@@ -33,31 +33,24 @@ namespace ApinationApiStub.Controllers
             return new dynamic[]
             {
                 new {
-                    type = "UpsertCustomer",
-                    id = "1",
-                    payload = new UpsertCustomerPayload
+                    type = "CreatePayment",
+                    source = "Qualer",
+                    triggerId = "1",
+                    payload = new PaymentPayload
                     {
                         companyName = "Chase Ridge Holdings",
-                        customer = new Customer
+                        payments = new []
                         {
-                            ExternalId = "CST-05",
-                            Name = "Customer 1",
-                            Email = "emal",
-                            AccountNumber = "123",
-                            BillToContact = new Contact()
+                            new Payment
                             {
-                                FirstName = "Name",
-                                LastName = "Lastname"
+                                Vendor = new Vendor
+                                {
+                                    Name = "Vendor 1",
+                                    ExternalId = "VND01", 
+                                    Form1099Type = "None"
+                                }
                             }
-                        }
-                    }
-                },
-                new {
-                    type = "UpdateInvoice",
-                    id = "2",
-                    payload = new SalesInvoicePayload
-                    {
-                        companyName = "Chase Ridge Holdings",
+                        },
                         invoice = new SalesInvoice
                         {
                             ReferenceNumber = "3",
@@ -102,7 +95,58 @@ namespace ApinationApiStub.Controllers
                             }
                         }
                     }
-                }
+                },
+                //new {
+                //    type = "UpdateInvoice",
+                //    id = "2",
+                //    payload = new SalesInvoicePayload
+                //    {
+                //        companyName = "Chase Ridge Holdings",
+                //        invoice = new SalesInvoice
+                //        {
+                //            ReferenceNumber = "3",
+                //            FreightAmount = 0,
+                //            DiscountAmount = 0,
+                //            CustomerNote = "Note3",
+                //            Date = DateTime.Parse("2019-3-15"),
+                //            DateDue = DateTime.Parse("2019-4-14"),
+                //            SalesLines = new List<SalesInvoiceLine>
+                //            {
+                //                new SalesInvoiceLine
+                //                {
+                //                    Amount = 2,
+                //                    Description = "zzz3",
+                //                    SalesTaxType = 1,
+                //                    Account = new Account
+                //                    {
+                //                        Id = "1",
+                //                        Classification = "Cash"
+                //                    }
+                //                }
+                //            },
+                //            ShipToAddress = new NameAndAddress()
+                //            {
+                //                Name = "Name 1",
+                //                Address = new Address
+                //                {
+                //                    Address1 = "Addr1",
+                //                    Address2 = "Addr3",
+                //                }
+                //            },
+                //            Customer = new Customer
+                //            {
+                //                ExternalId = "CST-07",
+                //                Name = "Customer 7",
+                //                AccountNumber = "123",
+                //                BillToContact = new Contact()
+                //                {
+                //                    FirstName = "Name",
+                //                    LastName = "Lastname"
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
             };
         }
 

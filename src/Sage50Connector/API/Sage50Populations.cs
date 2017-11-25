@@ -13,7 +13,6 @@ namespace Sage50Connector.API
         {
             sagePayment.AccountReference = sagePayment.AccountReference.PopulateFromModel(payment.Account, companyContext);
             sagePayment.DiscountAccountReference = sagePayment.DiscountAccountReference.PopulateFromModel(payment.DiscountAccount, companyContext);
-            sagePayment.VendorReference = sagePayment.VendorReference.PopulateFromModel(payment.Vendor, companyContext);
             // Если Vendor == null, то обязательно
             sagePayment.MainAddress.PopulateFromModel(payment.MainAddress);
             sagePayment.ReferenceNumber = payment.ReferenceNumber;
@@ -219,25 +218,6 @@ namespace Sage50Connector.API
             sageVendor.PhoneNumbers.PopulateFromModel(vendor.PhoneNumbers);
 
             sageVendor.CashAccountReference = sageVendor.CashAccountReference.PopulateFromModel(vendor.CashAccount, companyContext);
-        }
-
-
-        public static EntityReference<Vendor> PopulateFromModel(this EntityReference<Vendor> entityReference, Models.Data.Vendor vendor, Company companyContext)
-        {
-            if (account == null) return entityReference;
-
-            if (entityReference.IsEmpty)
-            {
-                var accountsList = companyContext.Factories.AccountFactory.List();
-                var sageCashAccount = accountsList.SingleOrDefault(account.Id) ?? companyContext.Factories.AccountFactory.Create();
-                sageCashAccount.PopulateFromModel(account);
-                sageCashAccount.Save();
-                return sageCashAccount.Key;
-            }
-
-            var cashAccount = entityReference.Load(companyContext);
-            cashAccount.PopulateFromModel(account);
-            return entityReference;
         }
     }
 }
