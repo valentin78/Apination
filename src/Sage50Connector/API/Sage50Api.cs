@@ -296,6 +296,20 @@ namespace Sage50Connector.API
             return sageCustomer;
         }
 
+        /// <summary>
+        /// Find or Create and after that Populate Vendor data
+        /// </summary>
+        /// <param name="vendor"></param>
+        /// <param name="sagePayment"></param>
+        /// <returns></returns>
+        private EntityReference<Vendor> UsertVendor(Models.Data.Vendor vendor, Sage.Peachtree.API.Payment sagePayment)
+        {
+            var sageVendor = FindSageVendor(vendor) ?? CompanyContext.Factories.VendorFactory.Create();
+            sageVendor.PopulateFromModel(CompanyContext, vendor);
+            sageVendor.Save();
+            return sageVendor.Key;
+        }
+
         public void UpsertInvoice(Models.Data.SalesInvoice invoice)
         {
             var customer = FindSageCustomer(invoice.Customer);
@@ -316,13 +330,8 @@ namespace Sage50Connector.API
             foreach (var payment in paymentPayload.payments)
             {
                 var sagePayment = CompanyContext.Factories.PaymentFactory.Create();
-                
-                // Find or Create and after that Populate Vendor data
-                var vendor = FindSageVendor(payment.Vendor);
-                var sageVendor = vendor ?? CompanyContext.Factories.VendorFactory.Create();
-                sageVendor.PopulateFromModel(CompanyContext, payment.Vendor);
-                sageVendor.Save();
-                sagePayment.VendorReference = sageVendor.Key;
+
+                sagePayment.VendorReference = UsertVendor(payment.Vendor, sagePayment);
 
                 sagePayment.PopulateFromModel(CompanyContext, payment);
             }
