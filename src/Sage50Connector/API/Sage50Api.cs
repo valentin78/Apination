@@ -21,6 +21,14 @@ namespace Sage50Connector.API
 
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
+
+        private string _actionSource;
+
+        public Sage50Api(string actionSource)
+        {
+            _actionSource = actionSource;
+        }
+
         // ReSharper disable once InconsistentNaming
         public Company CompanyContext { get; set; }
 
@@ -147,7 +155,7 @@ namespace Sage50Connector.API
             var customer = FindSageCustomer(invoice.Customer);
 
             if (customer == null)
-                throw new MessageException($"Not found customer with CustomerId: '{invoice.Customer.ExternalId}'. Transaction aborted.");
+                throw new MessageException($"Not found customer with Key: '{invoice.Customer.GlobalKey(_actionSource)}'. Transaction aborted.");
 
             var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
             if (sageInvoice == null)
@@ -178,15 +186,15 @@ namespace Sage50Connector.API
         {
             var sageCustomers = CustomersList();
 
-            // find mapping for externalId
-            var sageCustomerId = localDbApi.GetCustomerIdByExternalId(customer.ExternalId);
+            // find mapping for customer globalKey
+            var sageCustomerId = localDbApi.GetCustomerIdByKey(customer.GlobalKey(_actionSource));
             if (sageCustomerId != null) return sageCustomers.SingleOrDefault(sageCustomerId);
 
-            // find by externalId in Sage50
-            var sageCustomer = sageCustomers.SingleOrDefault(customer.ExternalId);
+            // find by GlobalKey in Sage50
+            var sageCustomer = sageCustomers.SingleOrDefault(customer.GlobalKey(_actionSource));
             if (sageCustomer != null)
             {
-                localDbApi.StoreCustomerId(customer.ExternalId, sageCustomer.ID);
+                localDbApi.StoreCustomerId(customer.GlobalKey(_actionSource), sageCustomer.ID);
                 return sageCustomer;
             }
 
@@ -223,7 +231,7 @@ namespace Sage50Connector.API
                 throw new MessageException($"Found more that one customer by name: '{customer.Name}' or email: '{customer.Email}'");
 
             sageCustomer = sageCustomers.First();
-            localDbApi.StoreCustomerId(customer.ExternalId, sageCustomer.ID);
+            localDbApi.StoreCustomerId(customer.GlobalKey(_actionSource), sageCustomer.ID);
             return sageCustomer;
         }
 

@@ -59,29 +59,30 @@ namespace Sage50Connector.Processing.Actions
                     var patchList = new List<SageActionPatch>();
                     foreach (var sageAction in sageActions)
                     {
+                        var actionId = sageAction.triggerId;
                         try
                         {
-                            Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
+                            Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", sageAction.type, actionId);
                             using (var handler = SageActionHandlerFactory.CreateHandler(sageAction))
                             {
-                                Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
+                                Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, actionId);
                                 // dynamic ActionHandler generic type require derived type, not base SageAction type
                                 handler.Handle((dynamic)sageAction);
                                 
-                                Log.InfoFormat("Handling finnished success (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
+                                Log.InfoFormat("Handling finnished success (type: {0}, id: {1}) ...", sageAction.type, actionId);
 
-                                patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = true });
+                                patchList.Add(new SageActionPatch { actionId = actionId, Processed = true });
                             }
                         }
                         catch (MessageException ex)
                         {
                             Log.ErrorFormat("HANDLING ERROR MESSAGE: {0}", ex.Message);
-                            patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = false });
+                            patchList.Add(new SageActionPatch { actionId = actionId, Processed = false });
                         }
                         catch (Exception ex)
                         {
                             Log.Error("Handling action failed", ex);
-                            patchList.Add(new SageActionPatch { Id = sageAction.id, Processed = false });
+                            patchList.Add(new SageActionPatch { actionId = actionId, Processed = false });
                         }
                     }
 

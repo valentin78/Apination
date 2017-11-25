@@ -5,12 +5,12 @@ namespace Sage50Connector.Processing.Actions.SageActions
 {
     public class SageAction
     {
-        public string id { get; set; }
         public string type { get; set; }
-        public string userId { get; set; }
-        public string workflowId { get; set; }
-        public string mainLogId { get; set; }
-        public string createdAt { get; set; }
+        public int mainLogId { get; set; }
+        public string source { get; set; }
+        public int userId { get; set; }
+        public int workflowId { get; set; }
+        public int triggerId { get; set; }
 
         public static Type GetActionClassType(string actionType)
         {

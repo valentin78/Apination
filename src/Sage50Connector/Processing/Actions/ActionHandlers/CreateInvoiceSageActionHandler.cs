@@ -1,4 +1,5 @@
-﻿using log4net;
+﻿using System;
+using log4net;
 using Sage50Connector.API;
 using Sage50Connector.Processing.Actions.SageActions;
 
@@ -7,10 +8,13 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
     class CreateInvoiceSageActionHandler : ISageActionHandler<CreateInvoiceSageAction>
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(CreateInvoiceSageActionHandler));
-        private readonly Sage50Api api = new Sage50Api();
+        
+        // ReSharper disable once InconsistentNaming
+        private Sage50Api api;
 
         public void Handle(CreateInvoiceSageAction action)
         {
+            api = new Sage50Api(action.source);
             Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
             api.OpenCompany(action.payload.companyName);
 

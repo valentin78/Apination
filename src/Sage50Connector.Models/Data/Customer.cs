@@ -15,6 +15,8 @@ namespace Sage50Connector.Models.Data
         }
 
         public string ExternalId { get; set; }
+        public string GlobalKey(string source) => $"{source} : {ExternalId}";
+
         public bool IsInactive { get; set; }
         public bool IsProspect { get; set; }
         public string OpenPurchaseOrderNumber { get; set; }

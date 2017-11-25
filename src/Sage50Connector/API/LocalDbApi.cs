@@ -35,9 +35,9 @@ namespace Sage50Connector.API
         /// <summary>
         /// Saves new id pair in LocalDB
         /// </summary>
-        /// <param name="externalId"></param>
+        /// <param name="key"></param>
         /// <param name="sageCustomerId"></param>
-        public void StoreCustomerId(string externalId, string sageCustomerId)
+        public void StoreCustomerId(string key, string sageCustomerId)
         {
             using (var db = new LiteDatabase(DbPath))
             {
@@ -45,30 +45,30 @@ namespace Sage50Connector.API
 
                 customerIdsMapping.Insert(new CustomerIdMapping
                 {
-                    ExternalId = externalId,
+                    ApinationKey = key,
                     SageCustomerId = sageCustomerId
                 });
 
                 customerIdsMapping.EnsureIndex(x => x.SageCustomerId);
-                customerIdsMapping.EnsureIndex(x => x.ExternalId);
+                customerIdsMapping.EnsureIndex(x => x.ApinationKey);
 
-                Log.Info($"LOCALDB: Stored for ExternalId: '{externalId}' map to CustomerId: '{sageCustomerId}'");
+                Log.Info($"LOCALDB: Stored for Key: '{key}' map to CustomerId: '{sageCustomerId}'");
             }
         }
 
         /// <summary>
-        /// Get Sage50 Customer Id by ExternalId
+        /// Get Sage50 Customer Id by Key (cross-system)
         /// </summary>
-        /// <param name="externalId">Composite unique key</param>
-        /// <returns>Sage50 Customer Id or null if external Id is not found</returns>
-        public string GetCustomerIdByExternalId(string externalId)
+        /// <param name="key">Composite unique key</param>
+        /// <returns>Sage50 Customer Id or null if key is not found</returns>
+        public string GetCustomerIdByKey(string key)
         {
             using (var db = new LiteDatabase(DbPath))
             {
                 var customerIdsMapping = db.GetCollection<CustomerIdMapping>();
-                var map = customerIdsMapping.FindOne(x => x.ExternalId.Equals(externalId));
+                var map = customerIdsMapping.FindOne(x => x.ApinationKey.Equals(key));
 
-                Log.Info($"LOCALDB: Found for ExternalId: '{externalId}' map to CustomerId: '{map?.SageCustomerId ?? "null"}'");
+                Log.Info($"LOCALDB: Found for key: '{key}' map to CustomerId: '{map?.SageCustomerId ?? "null"}'");
 
                 return map?.SageCustomerId;
             }
@@ -82,7 +82,7 @@ namespace Sage50Connector.API
             }
 
             public ObjectId Id { get; set; }
-            public string ExternalId { get; set; }
+            public string ApinationKey { get; set; }
             public string SageCustomerId { get; set; }
         }
     }

@@ -7,10 +7,13 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
     class CreatePaymentSageActionHandler : ISageActionHandler<CreatePaymentSageAction>
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(CreatePaymentSageActionHandler));
-        private readonly Sage50Api api = new Sage50Api();
+        
+        // ReSharper disable once InconsistentNaming
+        private Sage50Api api;
 
         public void Handle(CreatePaymentSageAction action)
         {
+            api = new Sage50Api(action.source);
             Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
             api.OpenCompany(action.payload.companyName);
 
