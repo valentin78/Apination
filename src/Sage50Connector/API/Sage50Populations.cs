@@ -83,18 +83,14 @@ namespace Sage50Connector.API
             sageNameAndAddress.Address.PopulateFromModel(nameAndAddress.Address);
         }
 
-        public static void PopulateFromModel(this PhoneNumber sagePhoneNumber, Models.Data.PhoneNumber phoneNumber)
-        {
-            sagePhoneNumber.Number = phoneNumber.Number;
-        }
-
         public static void PopulateFromModel(this PhoneNumberCollection sagePhoneNumberCollection, List<Models.Data.PhoneNumber> contactPhoneNumbers)
         {
             if (contactPhoneNumbers == null) return;
             foreach (var contactPhoneNumber in contactPhoneNumbers)
             {
-                var contact = contactPhoneNumbers.SingleOrDefault(c => c.Key == contactPhoneNumber.Key);
-                if (contact != null) contactPhoneNumber.Number = contact.Number;
+                var phoneKind = contactPhoneNumber.Key.ToEnum<PhoneNumberKind>();
+                var contact = sagePhoneNumberCollection.SingleOrDefault(c => c.Key == phoneKind);
+                if (contact != null) contact.Number = contactPhoneNumber.Number;
             }
         }
 
