@@ -29,81 +29,81 @@ namespace ApinationApiStub.Controllers
         [Route("api/actions")]
         public dynamic Actions()
         {
-            return actionJSON;
-            //return new dynamic[]
-            //{
-            //    new {
-            //        type = "UpsertCustomer",
-            //        id = "1",
-            //        payload = new UpsertCustomerPayload
-            //        {
-            //            companyName = "Chase Ridge Holdings",
-            //            customer = new Customer
-            //            {
-            //                ExternalId = "CST-05",
-            //                Name = "Customer 1",
-            //                Email = "emal",
-            //                AccountNumber = "123",
-            //                BillToContact = new Contact()
-            //                {
-            //                    FirstName = "Name",
-            //                    LastName = "Lastname"
-            //                }
-            //            }
-            //        }
-            //    },
-            //    new {
-            //        type = "UpdateInvoice",
-            //        id = "2",
-            //        payload = new SalesInvoicePayload
-            //        {
-            //            companyName = "Chase Ridge Holdings",
-            //            invoice = new SalesInvoice
-            //            {
-            //                ReferenceNumber = "3",
-            //                FreightAmount = 0,
-            //                DiscountAmount = 0,
-            //                CustomerNote = "Note3",
-            //                Date = DateTime.Parse("2019-3-15"),
-            //                DateDue = DateTime.Parse("2019-4-14"),
-            //                SalesLines = new List<SalesInvoiceLine>
-            //                {
-            //                    new SalesInvoiceLine
-            //                    {
-            //                        Amount = 2,
-            //                        Description = "zzz3",
-            //                        SalesTaxType = 1,
-            //                        Account = new Account
-            //                        {
-            //                            Id = "1",
-            //                            Classification = "Cash"
-            //                        }
-            //                    }
-            //                },
-            //                ShipToAddress = new NameAndAddress()
-            //                {
-            //                    Name = "Name 1",
-            //                    Address = new Address
-            //                    {
-            //                        Address1 = "Addr1",
-            //                        Address2 = "Addr3",
-            //                    }
-            //                },
-            //                Customer = new Customer
-            //                {
-            //                    ExternalId = "CST-07",
-            //                    Name = "Customer 7",
-            //                    AccountNumber = "123",
-            //                    BillToContact = new Contact()
-            //                    {
-            //                        FirstName = "Name",
-            //                        LastName = "Lastname"
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
+            //return actionJSON;
+            return new dynamic[]
+            {
+                new {
+                    type = "UpsertCustomer",
+                    id = "1",
+                    payload = new UpsertCustomerPayload
+                    {
+                        companyName = "Chase Ridge Holdings",
+                        customer = new Customer
+                        {
+                            ExternalId = "CST-05",
+                            Name = "Customer 1",
+                            Email = "emal",
+                            AccountNumber = "123",
+                            BillToContact = new Contact()
+                            {
+                                FirstName = "Name",
+                                LastName = "Lastname"
+                            }
+                        }
+                    }
+                },
+                new {
+                    type = "UpdateInvoice",
+                    id = "2",
+                    payload = new SalesInvoicePayload
+                    {
+                        companyName = "Chase Ridge Holdings",
+                        invoice = new SalesInvoice
+                        {
+                            ReferenceNumber = "3",
+                            FreightAmount = 0,
+                            DiscountAmount = 0,
+                            CustomerNote = "Note3",
+                            Date = DateTime.Parse("2019-3-15"),
+                            DateDue = DateTime.Parse("2019-4-14"),
+                            SalesLines = new List<SalesInvoiceLine>
+                            {
+                                new SalesInvoiceLine
+                                {
+                                    Amount = 2,
+                                    Description = "zzz3",
+                                    SalesTaxType = 1,
+                                    Account = new Account
+                                    {
+                                        Id = "1",
+                                        Classification = "Cash"
+                                    }
+                                }
+                            },
+                            ShipToAddress = new NameAndAddress()
+                            {
+                                Name = "Name 1",
+                                Address = new Address
+                                {
+                                    Address1 = "Addr1",
+                                    Address2 = "Addr3",
+                                }
+                            },
+                            Customer = new Customer
+                            {
+                                ExternalId = "CST-07",
+                                Name = "Customer 7",
+                                AccountNumber = "123",
+                                BillToContact = new Contact()
+                                {
+                                    FirstName = "Name",
+                                    LastName = "Lastname"
+                                }
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         [HttpPatch]
@@ -142,7 +142,7 @@ namespace ApinationApiStub.Controllers
         private string actionJSON = @"
                 [
                     {
-                        ""type"": ""CreateInvoice"",
+                        ""type"": ""UpdateInvoice"",
                         ""mainLogId"": 1,
                         ""source"": ""Qualer"",
                         ""userId"": 1,

@@ -22,7 +22,7 @@ namespace Sage50Connector.API
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
 
-        private string _actionSource;
+        private readonly string _actionSource;
 
         public Sage50Api(string actionSource)
         {
@@ -252,11 +252,11 @@ namespace Sage50Connector.API
         {
             UpsertInvoice(paymentPayload.invoice);
 
-            //foreach (var payment in payments)
-            //{
-            //    payment.pap
-            //}
-            throw new NotImplementedException();
+            foreach (var payment in paymentPayload.payments)
+            {
+                var sagePayment = CompanyContext.Factories.PaymentFactory.Create();
+                sagePayment.PopulateFromModel(CompanyContext, payment);
+            }
         }
     }
 }
