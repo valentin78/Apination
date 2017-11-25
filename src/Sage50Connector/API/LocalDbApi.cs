@@ -123,7 +123,9 @@ namespace Sage50Connector.API
                 Id = ObjectId.NewObjectId();
             }
 
-            public ObjectId Id { get; set; }
+            // ReSharper disable once MemberCanBePrivate.Global
+            // ReSharper disable once UnusedAutoPropertyAccessor.Global
+            public ObjectId Id { get; }
             public string ApinationKey { get; set; }
             public string SageCustomerId { get; set; }
         }
@@ -135,7 +137,9 @@ namespace Sage50Connector.API
                 Id = ObjectId.NewObjectId();
             }
 
-            public ObjectId Id { get; set; }
+            // ReSharper disable once MemberCanBePrivate.Global
+            // ReSharper disable once UnusedAutoPropertyAccessor.Global
+            public ObjectId Id { get; }
             public string ApinationKey { get; set; }
             public string SageVendorId { get; set; }
         }
