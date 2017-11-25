@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using log4net;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
 using Sage50Connector.Models.Payloads;
-using Payment = Sage50Connector.Models.Data.Payment;
 
 namespace Sage50Connector.API
 {
@@ -14,8 +12,6 @@ namespace Sage50Connector.API
     /// </summary>
     public class Sage50Api : IDisposable
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(Sage50Api));
-
         // ReSharper disable once InconsistentNaming
         private readonly LocalDbApi localDbApi = new LocalDbApi();
 
@@ -30,9 +26,9 @@ namespace Sage50Connector.API
         }
 
         // ReSharper disable once InconsistentNaming
-        public Company CompanyContext { get; set; }
+        private Company CompanyContext { get; set; }
 
-        protected PeachtreeSession CurrentSession
+        private PeachtreeSession CurrentSession
         {
             get
             {
@@ -94,31 +90,31 @@ namespace Sage50Connector.API
             CompanyContext = null;
         }
 
-        public CompanyIdentifierList CompaniesList()
+        private CompanyIdentifierList CompaniesList()
         {
             return CurrentSession.CompanyList(CurrentSession.Configuration.ServerName);
         }
 
-        public CompanyIdentifier FindCompany(string companyName)
+        private CompanyIdentifier FindCompany(string companyName)
         {
             var result = CompaniesList().SingleOrDefault(c => c.CompanyName == companyName);
             if (result == null) throw new ArgumentException($"Can not find company by name: \"{companyName}\"");
             return result;
         }
 
-        public CustomerList CustomersList()
+        private CustomerList CustomersList()
         {
             if (CompanyContext == null) throw new ArgumentException("Company must be open before");
             return CompanyContext.Factories.CustomerFactory.List();
         }
 
-        public VendorList VendorsList()
+        private VendorList VendorsList()
         {
             if (CompanyContext == null) throw new ArgumentException("Company must be open before");
             return CompanyContext.Factories.VendorFactory.List();
         }
 
-        public SalesInvoiceList SalesInvoicesList()
+        private SalesInvoiceList SalesInvoicesList()
         {
             if (CompanyContext == null) throw new ArgumentException("Company must be open before");
             return CompanyContext.Factories.SalesInvoiceFactory.List();
@@ -225,7 +221,7 @@ namespace Sage50Connector.API
             }
             else
             {
-                throw new MessageException($"Can not find customer because name and email is null");
+                throw new MessageException("Can not find customer because name and email is null");
             }
 
             var modifier = LoadModifiers.Create();
@@ -279,7 +275,7 @@ namespace Sage50Connector.API
             }
             else
             {
-                throw new MessageException($"Can not find customer because name and email is null");
+                throw new MessageException("Can not find customer because name and email is null");
             }
 
             var modifier = LoadModifiers.Create();
@@ -300,9 +296,8 @@ namespace Sage50Connector.API
         /// Find or Create and after that Populate Vendor data
         /// </summary>
         /// <param name="vendor"></param>
-        /// <param name="sagePayment"></param>
         /// <returns></returns>
-        private EntityReference<Vendor> UsertVendor(Models.Data.Vendor vendor, Sage.Peachtree.API.Payment sagePayment)
+        private EntityReference<Vendor> UpsertVendor(Models.Data.Vendor vendor)
         {
             var sageVendor = FindSageVendor(vendor) ?? CompanyContext.Factories.VendorFactory.Create();
             sageVendor.PopulateFromModel(CompanyContext, vendor);
@@ -310,7 +305,7 @@ namespace Sage50Connector.API
             return sageVendor.Key;
         }
 
-        public void UpsertInvoice(Models.Data.SalesInvoice invoice)
+        private void UpsertInvoice(Models.Data.SalesInvoice invoice)
         {
             var customer = FindSageCustomer(invoice.Customer);
             // if no exist Customer, goto CreateInvoice
@@ -331,7 +326,7 @@ namespace Sage50Connector.API
             {
                 var sagePayment = CompanyContext.Factories.PaymentFactory.Create();
 
-                sagePayment.VendorReference = UsertVendor(payment.Vendor, sagePayment);
+                sagePayment.VendorReference = UpsertVendor(payment.Vendor);
 
                 sagePayment.PopulateFromModel(CompanyContext, payment);
             }
