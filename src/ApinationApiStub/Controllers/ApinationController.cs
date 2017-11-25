@@ -47,7 +47,12 @@ namespace ApinationApiStub.Controllers
                                 {
                                     Name = "Vendor 1",
                                     ExternalId = "VND01", 
-                                    Form1099Type = "None"
+                                    Form1099Type = "None", 
+                                    CashAccount = new Account
+                                    {
+                                        Id = "AC01", 
+                                        Classification = "Cash"
+                                    }
                                 }
                             }
                         },

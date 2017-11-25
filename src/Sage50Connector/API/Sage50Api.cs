@@ -255,7 +255,7 @@ namespace Sage50Connector.API
             var sageCustomer = sageVendors.SingleOrDefault(vendorKey);
             if (sageCustomer != null)
             {
-                localDbApi.StoreCustomerId(vendorKey, sageCustomer.ID);
+                localDbApi.StoreVendorrId(vendorKey, sageCustomer.ID);
                 return sageCustomer;
             }
 
@@ -292,7 +292,7 @@ namespace Sage50Connector.API
                 throw new MessageException($"Found more that one vendor by name: '{vendor.Name}' or email: '{vendor.Email}'");
 
             sageCustomer = sageVendors.First();
-            localDbApi.StoreCustomerId(vendorKey, sageCustomer.ID);
+            localDbApi.StoreVendorrId(vendorKey, sageCustomer.ID);
             return sageCustomer;
         }
 
