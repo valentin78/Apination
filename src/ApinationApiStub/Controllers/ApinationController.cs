@@ -53,7 +53,8 @@ namespace ApinationApiStub.Controllers
                                         Id = "AC01", 
                                         Classification = "Cash"
                                     }
-                                }
+                                },
+                                PaymentMethod = "MASTER CARD"
                             }
                         },
                         invoice = new SalesInvoice

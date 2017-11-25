@@ -78,6 +78,7 @@ namespace Sage50Connector.API
 
         public static void PopulateFromModel(this NameAndAddress sageNameAndAddress, Models.Data.NameAndAddress nameAndAddress)
         {
+            if (nameAndAddress == null) return;
             sageNameAndAddress.Name = nameAndAddress.Name;
             sageNameAndAddress.Address.PopulateFromModel(nameAndAddress.Address);
         }
