@@ -124,8 +124,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Schemas\upsertCustomerPayload-schema.json" />
-    <None Include="Schemas\createUpdateInvoicePayload-schema.json" />
+    <None Include="Schemas\Payloads\createPaymentPayload-schema.json" />
+    <None Include="Schemas\Payloads\upsertCustomerPayload-schema.json" />
+    <None Include="Schemas\Payloads\createUpdateInvoicePayload-schema.json" />
     <None Include="Schemas\customer-schema.json" />
     <None Include="Schemas\invoice-schema.json" />
     <None Include="Schemas\action-schema.json" />

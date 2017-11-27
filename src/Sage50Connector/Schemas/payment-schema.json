@@ -1,21 +1,229 @@
 ﻿{
-  "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "JSON Schema for my JSON file format",
+  "$schema": "http://json-schema.org/draft-06/schema",
+  "title": "JSON Schema for Payment",
 
   "type": "object",
 
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "This shows up in tooltips for the 'name' property."
+  "definitions": {
+    "Account": {
+      "type": "object",
+      "properties": {
+        "Description": { "type": "string" },
+        "Id": { "type": "string" },
+        "IsInactive": { "type": "boolean" },
+        "Classification": {
+          "type": "string",
+          "enum": [
+            "Cash",
+            "Receivable",
+            "Inventory",
+            "ReceivableRetainage",
+            "OtherCurrentAsset",
+            "FixedAsset",
+            "AccumulatedDepreciation",
+            "OtherAssets",
+            "Payable",
+            "PayableRetainage",
+            "OtherCurrentLiability",
+            "OtherLiability",
+            "EquityNoClose",
+            "RetainedEarnings",
+            "EquityClose",
+            "Income",
+            "CostSales",
+            "Expense"
+          ]
+        }
+      },
+      "required": [ "Id", "Classification" ]
     },
-    "versions": {
-      "type": "array",
-      "description": "An array of version numbers.",
-      "minItems": 1,
-      "items": {
-        "type": "number"
-      }
+
+    "Address": {
+      "type": "object",
+      "properties": {
+        "Address1": { "type": "string" },
+        "Address2": { "type": "string" },
+        "City": { "type": "string" },
+        "Country": { "type": "string" },
+        "SalesTaxCode": { "type": "string" },
+        "State": { "type": "string" },
+        "Zip": { "type": "string" }
+      },
+      "required": [ "Address1" ]
+    },
+
+    "Contact": {
+      "type": "object",
+      "properties": {
+        "Address": { "$ref": "#/definitions/Address" },
+        "CompanyName": { "type": "string" },
+        "Email": { "type": "string" },
+        "FirstName": { "type": "string" },
+        "Gender": {
+          "type": "string",
+          "enum": [
+            "NotSpecified",
+            "Male",
+            "Female"
+          ]
+        },
+        "LastName": { "type": "string" },
+        "MiddleInitial": { "type": "string" },
+        "NameToUseOnForms": {
+          "type": "string",
+          "enum": [
+            "ContactName",
+            "CompanyName"
+          ]
+        },
+        "Notes": { "type": "string" },
+        "PhoneNumbers": {
+          "type": [ "array" ],
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/definitions/PhoneNumber"
+          },
+          "Prefix": { "type": "string" },
+          "Suffix": { "type": "string" },
+          "Title": { "type": "string" }
+        }
+      },
+      "required": [ "LastName", "FirstName" ]
+    },
+
+    "NameAndAddress": {
+      "type": [ "object" ],
+      "properties": {
+        "Name": { "type": [ "string" ] },
+        "Address": { "$ref": "#/definitions/Address" }
+      },
+      "required": [ "Name", "Address" ]
+    },
+
+    "PaymentExpenseLine": {
+      "type": [ "object" ],
+      "additionalProperties": false,
+      "properties": {
+        "Quantity": { "type": "number" },
+        "UnitPrice": { "type": "number" },
+        "Amount": { "type": "number" },
+        "Description": { "type": [ "string" ] },
+        "Account": { "$ref": "#/definitions/Account" }
+      },
+      "required": [
+        "Quantity",
+        "UnitPrice",
+        "Amount",
+        "Description",
+        "Account"
+      ]
+    },
+
+    "PaymentInvoiceLine": {
+      "type": [ "object" ],
+      "properties": {
+        "DiscountAmount": { "type": "number" },
+        "AmountPaid": { "type": "number" },
+        "Amount": { "type": "number" },
+        "Description": { "type": [ "string" ] },
+        "Account": { "$ref": "#/definitions/Account" }
+      },
+      "required": [
+        "DiscountAmount",
+        "AmountPaid",
+        "Amount",
+        "Description",
+        "Account"
+      ]
+    },
+
+    "PhoneNumber": {
+      "type": "object",
+      "properties": {
+        "Number": { "type": "string" },
+        "Key": {
+          "type": "string",
+          "enum": [
+            "NotUsed",
+            "PhoneNumber1",
+            "PhoneNumber2",
+            "Fax1",
+            "Fax2",
+            "Mobile1",
+            "Mobile2"
+          ]
+        }
+      },
+      "required": [ "Number", "Key" ]
+    },
+
+    "Vendor": {
+      "type": [ "object" ],
+      "properties": {
+        "ReplaceInventoryItemIDWithUPC": { "type": "boolean" },
+        "PaymentMethod": { "type": [ "string" ] },
+        "ReplaceInventoryItemIDWithPartNumber": { "type": "boolean" },
+        "PhoneNumbers": {
+          "type": [ "array" ],
+          "items": { "$ref": "#/definitions/PhoneNumber" }
+        },
+        "ShipVia": { "type": [ "string" ] },
+        "TaxIDNumber": { "type": [ "string" ] },
+        "Form1099Type": { "type": [ "string" ] },
+        "UseEmailToDeliverForms": { "type": "boolean" },
+        "UsingPaymentDefaults": { "type": "boolean" },
+        "VendorSince": {
+          "type": [ "string" ],
+          "format": "date-time"
+        },
+        "WebSiteURL": { "type": [ "string" ] },
+        "Contacts": {
+          "type": [ "array" ],
+          "items": { "$ref": "#/definitions/Contact" }
+        },
+        "ExpenseAccount": { "$ref": "#/definitions/Account" },
+        "Name": { "type": [ "string" ] },
+        "CashAccount": { "$ref": "#/definitions/Account" },
+        "ShipmentsContact": { "$ref": "#/definitions/Contact" },
+        "PurchaseOrdersContact": { "$ref": "#/definitions/Contact" },
+        "PaymentsContact": { "$ref": "#/definitions/Contact" },
+        "Category": { "type": [ "string" ] },
+        "Email": { "type": [ "string" ] },
+        "ExternalId": { "type": [ "string" ] },
+        "IncludePurchaseRepresentativeOnEmailedForms": { "type": "boolean" },
+        "IsInactive": { "type": "boolean" },
+        "AccountNumber": { "type": [ "string" ] }
+      },
+      "required": [
+        "Name",
+        "ExternalId"
+      ]
     }
-  }
+  },
+
+  "properties": {
+    "Vendor": { "$ref": "#/definitions/Vendor" },
+    "DiscountAccount": { "$ref": "#/definitions/Account" },
+    "MainAddress": { "$ref": "#/definitions/NameAndAddress" },
+    "ApplyToInvoiceLines": {
+      "type": [ "array" ],
+      "items": { "$ref": "#/definitions/PaymentInvoiceLine" }
+    },
+    "ApplyToExpenseLines": {
+      "type": [ "array" ],
+      "items": { "$ref": "#/definitions/PaymentExpenseLine" }
+    },
+    "Memo": { "type": [ "string" ] },
+    "PaymentMethod": { "type": [ "string" ] },
+    "Date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ReferenceNumber": { "type": [ "string" ] },
+    "Account": { "$ref": "#/definitions/Account" }
+  },
+  "required": [
+    "ReferenceNumber"
+  ]
 }
