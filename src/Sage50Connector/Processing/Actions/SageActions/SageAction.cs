@@ -1,10 +1,14 @@
 // ReSharper disable InconsistentNaming
 using System;
+using Newtonsoft.Json;
 
 namespace Sage50Connector.Processing.Actions.SageActions
 {
     public class SageAction
     {
+        [JsonProperty(propertyName: "processingStatus")]
+        public ProcessingStatus ProcessingStatus { get; set; }
+
         public string type { get; set; }
         public int mainLogId { get; set; }
         public string source { get; set; }
