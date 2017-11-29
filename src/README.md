@@ -14,9 +14,10 @@ Be sure that .Net Framework 4.5.2 is installed too.
 ### Installing
 
 1. To install Sage50 Connector as Windows service you can use installutil.exe from .Net Framework or utilize install.bat file.
-You should place install.bat into Sage50 Connector's folder and run it as Administrator.
+You should place install.bat into Sage50 Connector's folder, run Command Prompt as Administrator and go to Sage50 Connector's folder.
+2. Rum install.bat
 2. Run Services.msc and find Sage50 Connector serivce.
-3. Open Properies menu and in opened dialog select 
+3. Open Properies menu and select 
 
 Say what the step will be
 

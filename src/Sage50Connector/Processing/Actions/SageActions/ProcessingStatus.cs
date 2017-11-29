@@ -1,13 +1,17 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+// ReSharper disable InconsistentNaming
 
 namespace Sage50Connector.Processing.Actions.SageActions
 {
+    [JsonConverter(typeof(StringEnumConverter))]
     public enum Status
     {
-        SUCCESS = 1, 
-        FAIL = 2,
-        NOT_PROCESSED = 3
+        SUCCESS, 
+        FAIL,
+        NOT_PROCESSED
     }
     public class ProcessingStatus
     {

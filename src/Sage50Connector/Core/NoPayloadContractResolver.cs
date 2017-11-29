@@ -6,20 +6,14 @@ using Newtonsoft.Json.Serialization;
 namespace Sage50Connector.Core
 {
     /// <summary>
-    /// Uses by Json Serializer for control ShouldSerialize Property
+    /// Uses by Json Serializer for control ShouldSerialize Property excluding payload
     /// </summary>
-    public class NoDerivedContractResolver : DefaultContractResolver
+    public class NoPayloadContractResolver : DefaultContractResolver
     {
-        private readonly Type _baseType;
-
-        public NoDerivedContractResolver(Type baseType)
-        {
-            _baseType = baseType;
-        }
         protected override JsonProperty CreateProperty(MemberInfo member, MemberSerialization memberSerialization)
         {
             JsonProperty property = base.CreateProperty(member, memberSerialization);
-            property.ShouldSerialize = _ => property.DeclaringType == _baseType;
+            property.ShouldSerialize = _ => property.PropertyName != "payload";
             return property;
         }
     }

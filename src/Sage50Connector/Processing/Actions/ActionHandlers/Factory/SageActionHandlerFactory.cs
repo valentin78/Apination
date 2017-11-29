@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using log4net;
 using Sage50Connector.Processing.Actions.SageActions;
@@ -7,7 +8,8 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
 {
     public class SageActionHandlerFactory
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionHandlerFactory));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(SageActionHandlerFactory));
+        private static readonly Dictionary<Type, object> HandlersCache = new Dictionary<Type, object>();
 
         /// <summary>
         /// Create Action handler by action data. 
@@ -21,14 +23,20 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
             var actionHandlerType = typeof(ISageActionHandler<>);
             var actionType = SageAction.GetActionClassType(action.type);
 
+            if (HandlersCache.ContainsKey(actionType))
+            {
+                return HandlersCache[actionType];
+            }
+
             var actionHandlerTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => Any(type, actionHandlerType, actionType)).ToArray();
 
             if (actionHandlerTypes.Length != 1)
                 throw new Exception($"Not found or more than one action handlers implememntations for action type: {action.type}");
-
-            return Activator.CreateInstance(actionHandlerTypes[0]);
+            var handler = Activator.CreateInstance(actionHandlerTypes[0]);
+            HandlersCache.Add(actionType, handler);
+            return handler;
         }
 
         /// <summary>
@@ -40,6 +48,5 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
             return implementActionHandlers.Any(@interface => @interface.GenericTypeArguments.Length == 1 && @interface.GenericTypeArguments[0] == actionType);
         }
     }
-
 
 }

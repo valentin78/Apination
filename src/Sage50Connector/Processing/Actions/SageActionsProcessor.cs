@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using log4net;
 using Newtonsoft.Json;
 using Quartz;
@@ -10,7 +11,6 @@ using Sage50Connector.Models;
 using Sage50Connector.Processing.Actions.ActionHandlers.Factory;
 using Sage50Connector.Processing.Actions.SageActions;
 using Sage50Connector.Processing.Actions.SageActions.Factory;
-using Sage50Connector.Processing;
 
 namespace Sage50Connector.Processing.Actions
 {
@@ -52,12 +52,13 @@ namespace Sage50Connector.Processing.Actions
 
             apinationObservable.Subscribe(sageActions =>
             {
-                    // actions can be handled in any order, this is the right place to put this logic
-                    // most of the time it will be just 1-1 action to handler assocciation
-                    try
+                // actions can be handled in any order, this is the right place to put this logic
+                // most of the time it will be just 1-1 action to handler assocciation
+                try
                 {
+                    var actions = sageActions.ToArray();
                     //var patchList = new List<ProcessingStatus>();
-                    foreach (var sageAction in sageActions)
+                    foreach (var sageAction in actions)
                     {
                         var actionId = sageAction.triggerId;
                         try
@@ -68,10 +69,10 @@ namespace Sage50Connector.Processing.Actions
                                 Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, actionId);
                                 // dynamic ActionHandler generic type require derived type, not base SageAction type
                                 handler.Handle((dynamic)sageAction);
-                                
-                                Log.InfoFormat("Handling finnished success (type: {0}, id: {1}) ...", sageAction.type, actionId);
 
-                                sageAction.ProcessingStatus = new ProcessingStatus()
+                                Log.InfoFormat("Handling finnished success (type: {0}, id: {1}) ...", sageAction.type, actionId);
+                                //Debugger.Break();
+                                sageAction.ProcessingStatus = new ProcessingStatus
                                 {
                                     Status = Status.SUCCESS
                                 };
@@ -80,16 +81,16 @@ namespace Sage50Connector.Processing.Actions
                         catch (MessageException ex)
                         {
                             Log.ErrorFormat("HANDLING ERROR MESSAGE: {0}", ex.Message);
-                            sageAction.ProcessingStatus = new ProcessingStatus()
+                            sageAction.ProcessingStatus = new ProcessingStatus
                             {
-                                Status = Status.FAIL, 
+                                Status = Status.FAIL,
                                 Error = ex.Message
                             };
                         }
                         catch (Exception ex)
                         {
                             Log.Error("Handling action failed", ex);
-                            sageAction.ProcessingStatus = new ProcessingStatus()
+                            sageAction.ProcessingStatus = new ProcessingStatus
                             {
                                 Status = Status.FAIL,
                                 Error = ex.Message
@@ -99,12 +100,13 @@ namespace Sage50Connector.Processing.Actions
 
                     var settings = new JsonSerializerSettings
                     {
-                        ContractResolver = new NoDerivedContractResolver(typeof(SageAction))
+                        ContractResolver = new NoPayloadContractResolver()
                     };
-                    var sageActionsJson = JsonConvert.SerializeObject(sageActions, settings);
-                    Log.InfoFormat("Sending actions Patch: {0}", sageActionsJson);
+                    var sageProcessingStatusJson = JsonConvert.SerializeObject(actions, settings);
 
-                    apinationApi.PatchActions(sageActionsJson);
+                    Log.InfoFormat("Sending actions processing status: {0}", sageProcessingStatusJson);
+
+                    apinationApi.PatchActions(sageProcessingStatusJson);
                 }
                 catch (MessageException ex)
                 {
