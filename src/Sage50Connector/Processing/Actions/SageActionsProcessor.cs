@@ -56,7 +56,7 @@ namespace Sage50Connector.Processing.Actions
                     // most of the time it will be just 1-1 action to handler assocciation
                     try
                 {
-                    var patchList = new List<SageActionPatch>();
+                    //var patchList = new List<ProcessingStatus>();
                     foreach (var sageAction in sageActions)
                     {
                         var actionId = sageAction.triggerId;
@@ -71,24 +71,40 @@ namespace Sage50Connector.Processing.Actions
                                 
                                 Log.InfoFormat("Handling finnished success (type: {0}, id: {1}) ...", sageAction.type, actionId);
 
-                                patchList.Add(new SageActionPatch { actionId = actionId, Processed = true });
+                                sageAction.ProcessingStatus = new ProcessingStatus()
+                                {
+                                    Status = Status.SUCCESS
+                                };
                             }
                         }
                         catch (MessageException ex)
                         {
                             Log.ErrorFormat("HANDLING ERROR MESSAGE: {0}", ex.Message);
-                            patchList.Add(new SageActionPatch { actionId = actionId, Processed = false });
+                            sageAction.ProcessingStatus = new ProcessingStatus()
+                            {
+                                Status = Status.FAIL, 
+                                Error = ex.Message
+                            };
                         }
                         catch (Exception ex)
                         {
                             Log.Error("Handling action failed", ex);
-                            patchList.Add(new SageActionPatch { actionId = actionId, Processed = false });
+                            sageAction.ProcessingStatus = new ProcessingStatus()
+                            {
+                                Status = Status.FAIL,
+                                Error = ex.Message
+                            };
                         }
                     }
 
-                    Log.InfoFormat("Sending actions Patch: {0}", JsonConvert.SerializeObject(patchList));
+                    var settings = new JsonSerializerSettings
+                    {
+                        ContractResolver = new NoDerivedContractResolver(typeof(SageAction))
+                    };
+                    var sageActionsJson = JsonConvert.SerializeObject(sageActions, settings);
+                    Log.InfoFormat("Sending actions Patch: {0}", sageActionsJson);
 
-                    apinationApi.PatchActions(patchList);
+                    apinationApi.PatchActions(sageActionsJson);
                 }
                 catch (MessageException ex)
                 {

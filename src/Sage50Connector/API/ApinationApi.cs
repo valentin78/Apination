@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Newtonsoft.Json;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
@@ -29,9 +30,9 @@ namespace Sage50Connector.API
             return httpUtility.Get("api/actions");
         }
 
-        public string PatchActions(IEnumerable<SageActionPatch> actions)
+        public string PatchActions(string jsonBody)
         {
-            return httpUtility.Patch("api/actions", JsonConvert.SerializeObject(actions), "application/json");
+            return httpUtility.Patch("api/actions", jsonBody, "application/json");
         }
 
         public Config RetrieveConnectorConfig()

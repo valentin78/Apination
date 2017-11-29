@@ -87,6 +87,7 @@
     <Compile Include="Processing\Actions\ActionHandlers\UpsertCustomerSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
+    <Compile Include="Core\NoDerivedContractResolver.cs" />
     <Compile Include="Processing\Actions\SageActions\CreatePaymentSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\SageActionPatch.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />
