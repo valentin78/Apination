@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.Net;
 using System.Text;
+using log4net;
 
 namespace Sage50Connector.Core
 {
@@ -10,9 +11,10 @@ namespace Sage50Connector.Core
     /// </summary>
     public class WebClientHttpUtility: IHttpUtility
     {
+        public static readonly ILog Log = LogManager.GetLogger(typeof(WebClientHttpUtility));
         private static WebClient HttpClientFactory() {
             WebClient client = new WebClient();
-            client.Headers.Add("AuthToken", ApplicationConfig.AuthToken);
+            client.Headers.Add("Authorization", ApplicationConfig.AuthToken);
             return client;
         }
 
@@ -51,7 +53,7 @@ namespace Sage50Connector.Core
                 {
                     client.QueryString.Add(parameter, parameters[parameter]);
                 }
-
+                Log.Debug(ToAbsoluteUrl(uri));
                 return client.DownloadString(ToAbsoluteUrl(uri));
             }
         }

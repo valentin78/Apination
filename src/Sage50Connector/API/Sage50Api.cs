@@ -98,7 +98,7 @@ namespace Sage50Connector.API
         private CompanyIdentifier FindCompany(string companyName)
         {
             var result = CompaniesList().SingleOrDefault(c => c.CompanyName == companyName);
-            if (result == null) throw new ArgumentException($"Can not find company by name: \"{companyName}\"");
+            if (result == null) throw new ArgumentException($"Can not find company with name: \"{companyName}\"");
             return result;
         }
 

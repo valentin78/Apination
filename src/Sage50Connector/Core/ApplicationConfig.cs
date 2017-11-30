@@ -23,12 +23,12 @@ namespace Sage50Connector.Core
         public static Uri ApinationBaseUri => new Uri(ConfigurationManager.AppSettings["ApinationBaseUrl"]);
 
         /// <summary>
-        /// Apination REST Api Base Url
+        /// Configuration endpoint relative Url
         /// </summary>
         public static string ConfigRelativeUrl => ConfigurationManager.AppSettings["ConfigRelativeUrl"];
 
         /// <summary>
-        /// Apination REST Api Base Url
+        /// Apination ClientId
         /// </summary>
         public static string ClientId => ConfigurationManager.AppSettings["ClientId"];
 

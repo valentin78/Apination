@@ -13,12 +13,16 @@ namespace Sage50Connector.Models
         /// <summary>
         /// Cron polling period for Apination Observer activation
         /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
+        /// Generator:
+        /// https://www.freeformatter.com/cron-expression-generator-quartz.html        
         /// </summary>
         public string ApinationCronSchedule { get; set; }
 
         /// <summary>
         /// Cron period for HearBeat process
         /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
+        /// Generator:
+        /// https://www.freeformatter.com/cron-expression-generator-quartz.html
         /// </summary>
         public string HeartBeatCronSchedule { get; set; }
 
