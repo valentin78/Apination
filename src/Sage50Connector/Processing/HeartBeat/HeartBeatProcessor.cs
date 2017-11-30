@@ -23,7 +23,7 @@ namespace Sage50Connector.Processing.HeartBeat
 
             try
             {
-                var apinationApi = new ApinationApi(new WebClientHttpUtility());
+                var apinationApi = new ApinationApi(new WebClientHttpUtility(), config);
                 
                 IJobDetail pollApinationJob = JobBuilder.Create<HeartBeatJob>()
                     .WithIdentity("HeartBeatJob")

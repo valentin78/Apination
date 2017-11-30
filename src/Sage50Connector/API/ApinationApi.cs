@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Linq;
 using Newtonsoft.Json;
 using Sage50Connector.Core;
 using Sage50Connector.Models;
@@ -16,9 +15,12 @@ namespace Sage50Connector.API
         // ReSharper disable once InconsistentNaming
         private readonly IHttpUtility httpUtility;
 
-        public ApinationApi(IHttpUtility httpUtility)
+        private readonly Config config;
+
+        public ApinationApi(IHttpUtility httpUtility, Config config)
         {
             this.httpUtility = httpUtility;
+            this.config = config;
         }
 
         /// <summary>
@@ -27,17 +29,17 @@ namespace Sage50Connector.API
         /// <returns></returns>
         public string GetActionsJson()
         {
-            return httpUtility.Get("api/actions");
+            return httpUtility.Get(config.ApinationActionEndpointUrl);
         }
 
-        public string PatchActions(string jsonBody)
+        public string PatchActions (string jsonBody)
         {
-            return httpUtility.Patch("api/actions", jsonBody, "application/json");
+            return httpUtility.Patch(config.ApinationActionEndpointUrl, jsonBody, "application/json");
         }
 
-        public Config RetrieveConnectorConfig()
+        public Config GetConnectorConfig()
         {
-            var json = httpUtility.Get("api/config");
+            var json = httpUtility.Get(ApplicationConfig.ConfigRelativeUrl.Replace(":clientId", ApplicationConfig.ClientId));
             return JsonConvert.DeserializeObject<Config>(json);
         }
 
@@ -46,7 +48,7 @@ namespace Sage50Connector.API
         /// </summary>
         public void Handshake()
         {
-            httpUtility.Get("api/heartbeat");
+            httpUtility.Get(config.ApinationHeartbeatEndpointUrl);
         }
     }
 }

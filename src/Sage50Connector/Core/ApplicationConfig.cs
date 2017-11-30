@@ -23,6 +23,16 @@ namespace Sage50Connector.Core
         public static Uri ApinationBaseUri => new Uri(ConfigurationManager.AppSettings["ApinationBaseUrl"]);
 
         /// <summary>
+        /// Apination REST Api Base Url
+        /// </summary>
+        public static string ConfigRelativeUrl => ConfigurationManager.AppSettings["ConfigRelativeUrl"];
+
+        /// <summary>
+        /// Apination REST Api Base Url
+        /// </summary>
+        public static string ClientId => ConfigurationManager.AppSettings["ClientId"];
+
+        /// <summary>
         /// Customers LastSavedAt value filter
         /// </summary>
         public static DateTime CustomersLastSavedAt

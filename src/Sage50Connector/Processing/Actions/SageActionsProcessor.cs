@@ -39,7 +39,7 @@ namespace Sage50Connector.Processing.Actions
 
             var schedulerFactory = new StdSchedulerFactory();
             scheduler = schedulerFactory.GetScheduler();
-            var apinationApi = new ApinationApi(new WebClientHttpUtility());
+            var apinationApi = new ApinationApi(new WebClientHttpUtility(), config);
             scheduler.JobFactory = new JobFactory(apinationApi);
 
             var apinationObservable = new SageActionsObserverable(

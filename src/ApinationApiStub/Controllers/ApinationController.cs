@@ -18,7 +18,6 @@ namespace ApinationApiStub.Controllers
             {
                 HeartBeatCronSchedule = "0 0/5 * * * ?",
 
-                Sage50CronSchedule = "0 0/5 * * * ?",
                 ApinationCronSchedule = "0 0/5 * * * ?",
 
                 ApinationActionEndpointUrl = "api/sage50DTO",

@@ -15,7 +15,7 @@ namespace Sage50Connector
         /// <summary>
         /// Apination Api Util 
         /// </summary>
-        private ApinationApi apinationApi => new ApinationApi(new WebClientHttpUtility());
+        private ApinationApi apinationApi => new ApinationApi(new WebClientHttpUtility(), null);
 
         public static readonly ILog Log = LogManager.GetLogger(typeof(ScheduleService));
         public static void InitializeLogger() { XmlConfigurator.Configure(); }
@@ -46,7 +46,7 @@ namespace Sage50Connector
 
                 // retrieve config
                 Log.Info("Retrieve Connector Config ...");
-                var config = apinationApi.RetrieveConnectorConfig();
+                var config = apinationApi.GetConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
 

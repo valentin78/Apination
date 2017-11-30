@@ -29,6 +29,7 @@ namespace Console
             JSchema schemaInv = generator.Generate(typeof(SalesInvoiceLine));
             JSchema schemaPayment = generator.Generate(typeof(Sage50Connector.Models.Data.Payment));
 
+
             Sage.Peachtree.API.Vendor v;
 
             var companies = api.CompaniesList();

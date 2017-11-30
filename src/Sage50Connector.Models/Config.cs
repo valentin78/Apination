@@ -11,12 +11,6 @@ namespace Sage50Connector.Models
     public class Config
     {
         /// <summary>
-        /// Cron polling period for Sage50 Observer activation
-        /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
-        /// </summary>
-        public string Sage50CronSchedule { get; set; }
-
-        /// <summary>
         /// Cron polling period for Apination Observer activation
         /// https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontrigger.html
         /// </summary>
@@ -32,6 +26,11 @@ namespace Sage50Connector.Models
         /// Apination ReST endpoint URL for Actions
         /// </summary>
         public string ApinationActionEndpointUrl { get; set; }
+
+        /// <summary>
+        /// Apination ReST endpoint URL for Heartbeat
+        /// </summary>
+        public string ApinationHeartbeatEndpointUrl { get; set; }
 
         /// <summary>
         /// Serialize object to JSON string
