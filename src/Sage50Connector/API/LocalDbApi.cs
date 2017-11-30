@@ -12,9 +12,9 @@ namespace Sage50Connector.API
     /// </summary>
     public class LocalDbApi
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(LocalDbApi));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LocalDbApi));
 
-        protected string DbPath
+        private string DbPath
         {
             get
             {
@@ -116,29 +116,31 @@ namespace Sage50Connector.API
             }
         }
 
-        public class CustomerIdMapping
+        private class CustomerIdMapping
         {
             public CustomerIdMapping()
             {
                 Id = ObjectId.NewObjectId();
             }
 
-            // ReSharper disable once MemberCanBePrivate.Global
             // ReSharper disable once UnusedAutoPropertyAccessor.Global
+            // ReSharper disable once MemberCanBePrivate.Local
+            // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public ObjectId Id { get; }
             public string ApinationKey { get; set; }
             public string SageCustomerId { get; set; }
         }
 
-        public class VendorIdMapping
+        private class VendorIdMapping
         {
             public VendorIdMapping()
             {
                 Id = ObjectId.NewObjectId();
             }
 
-            // ReSharper disable once MemberCanBePrivate.Global
             // ReSharper disable once UnusedAutoPropertyAccessor.Global
+            // ReSharper disable once MemberCanBePrivate.Global
+            // ReSharper disable once MemberCanBePrivate.Local
             public ObjectId Id { get; }
             public string ApinationKey { get; set; }
             public string SageVendorId { get; set; }
