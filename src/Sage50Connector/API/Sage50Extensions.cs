@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
+using PhoneNumber = Sage50Connector.Models.Data.PhoneNumber;
 
 namespace Sage50Connector.API
 {
@@ -44,6 +46,38 @@ namespace Sage50Connector.API
             list.Load(modifier);
 
             return list;
+        }
+
+        /// <summary>
+        /// check PhoneNumber collection if any phone present
+        /// </summary>
+        /// <param name="phoneNumbers"></param>
+        /// <returns></returns>
+        public static bool PhonesAbsent(this List<PhoneNumber> phoneNumbers)
+        {
+            //Keys: honeNumber1, PhoneNumber2, Fax1
+            for (int i = 1; i <= 2; i++)
+            {
+                var phone = phoneNumbers.SingleOrDefault(p => p.Key == $"honeNumber{i}");
+                if (phone != null && !String.IsNullOrWhiteSpace(phone.Number)) return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// check if one of phone number from checkWith collection exist in phoneNumbers collection
+        /// </summary>
+        /// <param name="phoneNumbers"></param>
+        /// <param name="checkWith"></param>
+        /// <returns></returns>
+        public static bool ContainsOneOf(this PhoneNumberCollection phoneNumbers, List<PhoneNumber> checkWith)
+        {
+            //Keys: honeNumber1, PhoneNumber2, Fax1
+            foreach (var phoneNumber in checkWith)
+            {
+                if (phoneNumbers.Any(p => p.Number == phoneNumber.Number)) return true;
+            }
+            return false;
         }
     }
 }

@@ -201,37 +201,44 @@ namespace Sage50Connector.API
                 return sageCustomer;
             }
 
-            // if no mapping found and by extrnalId, find customer by name or email and store mapping to localDb
-            FilterExpression expression;
-            if (!string.IsNullOrEmpty(customer.Name) && !string.IsNullOrEmpty(customer.Email))
+            // if no mapping found and by extrnalId, find customer by email, phone or name and store mapping to localDb
+            if (string.IsNullOrEmpty(customer.Email) && !customer.PhoneNumbers.PhonesAbsent())
             {
-                expression = FilterExpression.AndAlso(
-                    FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(customer.Name)),
-                    FilterExpression.Equal(FilterExpression.Property("Customer.Email"), FilterExpression.Constant(customer.Email))
-                );
-            }
-            else if (!string.IsNullOrEmpty(customer.Name))
-            {
-                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(customer.Name));
-            }
-            else if (!string.IsNullOrEmpty(customer.Email))
-            {
-                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Email"),
-                    FilterExpression.Constant(customer.Email));
+                // if email empty and phone present, load whole customers list and find first by phone
+                sageCustomers.Load();
+                sageCustomer = sageCustomers.FirstOrDefault(c => c.PhoneNumbers.ContainsOneOf(customer.PhoneNumbers));
             }
             else
             {
-                throw new MessageException("Can not find customer because name and email is null");
+                FilterExpression expression;
+                if (!string.IsNullOrEmpty(customer.Email))
+                {
+                    expression = FilterExpression.Equal(FilterExpression.Property("Customer.Email"),
+                        FilterExpression.Constant(customer.Email));
+                } else if (!string.IsNullOrEmpty(customer.Name))
+                {
+                    expression = FilterExpression.Equal(FilterExpression.Property("Customer.Name"),
+                        FilterExpression.Constant(customer.Name));
+                }
+                else
+                {
+                    throw new MessageException("Can not find customer because name, phone and email is null");
+                }
+
+                var modifier = LoadModifiers.Create();
+                modifier.Filters = expression;
+                sageCustomers.Load(modifier);
+
+                if (sageCustomers.Count == 0) return null;
+
+                if (sageCustomers.Count > 1)
+                    throw new MessageException(
+                        $"Found more that one vendor by name: '{customer.Name}' or phones or email: '{customer.Email}'");
+
+                sageCustomer = sageCustomers.First();
             }
 
-            var modifier = LoadModifiers.Create();
-            modifier.Filters = expression;
-            sageCustomers.Load(modifier);
-
-            if (sageCustomers.Count == 0) return null;
-
-            if (sageCustomers.Count > 1)
-                throw new MessageException($"Found more that one customer by name: '{customer.Name}' or email: '{customer.Email}'");
+            if (sageCustomer == null) return null;
 
             sageCustomer = sageCustomers.First();
             localDbApi.StoreCustomerId(customerKey, sageCustomer.ID);
