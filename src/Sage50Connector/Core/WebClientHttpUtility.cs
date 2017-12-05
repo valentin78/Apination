@@ -34,7 +34,7 @@ namespace Sage50Connector.Core
         {
             using (var client = HttpClientFactory())
             {
-                var response = client.UploadValues(ToAbsoluteUrl(uri), parameters);
+                var response = client.UploadValues(ToAbsoluteUrl(uri), parameters ?? new NameValueCollection());
                 return Encoding.UTF8.GetString(response);
             }
         }
@@ -70,7 +70,9 @@ namespace Sage50Connector.Core
                 client.Headers["Content-Type"] = contentType;
                 client.Headers["Accept"] = contentType;
 
+                Log.DebugFormat("Patch to URL: {0}", ToAbsoluteUrl(uri));
                 var result = client.UploadData(ToAbsoluteUrl(uri), "PATCH", Encoding.UTF8.GetBytes(body));
+           //     Debugger.Launch();
                 return Encoding.UTF8.GetString(result);
             }
         }

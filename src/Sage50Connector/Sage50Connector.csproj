@@ -88,6 +88,7 @@
     <Compile Include="Processing\Actions\ApinationActionsObserverable.cs" />
     <Compile Include="Processing\Actions\IApinationListener.cs" />
     <Compile Include="Core\NoPayloadContractResolver.cs" />
+    <Compile Include="Processing\Actions\PollApinationJobFactory.cs" />
     <Compile Include="Processing\Actions\SageActions\CreatePaymentSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\ProcessingStatus.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />

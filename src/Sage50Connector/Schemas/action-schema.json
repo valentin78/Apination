@@ -4,7 +4,7 @@
 
   "type": "object",
   "properties": {
-    "id": { "type": "string" },
+    "_id": { "type": "string" },
     "type": {
       "type": "string",
       "enum": [
@@ -15,6 +15,7 @@
     },
     "userId": { "type": "string" },
     "workflowId": { "type": "string" },
+    "triggerId": { "type": "string" },
     "mainLogId": { "type": "string" },
     "createdAt": {
       "type": "string",

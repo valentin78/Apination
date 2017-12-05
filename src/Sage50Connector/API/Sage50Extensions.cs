@@ -53,7 +53,7 @@ namespace Sage50Connector.API
         /// </summary>
         /// <param name="phoneNumbers"></param>
         /// <returns></returns>
-        public static bool PhonesAbsent(this List<PhoneNumber> phoneNumbers)
+        public static bool IsPhonesAbsent(this List<PhoneNumber> phoneNumbers)
         {
             //Keys: honeNumber1, PhoneNumber2, Fax1
             for (int i = 1; i <= 2; i++)

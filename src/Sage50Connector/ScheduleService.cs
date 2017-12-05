@@ -54,7 +54,8 @@ namespace Sage50Connector
                 heartBeatProcessor = new HeartBeatProcessor();
                 heartBeatProcessor.StartHeartBeat(config);
                 sageActionsProcessor = new SageActionsProcessor();
-                sageActionsProcessor.StartPollApination(config);
+                //sageActionsProcessor.StartPollApination2(config);
+                sageActionsProcessor.StartActionsProcessing(config);
             }
             catch (Exception ex)
             {

@@ -17,16 +17,29 @@ namespace Sage50Connector.Processing.Actions.SageActions
     {
         public ProcessingStatus()
         {
-            Status = Status.NOT_PROCESSED;
-            ProcessedAt = DateTime.Now;
+            processingStatus = Status.NOT_PROCESSED;
+            processedAt = DateTime.Now;
         }
-        [JsonProperty(propertyName: "status")]
-        public Status Status { get; set; }
+        [JsonProperty(propertyName: "_id")]
+        public string id { get; set; }
+
+        [JsonProperty(propertyName: "processingStatus")]
+        public Status processingStatus { get; set; }
 
         [JsonProperty(propertyName: "error")]
-        public string Error { get; set; }
+        public string error { get; set; }
 
         [JsonProperty(propertyName: "processedAt")]
-        public DateTime ProcessedAt { get; set; }
+        public DateTime processedAt { get; set; }
     }
 }
+
+/*
+ { 
+  _id: '...',
+  processed: true,
+  processingStatus: ['SUCCESS', 'FAIL', 'NOT PROCESSED'],
+  processedAt: date,
+  error: 'error message if processing fails'
+}
+ */

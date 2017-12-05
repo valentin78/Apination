@@ -18,11 +18,11 @@ namespace Sage50Connector.API
         // ReSharper disable once InconsistentNaming
         private PeachtreeSession ApiSession;
 
-        private readonly string _actionSource;
+        private readonly string actionSource;
 
         public Sage50Api(string actionSource)
         {
-            _actionSource = actionSource;
+            this.actionSource = actionSource;
         }
 
         // ReSharper disable once InconsistentNaming
@@ -157,7 +157,7 @@ namespace Sage50Connector.API
             var customer = FindSageCustomer(invoice.Customer);
 
             if (customer == null)
-                throw new MessageException($"Not found customer with Key: '{invoice.Customer.GlobalKey(_actionSource)}'. Transaction aborted.");
+                throw new MessageException($"Not found customer with Key: '{invoice.Customer.GlobalKey(actionSource)}'. Transaction aborted.");
 
             var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
             if (sageInvoice == null)
@@ -186,7 +186,7 @@ namespace Sage50Connector.API
 
         private Customer FindSageCustomer(Models.Data.Customer customer)
         {
-            var customerKey = customer.GlobalKey(_actionSource);
+            var customerKey = customer.GlobalKey(actionSource);
             var sageCustomers = CustomersList();
 
             // find mapping for customer globalKey
@@ -202,13 +202,13 @@ namespace Sage50Connector.API
             }
 
             // if no mapping found and by extrnalId, find customer by email, phone or name and store mapping to localDb
-            if (string.IsNullOrEmpty(customer.Email) && !customer.PhoneNumbers.PhonesAbsent())
+            if (string.IsNullOrEmpty(customer.Email) && !customer.PhoneNumbers.IsPhonesAbsent())
             {
                 // if email empty and phone present, load whole customers list and find first by phone
                 sageCustomers.Load();
                 sageCustomer = sageCustomers.FirstOrDefault(c => c.PhoneNumbers.ContainsOneOf(customer.PhoneNumbers));
             }
-            else
+            if (sageCustomer == null)
             {
                 FilterExpression expression;
                 if (!string.IsNullOrEmpty(customer.Email))
@@ -222,7 +222,7 @@ namespace Sage50Connector.API
                 }
                 else
                 {
-                    throw new MessageException("Can not find customer because name, phone and email is null");
+                    throw new MessageException("Can not search customer because name and email is null");
                 }
 
                 var modifier = LoadModifiers.Create();
@@ -233,7 +233,7 @@ namespace Sage50Connector.API
 
                 if (sageCustomers.Count > 1)
                     throw new MessageException(
-                        $"Found more that one vendor by name: '{customer.Name}' or phones or email: '{customer.Email}'");
+                        $"Found more that one customer with name: '{customer.Name}' or phones or email: '{customer.Email}'");
 
                 sageCustomer = sageCustomers.First();
             }
@@ -247,7 +247,7 @@ namespace Sage50Connector.API
 
         private Vendor FindSageVendor(Models.Data.Vendor vendor)
         {
-            var vendorKey = vendor.GlobalKey(_actionSource);
+            var vendorKey = vendor.GlobalKey(actionSource);
             var sageVendors = VendorsList();
 
             // find mapping for vendor globalKey
@@ -267,22 +267,22 @@ namespace Sage50Connector.API
             if (!string.IsNullOrEmpty(vendor.Name) && !string.IsNullOrEmpty(vendor.Email))
             {
                 expression = FilterExpression.AndAlso(
-                    FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(vendor.Name)),
-                    FilterExpression.Equal(FilterExpression.Property("Customer.Email"), FilterExpression.Constant(vendor.Email))
+                    FilterExpression.Equal(FilterExpression.Property("Vendor.Name"), FilterExpression.Constant(vendor.Name)),
+                    FilterExpression.Equal(FilterExpression.Property("Vendor.Email"), FilterExpression.Constant(vendor.Email))
                 );
             }
             else if (!string.IsNullOrEmpty(vendor.Name))
             {
-                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Name"), FilterExpression.Constant(vendor.Name));
+                expression = FilterExpression.Equal(FilterExpression.Property("Vendor.Name"), FilterExpression.Constant(vendor.Name));
             }
             else if (!string.IsNullOrEmpty(vendor.Email))
             {
-                expression = FilterExpression.Equal(FilterExpression.Property("Customer.Email"),
+                expression = FilterExpression.Equal(FilterExpression.Property("Vendor.Email"),
                     FilterExpression.Constant(vendor.Email));
             }
             else
             {
-                throw new MessageException("Can not find customer because name and email is null");
+                throw new MessageException("Can not find Vendor because name and email is null");
             }
 
             var modifier = LoadModifiers.Create();
@@ -292,7 +292,7 @@ namespace Sage50Connector.API
             if (sageVendors.Count == 0) return null;
 
             if (sageVendors.Count > 1)
-                throw new MessageException($"Found more that one vendor by name: '{vendor.Name}' or email: '{vendor.Email}'");
+                throw new MessageException($"Found more that one vendor with name: '{vendor.Name}' or email: '{vendor.Email}'");
 
             sageCustomer = sageVendors.First();
             localDbApi.StoreVendorrId(vendorKey, sageCustomer.ID);

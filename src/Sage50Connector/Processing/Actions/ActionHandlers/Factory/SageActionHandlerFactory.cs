@@ -12,30 +12,29 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
         private static readonly Dictionary<Type, object> HandlersCache = new Dictionary<Type, object>();
 
         /// <summary>
-        /// Create Action handler by action data. 
-        /// (Type only currently used)
+        /// Create Action handler by action type. 
         /// Uses dynamic as result because generic interface ISageActionHandler uses contravariant type and cannot cast to generic by base type 
         /// </summary>
-        public static dynamic CreateHandler(SageAction action)
+        public static dynamic CreateHandler(string actionType)
         {
             Log.DebugFormat("Creating ISageActionHandler for received SageAction ...");
 
             var actionHandlerType = typeof(ISageActionHandler<>);
-            var actionType = SageAction.GetActionClassType(action.type);
+            var classType = SageAction.GetActionClassType(actionType);
 
-            if (HandlersCache.ContainsKey(actionType))
+            if (HandlersCache.ContainsKey(classType))
             {
-                return HandlersCache[actionType];
+                return HandlersCache[classType];
             }
 
             var actionHandlerTypes = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => Any(type, actionHandlerType, actionType)).ToArray();
+                .Where(type => Any(type, actionHandlerType, classType)).ToArray();
 
             if (actionHandlerTypes.Length != 1)
-                throw new Exception($"Not found or more than one action handlers implememntations for action type: {action.type}");
+                throw new Exception($"Not found or more than one action handlers implememntations for action type: {actionType}");
             var handler = Activator.CreateInstance(actionHandlerTypes[0]);
-            HandlersCache.Add(actionType, handler);
+            HandlersCache.Add(classType, handler);
             return handler;
         }
 

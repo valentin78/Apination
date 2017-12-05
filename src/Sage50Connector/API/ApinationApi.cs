@@ -29,7 +29,7 @@ namespace Sage50Connector.API
             return httpUtility.Get(config.ApinationActionEndpointUrl);
         }
 
-        public string PatchActions (string jsonBody)
+        public string ReportProcessingStatus (string jsonBody)
         {
             return httpUtility.Patch(config.ApinationActionEndpointUrl, jsonBody, "application/json");
         }
@@ -45,7 +45,7 @@ namespace Sage50Connector.API
         /// </summary>
         public void Handshake()
         {
-            httpUtility.Get(config.ApinationHeartbeatEndpointUrl);
+            httpUtility.Post(config.ApinationHeartbeatEndpointUrl, parameters: null);
         }
     }
 }
