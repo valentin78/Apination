@@ -56,6 +56,16 @@ namespace Sage50Connector.Processing.Actions
                             id = sageAction.id,
                             processingStatus = Status.SUCCESS
                         };
+
+                        // sending Success log to apination ....
+                        apinationApi.Log(new ApinationLogRecord
+                        {
+                            Status = "Success",
+                            TriggerId = sageAction.triggerId,
+                            Uid = sageAction.mainLogId,
+                            Data = "{}",
+                            Date = DateTime.Now
+                        });
                     }
                 }
                 catch (Exception ex)
@@ -67,6 +77,18 @@ namespace Sage50Connector.Processing.Actions
                         processingStatus = Status.FAIL,
                         error = ex.Message
                     };
+
+                    // sending ex log to apination ....
+                    var exJson = JsonConvert.SerializeObject(ex);
+                    apinationApi.Log(new ApinationLogRecord
+                    {
+                        Message = ex.Message,
+                        Status = "Fail",
+                        TriggerId = sageAction.triggerId,
+                        Uid = sageAction.mainLogId,
+                        Data = exJson,
+                        Date = DateTime.Now
+                    });
                 }
             }
 
