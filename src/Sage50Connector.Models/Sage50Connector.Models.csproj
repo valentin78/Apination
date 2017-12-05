@@ -62,6 +62,7 @@
     <Compile Include="Data\Transaction.cs" />
     <Compile Include="Data\TransactionLine.cs" />
     <Compile Include="Data\Vendor.cs" />
+    <Compile Include="ApinationLogRecord.cs" />
     <Compile Include="Payloads\Payload.cs" />
     <Compile Include="Payloads\CreatePaymentPayload.cs" />
     <Compile Include="Payloads\SalesInvoicePayload.cs" />

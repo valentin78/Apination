@@ -65,14 +65,23 @@ namespace Sage50Connector.Core
 
         public string Patch(string uri, string body, string contentType)
         {
+            return Request(uri, body, contentType, "PATCH");
+        }
+
+        public string Post(string uri, string body, string contentType)
+        {
+            return Request(uri, body, contentType, "POST");
+        }
+
+        private string Request(string uri, string body, string contentType, string method)
+        {
             using (var client = HttpClientFactory())
             {
                 client.Headers["Content-Type"] = contentType;
                 client.Headers["Accept"] = contentType;
 
-                Log.DebugFormat("Patch to URL: {0}", ToAbsoluteUrl(uri));
-                var result = client.UploadData(ToAbsoluteUrl(uri), "PATCH", Encoding.UTF8.GetBytes(body));
-           //     Debugger.Launch();
+                var result = client.UploadData(ToAbsoluteUrl(uri), method, Encoding.UTF8.GetBytes(body));
+
                 return Encoding.UTF8.GetString(result);
             }
         }

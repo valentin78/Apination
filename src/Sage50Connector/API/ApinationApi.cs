@@ -47,6 +47,15 @@ namespace Sage50Connector.API
         {
             httpUtility.Post(config.ApinationHeartbeatEndpointUrl, parameters: null);
         }
+
+        /// <summary>
+        /// Send log to apination 
+        /// </summary>
+        public void Log(ApinationLogRecord log)
+        {
+            var logJson = JsonConvert.SerializeObject(log);
+            httpUtility.Post(config.ApinationLogsEndpointUrl, logJson, "application/json");
+        }
     }
 }
 

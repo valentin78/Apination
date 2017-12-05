@@ -21,6 +21,10 @@ namespace ApinationApiStub.Controllers
                 ApinationCronSchedule = "0 0/5 * * * ?",
 
                 ApinationActionEndpointUrl = "api/sage50DTO",
+
+                ApinationHeartbeatEndpointUrl = "api/heartbeat",
+
+                ApinationLogsEndpointUrl = "api/log",
             };
         }
 
@@ -158,6 +162,13 @@ namespace ApinationApiStub.Controllers
         [HttpPatch]
         [Route("api/actions")]
         public void ActionsPatch([FromBody]PatchAction[] list)
+        {
+
+        }
+
+        [HttpPost]
+        [Route("api/log")]
+        public void ActionsPatch([FromBody]LogRecord log)
         {
 
         }

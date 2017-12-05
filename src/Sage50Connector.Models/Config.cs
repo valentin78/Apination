@@ -37,6 +37,11 @@ namespace Sage50Connector.Models
         public string ApinationHeartbeatEndpointUrl { get; set; }
 
         /// <summary>
+        /// Apination ReST endpoint URL for POST Log 's
+        /// </summary>
+        public string ApinationLogsEndpointUrl { get; set; }
+
+        /// <summary>
         /// Serialize object to JSON string
         /// </summary>
         /// <returns></returns>
