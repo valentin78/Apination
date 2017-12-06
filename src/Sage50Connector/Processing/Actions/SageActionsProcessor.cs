@@ -138,7 +138,7 @@ namespace Sage50Connector.Processing.Actions
             var schedulerFactory = new StdSchedulerFactory();
             scheduler = schedulerFactory.GetScheduler();
 
-            scheduler.JobFactory = new PollApinationJobFactory(apinationApi);
+            scheduler.JobFactory = new JobFactory(apinationApi);
 
             var sageActionsObservable = new SageActionsObserverable(
                 job: pollApinationJob,
