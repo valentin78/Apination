@@ -64,7 +64,6 @@ namespace Sage50Connector.Processing.Actions
                             TriggerId = sageAction.triggerId,
                             Uid = sageAction.mainLogId,
                             Data = "{}",
-                            Date = DateTime.Now
                         });
                     }
                 }
@@ -86,8 +85,7 @@ namespace Sage50Connector.Processing.Actions
                         Status = "Fail",
                         TriggerId = sageAction.triggerId,
                         Uid = sageAction.mainLogId,
-                        Data = exJson,
-                        Date = DateTime.Now
+                        Data = exJson
                     });
                 }
             }

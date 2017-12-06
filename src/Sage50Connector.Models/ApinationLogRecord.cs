@@ -39,6 +39,6 @@ namespace Sage50Connector.Models
         /// дата в формате ISO
         /// </summary>
         [JsonProperty(PropertyName = "date")]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
     }
 }
