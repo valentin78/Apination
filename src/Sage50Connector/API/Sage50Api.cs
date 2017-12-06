@@ -338,5 +338,16 @@ namespace Sage50Connector.API
                 sagePayment.PopulateFromModel(CompanyContext, payment);
             }
         }
+        public void CreateReceipt (ReceiveAndApplyMoneyPayload payload)
+        {
+            foreach (var receipt in payload.receipts)
+            {
+                var sagerReceipt = CompanyContext.Factories.ReceiptFactory.Create();
+
+                sagerReceipt.CustomerReference = CreateOrUpdateCustomer(receipt.Customer);
+
+                sagerReceipt.PopulateFromModel(CompanyContext, receipt);
+            }
+        }
     }
 }

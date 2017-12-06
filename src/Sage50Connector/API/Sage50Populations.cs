@@ -9,6 +9,37 @@ namespace Sage50Connector.API
     /// </summary>
     internal static class Sage50Populations
     {
+
+        public static void PopulateFromModel(this Receipt sageReceipt, Company companyContext, Models.Data.Receipt receipt)
+        {
+            sageReceipt.AccountReference = sageReceipt.AccountReference.PopulateFromModel(receipt.Account, companyContext);
+            sageReceipt.DiscountAccountReference = sageReceipt.DiscountAccountReference.PopulateFromModel(receipt.DiscountAccount, companyContext);
+            // Если Customer == null, то обязательно
+            sageReceipt.MainAddress.PopulateFromModel(receipt.MainAddress);
+            sageReceipt.ReferenceNumber = receipt.ReferenceNumber;
+            sageReceipt.ReceiptNumber = receipt.ReceiptNumber;
+            sageReceipt.DepositTicketID = receipt.DepositTicketID;
+            sageReceipt.Date = receipt.Date;
+            sageReceipt.PaymentMethod = receipt.PaymentMethod;
+            sageReceipt.CreditCardAuthorizationInfo.PopulateFromModel(receipt.CreditCardAuthorizationInfo);
+
+            foreach (var salesLine in receipt.ApplyToSalesLines)
+            {
+                var sageSalesLine = sageReceipt.AddSalesLine();
+                sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext);
+                sageSalesLine.Amount = salesLine.Amount;
+                sageSalesLine.Description = salesLine.Description;
+            }
+            foreach (var invoiceLine in receipt.ApplyToInvoiceLines)
+            {
+                var sageInvoiceLine = sageReceipt.AddInvoiceLine(sageReceipt);
+                sageInvoiceLine.AccountReference = sageInvoiceLine.AccountReference.PopulateFromModel(invoiceLine.Account, companyContext);
+                sageInvoiceLine.Amount = invoiceLine.Amount;
+                sageInvoiceLine.Description = invoiceLine.Description;
+            }
+            sageReceipt.Save();
+        }
+
         public static void PopulateFromModel(this Payment sagePayment, Company companyContext, Models.Data.Payment payment)
         {
             sagePayment.AccountReference = sagePayment.AccountReference.PopulateFromModel(payment.Account, companyContext);
@@ -119,6 +150,18 @@ namespace Sage50Connector.API
             var cashAccount = entityReference.Load(companyContext);
             cashAccount.PopulateFromModel(account);
             return entityReference;
+        }
+
+        public static void PopulateFromModel(this CreditCardAuthorizationInfo sageCardAuthInfo, Models.Data.CreditCardAuthorizationInfo cardAuthInfo)
+        {
+            if (cardAuthInfo == null) return;
+
+            sageCardAuthInfo.Address.PopulateFromModel(cardAuthInfo.Address);
+            sageCardAuthInfo.AuthorizationCode = cardAuthInfo.AuthorizationCode;
+            sageCardAuthInfo.LastFourDigits = cardAuthInfo.AuthorizationCode;
+            sageCardAuthInfo.ExpirationDate = cardAuthInfo.ExpirationDate;
+            sageCardAuthInfo.Note = cardAuthInfo.Note;
+            sageCardAuthInfo.AmountAuthorized = cardAuthInfo.AmountAuthorized;
         }
 
         public static void PopulateFromModel(this Address sageAddress, Models.Data.Address address)
