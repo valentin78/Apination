@@ -68,6 +68,29 @@ namespace Sage50Connector.Processing.Actions
                         });
                     }
                 }
+                catch (AbortException ex)
+                {
+                    Log.Error("Handling action failed", ex);
+                    sageAction.ProcessingStatus = new ProcessingStatus
+                    {
+                        id = sageAction.id,
+                        processingStatus = Status.FAIL,
+                        error = ex.Message
+                    };
+
+                    // sending ex log to apination ....
+                    var exJson = JsonConvert.SerializeObject(ex);
+                    apinationApi.Log(new ApinationLogRecord
+                    {
+                        Message = ex.Message,
+                        // https://msdn.microsoft.com/ru-ru/library/c3s1ez6e(v=vs.110).aspx
+                        Status = ex.StatusCode .ToString("G"),
+                        TriggerId = sageAction.triggerId,
+                        Uid = sageAction.mainLogId,
+                        Data = exJson,
+                        Date = DateTime.Now
+                    });
+                }
                 catch (Exception ex)
                 {
                     Log.Error("Handling action failed", ex);

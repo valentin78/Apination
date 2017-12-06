@@ -168,7 +168,7 @@ namespace ApinationApiStub.Controllers
 
         [HttpPost]
         [Route("api/log")]
-        public void ActionsPatch([FromBody]LogRecord log)
+        public void ActionsPatch([FromBody]ApinationLogRecord log)
         {
 
         }

@@ -139,8 +139,8 @@ namespace Sage50Connector.API
             {
                 sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
                 if (sageInvoice != null)
-                    throw new MessageException(
-                        $"Found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
+                    throw new AbortException(
+                        $"Found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.", StatusCode.Ignored);
             }
 
             // if no exist invoice, we can create new
@@ -157,11 +157,11 @@ namespace Sage50Connector.API
             var customer = FindSageCustomer(invoice.Customer);
 
             if (customer == null)
-                throw new MessageException($"Not found customer with Key: '{invoice.Customer.GlobalKey(actionSource)}'. Transaction aborted.");
+                throw new AbortException($"Not found customer with Key: '{invoice.Customer.GlobalKey(actionSource)}'. Transaction aborted.", StatusCode.Fail);
 
             var sageInvoice = FindInvoice(invoice.ReferenceNumber, customer.ID);
             if (sageInvoice == null)
-                throw new MessageException($"Not found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.");
+                throw new AbortException($"Not found invoice with ReferenceNumber: '{invoice.ReferenceNumber}' and CustomerId: '{customer.ID}'. Transaction aborted.", StatusCode.Ignored);
 
             sageInvoice.CustomerReference = CreateOrUpdateCustomer(invoice.Customer);
 
@@ -222,7 +222,7 @@ namespace Sage50Connector.API
                 }
                 else
                 {
-                    throw new MessageException("Can not search customer because name and email is null");
+                    throw new AbortException("Can not search customer because name and email is null");
                 }
 
                 var modifier = LoadModifiers.Create();
@@ -232,7 +232,7 @@ namespace Sage50Connector.API
                 if (sageCustomers.Count == 0) return null;
 
                 if (sageCustomers.Count > 1)
-                    throw new MessageException(
+                    throw new AbortException(
                         $"Found more that one customer with name: '{customer.Name}' or phones or email: '{customer.Email}'");
 
                 sageCustomer = sageCustomers.First();
@@ -282,7 +282,7 @@ namespace Sage50Connector.API
             }
             else
             {
-                throw new MessageException("Can not find Vendor because name and email is null");
+                throw new AbortException("Can not find Vendor because name and email is null");
             }
 
             var modifier = LoadModifiers.Create();
@@ -292,7 +292,7 @@ namespace Sage50Connector.API
             if (sageVendors.Count == 0) return null;
 
             if (sageVendors.Count > 1)
-                throw new MessageException($"Found more that one vendor with name: '{vendor.Name}' or email: '{vendor.Email}'");
+                throw new AbortException($"Found more that one vendor with name: '{vendor.Name}' or email: '{vendor.Email}'");
 
             sageCustomer = sageVendors.First();
             localDbApi.StoreVendorrId(vendorKey, sageCustomer.ID);
