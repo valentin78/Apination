@@ -39,7 +39,7 @@ namespace Sage50Connector.Models
         /// <summary>
         /// Apination ReST endpoint URL for POST Log 's
         /// </summary>
-        public string ApinationLogsEndpointUrl { get; set; }
+        //public string ApinationLogsEndpointUrl { get; set; }
 
         /// <summary>
         /// Serialize object to JSON string

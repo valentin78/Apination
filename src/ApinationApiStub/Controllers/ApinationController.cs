@@ -24,7 +24,7 @@ namespace ApinationApiStub.Controllers
 
                 ApinationHeartbeatEndpointUrl = "api/heartbeat",
 
-                ApinationLogsEndpointUrl = "api/log",
+                //ApinationLogsEndpointUrl = "api/log",
             };
         }
 

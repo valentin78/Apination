@@ -54,7 +54,7 @@ namespace Sage50Connector.API
         public void Log(ApinationLogRecord log)
         {
             var logJson = JsonConvert.SerializeObject(log);
-            httpUtility.Post(config.ApinationLogsEndpointUrl, logJson, "application/json");
+            httpUtility.Post(ApplicationConfig.ApinationLogUrl, logJson, "application/json");
         }
     }
 }

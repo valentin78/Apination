@@ -33,6 +33,11 @@ namespace Sage50Connector.Core
         public static string ClientId => ConfigurationManager.AppSettings["ClientId"];
 
         /// <summary>
+        /// Apination Log Url
+        /// </summary>
+        public static string ApinationLogUrl => ConfigurationManager.AppSettings["ApinationLogUrl"];
+
+        /// <summary>
         /// Customers LastSavedAt value filter
         /// </summary>
         public static DateTime CustomersLastSavedAt

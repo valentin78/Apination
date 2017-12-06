@@ -20,7 +20,9 @@ namespace Sage50Connector.Core
 
         private static Uri ToAbsoluteUrl(string uri)
         {
-            return new Uri(ApplicationConfig.ApinationBaseUri, uri);
+            return Uri.IsWellFormedUriString(uri, UriKind.Absolute) ? 
+                new Uri(uri) : 
+                new Uri(ApplicationConfig.ApinationBaseUri, uri);
         }
 
         /// <summary>
@@ -53,7 +55,6 @@ namespace Sage50Connector.Core
                 {
                     client.QueryString.Add(parameter, parameters[parameter]);
                 }
-                Log.Debug(ToAbsoluteUrl(uri));
                 return client.DownloadString(ToAbsoluteUrl(uri));
             }
         }
