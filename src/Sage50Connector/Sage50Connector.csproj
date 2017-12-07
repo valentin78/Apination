@@ -83,6 +83,7 @@
     <Compile Include="Core\TypeUtil.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\ReceiveAndApplyMoneySageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\CreatePaymentSageActionHandler.cs" />
+    <Compile Include="Processing\Actions\ActionHandlers\UpsertInvoiceSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\UpdateInvoiceSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\CreateInvoiceSageActionHandler.cs" />
     <Compile Include="Processing\Actions\ActionHandlers\UpsertCustomerSageActionHandler.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Processing\Actions\SageActions\ReceiveAndApplyMoneySageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\CreatePaymentSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\ProcessingStatus.cs" />
+    <Compile Include="Processing\Actions\SageActions\UpsertInvoiceSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\UpdateInvoiceSageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\SageAction.cs" />
     <Compile Include="Processing\Actions\SageActions\Factory\ISageActionFactory.cs" />

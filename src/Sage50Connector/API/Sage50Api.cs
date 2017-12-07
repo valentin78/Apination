@@ -172,7 +172,7 @@ namespace Sage50Connector.API
         /// <summary>
         /// find invoice by reference number and customer id
         /// </summary>
-        private SalesInvoice FindInvoice(string referenceNumber, string customerId)
+        public SalesInvoice FindInvoice(string referenceNumber, string customerId)
         {
             // load invoices list by ReferenceNumber 
             var invoices = SalesInvoicesList().FilterBy("ReferenceNumber", referenceNumber);
@@ -312,7 +312,7 @@ namespace Sage50Connector.API
             return sageVendor.Key;
         }
 
-        private void UpsertInvoice(Models.Data.SalesInvoice invoice)
+        public void UpsertInvoice(Models.Data.SalesInvoice invoice)
         {
             var customer = FindSageCustomer(invoice.Customer);
             // if no exist Customer, goto CreateInvoice
@@ -342,11 +342,12 @@ namespace Sage50Connector.API
         {
             foreach (var receipt in payload.receipts)
             {
-                var sagerReceipt = CompanyContext.Factories.ReceiptFactory.Create();
+                var sageReceipt = CompanyContext.Factories.ReceiptFactory.Create();
 
-                sagerReceipt.CustomerReference = CreateOrUpdateCustomer(receipt.Customer);
-
-                sagerReceipt.PopulateFromModel(CompanyContext, receipt);
+                sageReceipt.CustomerReference = CreateOrUpdateCustomer(payload.customer);
+                var customer = FindSageCustomer(payload.customer);
+                var invoice = FindInvoice(payload.invoiceNumber, customer.ID);
+                sageReceipt.PopulateFromModel(CompanyContext, receipt, invoice);
             }
         }
     }

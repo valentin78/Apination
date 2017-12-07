@@ -25,7 +25,7 @@ namespace Sage50Connector.Processing.HeartBeat
             {
                 var apinationApi = new ApinationApi(new WebClientHttpUtility(), config);
                 
-                IJobDetail pollApinationJob = JobBuilder.Create<HeartBeatJob>()
+                IJobDetail heartBeatJob = JobBuilder.Create<HeartBeatJob>()
                     .WithIdentity("HeartBeatJob")
                     .Build();
 
@@ -38,9 +38,9 @@ namespace Sage50Connector.Processing.HeartBeat
                 scheduler = schedulerFactory.GetScheduler();
                 scheduler.JobFactory = new JobFactory(apinationApi);
 
-                scheduler.ScheduleJob(pollApinationJob, cronTrigger);
+                scheduler.ScheduleJob(heartBeatJob, cronTrigger);
 
-                scheduler.TriggerJob(pollApinationJob.Key);
+                scheduler.TriggerJob(heartBeatJob.Key);
 
                 scheduler.Start();
             }

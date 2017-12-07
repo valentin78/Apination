@@ -72,7 +72,6 @@ namespace Sage50Connector.Core
 
                 Log.DebugFormat("Patch to URL: {0}", ToAbsoluteUrl(uri));
                 var result = client.UploadData(ToAbsoluteUrl(uri), "PATCH", Encoding.UTF8.GetBytes(body));
-           //     Debugger.Launch();
                 return Encoding.UTF8.GetString(result);
             }
         }

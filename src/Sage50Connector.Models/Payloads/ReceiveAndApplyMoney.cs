@@ -5,8 +5,10 @@ namespace Sage50Connector.Models.Payloads
 {
     public class ReceiveAndApplyMoneyPayload : Payload
     {
-        public SalesInvoice invoice { get; set; }
+        public string invoiceNumber { get; set; }
 
         public Receipt[] receipts { get; set; }
+
+        public Customer customer { get; set; }
     }
 }

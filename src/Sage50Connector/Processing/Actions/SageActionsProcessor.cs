@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using log4net;
 using Newtonsoft.Json;
@@ -48,6 +49,7 @@ namespace Sage50Connector.Processing.Actions
                     {
                         Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
                         // dynamic ActionHandler generic type require derived type, not base SageAction type
+
                         handler.Handle((dynamic)sageAction);
                         Log.InfoFormat("Handling action successful (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
 
@@ -87,13 +89,13 @@ namespace Sage50Connector.Processing.Actions
 
             var cronTrigger = TriggerBuilder.Create()
                 .StartNow()
-                .WithCronSchedule(config.ApinationCronSchedule)
+                .WithCronSchedule(config.HeartBeatCronSchedule)
                 .Build();
 
             var schedulerFactory = new StdSchedulerFactory();
             scheduler = schedulerFactory.GetScheduler();
 
-            scheduler.JobFactory = new PollApinationJobFactory(apinationApi);
+            scheduler.JobFactory = new JobFactory(apinationApi);
 
             var sageActionsObservable = new SageActionsObserverable(
                 job: pollApinationJob,

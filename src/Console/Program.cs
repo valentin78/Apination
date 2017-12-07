@@ -37,6 +37,8 @@ namespace Console
             list.Load();
             var r_list = api.ReceiptList();
             r_list.Load();
+            var i_list = api.InvoicesList();
+            i_list.Load();
 
             foreach (var item in list)
             {
@@ -153,7 +155,10 @@ namespace Console
         {
             return m_Company.Factories.PaymentFactory.List();
         }
-
+        public SalesInvoiceList InvoicesList()
+        {
+            return m_Company.Factories.SalesInvoiceFactory.List();
+        }
         public ReceiptList ReceiptList()
         {
             return m_Company.Factories.ReceiptFactory.List();

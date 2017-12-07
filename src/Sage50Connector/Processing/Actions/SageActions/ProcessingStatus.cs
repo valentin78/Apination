@@ -19,6 +19,7 @@ namespace Sage50Connector.Processing.Actions.SageActions
         {
             processingStatus = Status.NOT_PROCESSED;
             processedAt = DateTime.Now;
+            error = "";
         }
         [JsonProperty(propertyName: "_id")]
         public string id { get; set; }

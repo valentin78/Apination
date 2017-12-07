@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sage.Peachtree.API;
+using Sage.Peachtree.API.Collections.Generic;
 
 namespace Sage50Connector.API
 {
@@ -10,9 +12,10 @@ namespace Sage50Connector.API
     internal static class Sage50Populations
     {
 
-        public static void PopulateFromModel(this Receipt sageReceipt, Company companyContext, Models.Data.Receipt receipt)
+        public static void PopulateFromModel(this Receipt sageReceipt, Company companyContext, Models.Data.Receipt receipt, SalesInvoice invoice)
         {
-            sageReceipt.AccountReference = sageReceipt.AccountReference.PopulateFromModel(receipt.Account, companyContext);
+            sageReceipt.AccountReference = sageReceipt.AccountReference.PopulateFromModel(receipt.Account, companyContext, 0);
+
             sageReceipt.DiscountAccountReference = sageReceipt.DiscountAccountReference.PopulateFromModel(receipt.DiscountAccount, companyContext);
             // Если Customer == null, то обязательно
             sageReceipt.MainAddress.PopulateFromModel(receipt.MainAddress);
@@ -23,19 +26,30 @@ namespace Sage50Connector.API
             sageReceipt.PaymentMethod = receipt.PaymentMethod;
             sageReceipt.CreditCardAuthorizationInfo.PopulateFromModel(receipt.CreditCardAuthorizationInfo);
 
-            foreach (var salesLine in receipt.ApplyToSalesLines)
+            if (receipt.ApplyToSalesLines != null)
             {
-                var sageSalesLine = sageReceipt.AddSalesLine();
-                sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext);
-                sageSalesLine.Amount = salesLine.Amount;
-                sageSalesLine.Description = salesLine.Description;
+                foreach (var salesLine in receipt.ApplyToSalesLines)
+                {
+                    var sageSalesLine = sageReceipt.AddSalesLine();
+                    sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext, 1);
+                    sageSalesLine.Amount = salesLine.Amount;
+                    sageSalesLine.Description = salesLine.Description;
+                    sageSalesLine.Quantity = salesLine.Quantity;
+                    sageSalesLine.UnitPrice = salesLine.UnitPrice;
+                    sageSalesLine.SalesTaxType = salesLine.SalesTaxType;
+                }
             }
-            foreach (var invoiceLine in receipt.ApplyToInvoiceLines)
+            if (receipt.ApplyToInvoiceLines != null)
             {
-                var sageInvoiceLine = sageReceipt.AddInvoiceLine(sageReceipt);
-                sageInvoiceLine.AccountReference = sageInvoiceLine.AccountReference.PopulateFromModel(invoiceLine.Account, companyContext);
-                sageInvoiceLine.Amount = invoiceLine.Amount;
-                sageInvoiceLine.Description = invoiceLine.Description;
+                foreach (var invoiceLine in receipt.ApplyToInvoiceLines)
+                {
+                    var sageInvoiceLine = sageReceipt.AddInvoiceLine(invoice);
+                    sageInvoiceLine.AccountReference = sageInvoiceLine.AccountReference.PopulateFromModel(invoiceLine.Account, companyContext, 1);
+                    sageInvoiceLine.Amount = invoiceLine.Amount;
+                    sageInvoiceLine.DiscountAmount = invoiceLine.DiscountAmount;
+                    sageInvoiceLine.AmountPaid = invoiceLine.AmountPaid;
+                    sageInvoiceLine.Description = invoiceLine.Description;
+                }
             }
             sageReceipt.Save();
         }
@@ -56,7 +70,7 @@ namespace Sage50Connector.API
                 var sageExpnseLine = sagePayment.AddExpenseLine();
                 sageExpnseLine.AccountReference = sageExpnseLine.AccountReference.PopulateFromModel(expenseLine.Account, companyContext);
                 sageExpnseLine.Amount = expenseLine.Amount;
-                sageExpnseLine.Description= expenseLine.Description;
+                sageExpnseLine.Description = expenseLine.Description;
             }
             foreach (var invoiceLine in payment.ApplyToInvoiceLines)
             {
@@ -85,7 +99,7 @@ namespace Sage50Connector.API
             sageInvoice.DropShip = invoice.DropShip;
             sageInvoice.DiscountDate = invoice.DiscountDate;
             sageInvoice.DiscountAmount = invoice.DiscountAmount;
-            sageInvoice.DateDue = invoice.DateDue;
+            sageInvoice.DateDue = invoice.DateDue ?? DateTime.Now;
             sageInvoice.CustomerPurchaseOrderNumber = invoice.CustomerPurchaseOrderNumber;
 
             foreach (var sageInvoiceApplyToSalesLine in sageInvoice.ApplyToSalesLines)
@@ -134,9 +148,16 @@ namespace Sage50Connector.API
             sageAccount.Classification = account.Classification.ToEnum<AccountClassification>();
         }
 
-        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext)
+        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext, int? defaultIndex = null)
         {
-            if (account == null) return entityReference;
+            if (account == null)
+            {
+                if (!defaultIndex.HasValue)
+                    return entityReference;
+                EntityList<Account> acctList = companyContext.Factories.AccountFactory.List();
+                acctList.Load();
+                return acctList[defaultIndex.Value].Key;
+            }
 
             if (entityReference.IsEmpty)
             {
