@@ -6,25 +6,19 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers
 {
     class UpsertInvoiceSageActionHandler : ISageActionHandler<UpsertInvoiceSageAction>
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(UpsertInvoiceSageActionHandler));
-        
-        // ReSharper disable once InconsistentNaming
-        private Sage50Api api;
+        private static readonly ILog Log = LogManager.GetLogger(typeof(UpsertInvoiceSageActionHandler));
 
         public void Handle(UpsertInvoiceSageAction action)
         {
-            api = new Sage50Api(action.source);
-            Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
-            api.OpenCompany(action.payload.companyName);
+            using (var api = new Sage50Api(action.source))
+            {
+                Log.InfoFormat("Open Sage50 company: \"{0}\"", action.payload.companyName);
+                api.OpenCompany(action.payload.companyName);
 
-            Log.Info("Upsert Invoice Data to Sage50 ...");
-            api.UpsertInvoice(action.payload.invoice);
-            Log.Info("Success!");
-        }
-
-        public void Dispose()
-        {
-            api?.Dispose();
+                Log.Info("Upsert Invoice Data to Sage50 ...");
+                api.UpsertInvoice(action.payload.invoice);
+                Log.Info($"Successfully upserted invoice: {action.payload.invoice.ReferenceNumber}");
+            }
         }
     }
 }

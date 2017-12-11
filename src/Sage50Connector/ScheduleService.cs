@@ -25,7 +25,7 @@ namespace Sage50Connector
             InitializeComponent();
         }
 
-        private HeartBeatProcessor heartBeatProcessor;
+        private HeartBeatReporter heartBeatProcessor;
         private SageActionsProcessor sageActionsProcessor;
 
 
@@ -44,8 +44,8 @@ namespace Sage50Connector
                 var config = new ApinationApi(new WebClientHttpUtility(), config: null).GetConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-                heartBeatProcessor = new HeartBeatProcessor();
-                heartBeatProcessor.StartHeartBeat(config);
+                heartBeatProcessor = new HeartBeatReporter();
+                heartBeatProcessor.StartHeartBeatReporting(config);
                 sageActionsProcessor = new SageActionsProcessor();
                 sageActionsProcessor.StartActionsProcessing(config);
 

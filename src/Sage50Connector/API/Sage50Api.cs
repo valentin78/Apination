@@ -258,47 +258,58 @@ namespace Sage50Connector.API
             var sageCustomer = sageVendors.SingleOrDefault(vendorKey);
             if (sageCustomer != null)
             {
-                localDbApi.StoreVendorrId(vendorKey, sageCustomer.ID);
+                localDbApi.StoreVendorId(vendorKey, sageCustomer.ID);
                 return sageCustomer;
             }
 
-            // if no mapping found and by extrnalId, find customer by name or email and store mapping to localDb
+            // if no mapping found, find customer by name or email and store mapping to localDb
+
+            if (string.IsNullOrEmpty(vendor.Name) && string.IsNullOrEmpty(vendor.Email))
+            {
+                throw new MessageException("Can not find Vendor because name and email is null");
+            }
+
             FilterExpression expression;
+            string message = "";
             if (!string.IsNullOrEmpty(vendor.Name) && !string.IsNullOrEmpty(vendor.Email))
             {
                 expression = FilterExpression.AndAlso(
                     FilterExpression.Equal(FilterExpression.Property("Vendor.Name"), FilterExpression.Constant(vendor.Name)),
                     FilterExpression.Equal(FilterExpression.Property("Vendor.Email"), FilterExpression.Constant(vendor.Email))
                 );
+                LoadVendorsList(expression, sageVendors);
+                message = $"name: '{vendor.Name}' and email: '{vendor.Email}'";
             }
-            else if (!string.IsNullOrEmpty(vendor.Name))
-            {
-                expression = FilterExpression.Equal(FilterExpression.Property("Vendor.Name"), FilterExpression.Constant(vendor.Name));
-            }
-            else if (!string.IsNullOrEmpty(vendor.Email))
+            if (sageVendors.Count == 0 && !string.IsNullOrEmpty(vendor.Email))
             {
                 expression = FilterExpression.Equal(FilterExpression.Property("Vendor.Email"),
                     FilterExpression.Constant(vendor.Email));
+                LoadVendorsList(expression, sageVendors);
+                message = $"email: '{vendor.Email}'";
             }
-            else
+            if (sageVendors.Count == 0 && !string.IsNullOrEmpty(vendor.Name))
             {
-                throw new MessageException("Can not find Vendor because name and email is null");
+                expression = FilterExpression.Equal(FilterExpression.Property("Vendor.Name"), FilterExpression.Constant(vendor.Name));
+                LoadVendorsList(expression, sageVendors);
+                message = $"name: '{vendor.Name}'";
             }
-
-            var modifier = LoadModifiers.Create();
-            modifier.Filters = expression;
-            sageVendors.Load(modifier);
 
             if (sageVendors.Count == 0) return null;
 
             if (sageVendors.Count > 1)
-                throw new MessageException($"Found more that one vendor with name: '{vendor.Name}' or email: '{vendor.Email}'");
+                throw new MessageException($"Found more that one vendor with {message}");
 
             sageCustomer = sageVendors.First();
-            localDbApi.StoreVendorrId(vendorKey, sageCustomer.ID);
+            localDbApi.StoreVendorId(vendorKey, sageCustomer.ID);
             return sageCustomer;
         }
 
+        private static void LoadVendorsList(FilterExpression expression, VendorList sageVendors)
+        {
+            var modifier = LoadModifiers.Create();
+            modifier.Filters = expression;
+            sageVendors.Load(modifier);
+        }
         /// <summary>
         /// Find or Create and after that Populate Vendor data
         /// </summary>
@@ -332,9 +343,7 @@ namespace Sage50Connector.API
             foreach (var payment in paymentPayload.payments)
             {
                 var sagePayment = CompanyContext.Factories.PaymentFactory.Create();
-
                 sagePayment.VendorReference = UpsertVendor(payment.Vendor);
-
                 sagePayment.PopulateFromModel(CompanyContext, payment);
             }
         }

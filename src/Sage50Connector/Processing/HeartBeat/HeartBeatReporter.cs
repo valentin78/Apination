@@ -11,13 +11,13 @@ namespace Sage50Connector.Processing.HeartBeat
     /// <summary>
     /// HeartBeat Processor
     /// </summary>
-    class HeartBeatProcessor : IDisposable
+    class HeartBeatReporter : IDisposable
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(HeartBeatProcessor));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(HeartBeatReporter));
 
         private IScheduler scheduler;
 
-        public void StartHeartBeat(Config config)
+        public void StartHeartBeatReporting(Config config)
         {
             Log.InfoFormat("HeartBeatProcessor running with config: '{0}'", config);
 
