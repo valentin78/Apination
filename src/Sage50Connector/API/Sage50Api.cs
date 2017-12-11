@@ -266,7 +266,7 @@ namespace Sage50Connector.API
 
             if (string.IsNullOrEmpty(vendor.Name) && string.IsNullOrEmpty(vendor.Email))
             {
-                throw new MessageException("Can not find Vendor because name and email is null");
+                throw new AbortException("Can not find Vendor because name and email is null");
             }
 
             FilterExpression expression;
@@ -297,7 +297,7 @@ namespace Sage50Connector.API
             if (sageVendors.Count == 0) return null;
 
             if (sageVendors.Count > 1)
-                throw new MessageException($"Found more that one vendor with {message}");
+                throw new AbortException($"Found more that one vendor with {message}");
 
             sageCustomer = sageVendors.First();
             localDbApi.StoreVendorId(vendorKey, sageCustomer.ID);

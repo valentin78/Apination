@@ -71,7 +71,7 @@
   <ItemGroup>
     <Compile Include="API\LocalDbApi.cs" />
     <Compile Include="API\Sage50Populations.cs" />
-    <Compile Include="Core\MessageException.cs" />
+    <Compile Include="Core\AbortException.cs" />
     <Compile Include="API\Sage50Extensions.cs" />
     <Compile Include="Core\ApplicationConfig.Utils.cs" />
     <Compile Include="Core\ApplicationConfig.cs" />
@@ -125,7 +125,9 @@
     <Compile Include="Processing\Actions\SageActionsProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
