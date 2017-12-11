@@ -61,6 +61,10 @@
       <Project>{f56b98e1-b91c-4249-9526-367693086af4}</Project>
       <Name>Sage50Connector.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sage50Connector\Sage50Connector.csproj">
+      <Project>{1476EB2D-C98F-4473-9F29-85D018E4269E}</Project>
+      <Name>Sage50Connector</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

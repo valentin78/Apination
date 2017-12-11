@@ -9,11 +9,14 @@ namespace Sage50Connector.Core
     /// <summary>
     /// HttpUtility implementation using WebClient and Auth token
     /// </summary>
-    public class WebClientHttpUtility: IHttpUtility
+    public class WebClientHttpUtility : IHttpUtility
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(WebClientHttpUtility));
-        private static WebClient HttpClientFactory() {
+        private static WebClient HttpClientFactory()
+        {
             WebClient client = new WebClient();
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | (SecurityProtocolType)768 | (SecurityProtocolType)3072;
+
             client.Headers.Add("Authorization", ApplicationConfig.AuthToken);
             return client;
         }
@@ -79,7 +82,6 @@ namespace Sage50Connector.Core
             {
                 client.Headers["Content-Type"] = contentType;
                 client.Headers["Accept"] = contentType;
-
                 var result = client.UploadData(ToAbsoluteUrl(uri), method, Encoding.UTF8.GetBytes(body));
 
                 return Encoding.UTF8.GetString(result);

@@ -5,9 +5,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Schema;
 using Newtonsoft.Json.Schema.Generation;
 using Sage.Peachtree.API;
+using Sage50Connector.API;
+using Sage50Connector.Models;
 using Sage50Connector.Models.Data;
 using Customer = Sage50Connector.Models.Data.Customer;
 using SalesInvoice = Sage50Connector.Models.Data.SalesInvoice;
+using Sage50Connector.Core;
 
 namespace Console
 {
@@ -37,6 +40,23 @@ namespace Console
             api.OpenCompany(companies[0]);
             var list = api.CustomersList();
             list.Load();
+            var config = new ApinationApi(new WebClientHttpUtility(), null).GetConnectorConfig();
+
+            try
+            {
+                new ApinationApi(new WebClientHttpUtility(), config).Log(new ApinationLogRecord
+                {
+                    Status = "Success",
+                    TriggerId = "",
+                    Uid = "",
+                    Data = "{}",
+                });
+            }
+            catch (Exception e)
+            {
+                System.Console.WriteLine(e);
+                throw;
+            }
 
             foreach (var item in list)
             {
