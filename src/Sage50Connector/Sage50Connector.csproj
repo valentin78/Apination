@@ -71,7 +71,6 @@
   <ItemGroup>
     <Compile Include="API\LocalDbApi.cs" />
     <Compile Include="API\Sage50Populations.cs" />
-    <Compile Include="Core\CompaniesListSection.cs" />
     <Compile Include="Core\MessageException.cs" />
     <Compile Include="API\Sage50Extensions.cs" />
     <Compile Include="Core\ApplicationConfig.Utils.cs" />
@@ -106,7 +105,6 @@
     <Compile Include="Processing\HeartBeat\HeartBeatProcessor.cs" />
     <Compile Include="Processing\HeartBeat\HeartBeatJob.cs" />
     <Compile Include="Processing\IObservable.cs" />
-    <Compile Include="Processing\StartupHandler.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

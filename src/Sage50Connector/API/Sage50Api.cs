@@ -4,7 +4,6 @@ using Sage.Peachtree.API;
 using Sage.Peachtree.API.Collections.Generic;
 using Sage50Connector.Core;
 using Sage50Connector.Models.Payloads;
-using Company = Sage.Peachtree.API.Company;
 
 namespace Sage50Connector.API
 {
@@ -20,10 +19,6 @@ namespace Sage50Connector.API
         private PeachtreeSession ApiSession;
 
         private readonly string actionSource;
-
-        public Sage50Api()
-        {
-        }
 
         public Sage50Api(string actionSource)
         {
@@ -87,7 +82,7 @@ namespace Sage50Connector.API
             ApiSession?.Dispose();
         }
 
-        public void CloseCurrentCompany()
+        private void CloseCurrentCompany()
         {
             if (CompanyContext == null) return;
 

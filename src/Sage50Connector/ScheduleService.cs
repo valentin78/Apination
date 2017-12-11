@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.ServiceProcess;
 using log4net;
 using log4net.Config;
 using Sage50Connector.API;
 using Sage50Connector.Core;
-using Sage50Connector.Processing;
 using Sage50Connector.Processing.Actions;
 using Sage50Connector.Processing.HeartBeat;
 
@@ -44,7 +42,6 @@ namespace Sage50Connector
 
             try
             {
-
                 AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
                 // retrieve config
@@ -52,14 +49,13 @@ namespace Sage50Connector
                 var config = apinationApi.GetConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-                StartupHandler.OnStartup();
+
 
                 heartBeatProcessor = new HeartBeatProcessor();
                 heartBeatProcessor.StartHeartBeat(config);
                 sageActionsProcessor = new SageActionsProcessor();
                 //sageActionsProcessor.StartPollApination2(config);
                 sageActionsProcessor.StartActionsProcessing(config);
-
             }
             catch (Exception ex)
             {

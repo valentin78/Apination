@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 
 namespace Sage50Connector.Core
@@ -37,8 +36,6 @@ namespace Sage50Connector.Core
         /// Apination Log Url
         /// </summary>
         public static string ApinationLogUrl => ConfigurationManager.AppSettings["ApinationLogUrl"];
-
-        public static List<Company> CompaniesList => ConfigurationManager.GetSection("companiesList") as List<Company>;
 
         /// <summary>
         /// Customers LastSavedAt value filter
