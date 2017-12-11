@@ -16,7 +16,7 @@ namespace ApinationApiStub.Controllers
         {
             return new Config
             {
-                HeartBeatCronSchedule = "0 0/5 * * * ?",
+                HeartBeatCronSchedule = "0 0/1 * * * ?",
 
                 ApinationCronSchedule = "0 0/5 * * * ?",
 
@@ -24,7 +24,7 @@ namespace ApinationApiStub.Controllers
 
                 ApinationHeartbeatEndpointUrl = "api/heartbeat",
 
-                ApinationLogsEndpointUrl = "api/log",
+                //ApinationLogsEndpointUrl = "api/log",
             };
         }
 

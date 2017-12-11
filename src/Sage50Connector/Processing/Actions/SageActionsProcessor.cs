@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using log4net;
 using Newtonsoft.Json;
@@ -36,26 +37,28 @@ namespace Sage50Connector.Processing.Actions
         {
             // actions can be handled in any order, this is the right place to put this logic
             // most of the time it will be just 1-1 action to handler assocciation
-
-            var actions = sageActions.ToArray();
-            foreach (var sageAction in actions)
+            try
             {
-                try
+                var actions = sageActions.ToArray();
+                foreach (var sageAction in actions)
                 {
-                    Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", sageAction.type,
-                        sageAction.id);
-                    using (var handler = SageActionHandlerFactory.CreateHandler(sageAction.type))
+                    try
                     {
-                        Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
-                        // dynamic ActionHandler generic type require derived type, not base SageAction type
-                        handler.Handle((dynamic)sageAction);
-                        Log.InfoFormat("Handling action successful (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
-
-                        sageAction.ProcessingStatus = new ProcessingStatus
+                        Log.InfoFormat("Create handler for action (type: {0}, id: {1}) ...", sageAction.type,
+                            sageAction.id);
+                        using (var handler = SageActionHandlerFactory.CreateHandler(sageAction.type))
                         {
-                            id = sageAction.id,
-                            processingStatus = Status.SUCCESS
-                        };
+                            Log.InfoFormat("Handling action (type: {0}, id: {1}) ...", sageAction.type, sageAction.id);
+                            // dynamic ActionHandler generic type require derived type, not base SageAction type
+                            handler.Handle((dynamic) sageAction);
+                            Log.InfoFormat("Handling action successful (type: {0}, id: {1}) ...", sageAction.type,
+                                sageAction.id);
+
+                            sageAction.ProcessingStatus = new ProcessingStatus
+                            {
+                                id = sageAction.id,
+                                processingStatus = Status.SUCCESS
+                            };
 
                         // sending Success log to apination ....
                         apinationApi.Log(new ApinationLogRecord
@@ -89,11 +92,29 @@ namespace Sage50Connector.Processing.Actions
                     });
                 }
             }
+                        // sending ex log to apination ....
+                        var exJson = JsonConvert.SerializeObject(ex);
+                        apinationApi.Log(new ApinationLogRecord
+                        {
+                            Message = ex.Message,
+                            Status = "Fail",
+                            TriggerId = sageAction.triggerId,
+                            Uid = sageAction.mainLogId,
+                            Data = exJson,
+                            Date = DateTime.Now
+                        });
+                    }
+                }
 
-            var sageProcessingStatusJson = JsonConvert.SerializeObject(actions.Select(i => i.ProcessingStatus));
-            Log.InfoFormat("Sending actions processing status: {0}", sageProcessingStatusJson);
-            var responce = apinationApi.ReportProcessingStatus(sageProcessingStatusJson);
-            Log.InfoFormat("Actions processing status sent succesful: {0}", responce);
+                var sageProcessingStatusJson = JsonConvert.SerializeObject(actions.Select(i => i.ProcessingStatus));
+                Log.InfoFormat("Sending actions processing status: {0}", sageProcessingStatusJson);
+                var responce = apinationApi.ReportProcessingStatus(sageProcessingStatusJson);
+                Log.InfoFormat("Actions processing status sent succesful: {0}", responce);
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Process sage actions failed", ex);
+            }
         }
 
         private SageActionsObserverable StartPollApination(Config config, ApinationApi apinationApi)
@@ -113,7 +134,7 @@ namespace Sage50Connector.Processing.Actions
             var schedulerFactory = new StdSchedulerFactory();
             scheduler = schedulerFactory.GetScheduler();
 
-            scheduler.JobFactory = new PollApinationJobFactory(apinationApi);
+            scheduler.JobFactory = new JobFactory(apinationApi);
 
             var sageActionsObservable = new SageActionsObserverable(
                 job: pollApinationJob,
