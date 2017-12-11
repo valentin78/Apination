@@ -6,7 +6,7 @@ using Sage50Connector.API;
 namespace Sage50Connector.Processing
 {
     /// <summary>
-    /// Creates PollApinationJob using ApinationApi
+    /// Creates Job using ApinationApi
     /// </summary>
     public class JobFactory : IJobFactory
     {

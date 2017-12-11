@@ -32,7 +32,7 @@ namespace Sage50Connector.Processing.Actions.ActionHandlers.Factory
                 .Where(type => Any(type, actionHandlerType, classType)).ToArray();
 
             if (actionHandlerTypes.Length != 1)
-                throw new Exception($"Not found or more than one action handlers implememntations for action type: {actionType}");
+                throw new Exception($"Not found or more than one action handlers implementations for action type: {actionType}");
             var handler = Activator.CreateInstance(actionHandlerTypes[0]);
             HandlersCache.Add(classType, handler);
             return handler;

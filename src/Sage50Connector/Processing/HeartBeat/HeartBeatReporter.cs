@@ -11,13 +11,13 @@ namespace Sage50Connector.Processing.HeartBeat
     /// <summary>
     /// HeartBeat Processor
     /// </summary>
-    class HeartBeatProcessor : IDisposable
+    class HeartBeatReporter : IDisposable
     {
-        public static readonly ILog Log = LogManager.GetLogger(typeof(HeartBeatProcessor));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(HeartBeatReporter));
 
         private IScheduler scheduler;
 
-        public void StartHeartBeat(Config config)
+        public void StartHeartBeatReporting(Config config)
         {
             Log.InfoFormat("HeartBeatProcessor running with config: '{0}'", config);
 
@@ -25,7 +25,7 @@ namespace Sage50Connector.Processing.HeartBeat
             {
                 var apinationApi = new ApinationApi(new WebClientHttpUtility(), config);
                 
-                IJobDetail pollApinationJob = JobBuilder.Create<HeartBeatJob>()
+                IJobDetail heartBeatJob = JobBuilder.Create<HeartBeatJob>()
                     .WithIdentity("HeartBeatJob")
                     .Build();
 
@@ -38,9 +38,9 @@ namespace Sage50Connector.Processing.HeartBeat
                 scheduler = schedulerFactory.GetScheduler();
                 scheduler.JobFactory = new JobFactory(apinationApi);
 
-                scheduler.ScheduleJob(pollApinationJob, cronTrigger);
+                scheduler.ScheduleJob(heartBeatJob, cronTrigger);
 
-                scheduler.TriggerJob(pollApinationJob.Key);
+                scheduler.TriggerJob(heartBeatJob.Key);
 
                 scheduler.Start();
             }

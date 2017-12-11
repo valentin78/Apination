@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sage.Peachtree.API;
+using Sage.Peachtree.API.Collections.Generic;
 
 namespace Sage50Connector.API
 {
@@ -9,6 +11,49 @@ namespace Sage50Connector.API
     /// </summary>
     internal static class Sage50Populations
     {
+
+        public static void PopulateFromModel(this Receipt sageReceipt, Company companyContext, Models.Data.Receipt receipt, SalesInvoice invoice)
+        {
+            sageReceipt.AccountReference = sageReceipt.AccountReference.PopulateFromModel(receipt.Account, companyContext, 0);
+
+            sageReceipt.DiscountAccountReference = sageReceipt.DiscountAccountReference.PopulateFromModel(receipt.DiscountAccount, companyContext);
+            // Если Customer == null, то обязательно
+            sageReceipt.MainAddress.PopulateFromModel(receipt.MainAddress);
+            sageReceipt.ReferenceNumber = receipt.ReferenceNumber;
+            sageReceipt.ReceiptNumber = receipt.ReceiptNumber;
+            sageReceipt.DepositTicketID = receipt.DepositTicketID;
+            sageReceipt.Date = receipt.Date;
+            sageReceipt.PaymentMethod = receipt.PaymentMethod;
+            sageReceipt.CreditCardAuthorizationInfo.PopulateFromModel(receipt.CreditCardAuthorizationInfo);
+
+            if (receipt.ApplyToSalesLines != null)
+            {
+                foreach (var salesLine in receipt.ApplyToSalesLines)
+                {
+                    var sageSalesLine = sageReceipt.AddSalesLine();
+                    sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext, 1);
+                    sageSalesLine.Amount = salesLine.Amount;
+                    sageSalesLine.Description = salesLine.Description;
+                    sageSalesLine.Quantity = salesLine.Quantity;
+                    sageSalesLine.UnitPrice = salesLine.UnitPrice;
+                    sageSalesLine.SalesTaxType = salesLine.SalesTaxType;
+                }
+            }
+            if (receipt.ApplyToInvoiceLines != null)
+            {
+                foreach (var invoiceLine in receipt.ApplyToInvoiceLines)
+                {
+                    var sageInvoiceLine = sageReceipt.AddInvoiceLine(invoice);
+                    sageInvoiceLine.AccountReference = sageInvoiceLine.AccountReference.PopulateFromModel(invoiceLine.Account, companyContext, 1);
+                    sageInvoiceLine.Amount = invoiceLine.Amount;
+                    sageInvoiceLine.DiscountAmount = invoiceLine.DiscountAmount;
+                    sageInvoiceLine.AmountPaid = invoiceLine.AmountPaid;
+                    sageInvoiceLine.Description = invoiceLine.Description;
+                }
+            }
+            sageReceipt.Save();
+        }
+
         public static void PopulateFromModel(this Payment sagePayment, Company companyContext, Models.Data.Payment payment)
         {
             sagePayment.AccountReference = sagePayment.AccountReference.PopulateFromModel(payment.Account, companyContext);
@@ -25,7 +70,7 @@ namespace Sage50Connector.API
                 var sageExpnseLine = sagePayment.AddExpenseLine();
                 sageExpnseLine.AccountReference = sageExpnseLine.AccountReference.PopulateFromModel(expenseLine.Account, companyContext);
                 sageExpnseLine.Amount = expenseLine.Amount;
-                sageExpnseLine.Description= expenseLine.Description;
+                sageExpnseLine.Description = expenseLine.Description;
             }
             foreach (var invoiceLine in payment.ApplyToInvoiceLines)
             {
@@ -54,7 +99,7 @@ namespace Sage50Connector.API
             sageInvoice.DropShip = invoice.DropShip;
             sageInvoice.DiscountDate = invoice.DiscountDate;
             sageInvoice.DiscountAmount = invoice.DiscountAmount;
-            sageInvoice.DateDue = invoice.DateDue;
+            sageInvoice.DateDue = invoice.DateDue ?? DateTime.Now;
             sageInvoice.CustomerPurchaseOrderNumber = invoice.CustomerPurchaseOrderNumber;
 
             foreach (var sageInvoiceApplyToSalesLine in sageInvoice.ApplyToSalesLines)
@@ -103,9 +148,16 @@ namespace Sage50Connector.API
             sageAccount.Classification = account.Classification.ToEnum<AccountClassification>();
         }
 
-        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext)
+        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext, int? defaultIndex = null)
         {
-            if (account == null) return entityReference;
+            if (account == null)
+            {
+                if (!defaultIndex.HasValue)
+                    return entityReference;
+                EntityList<Account> acctList = companyContext.Factories.AccountFactory.List();
+                acctList.Load();
+                return acctList[defaultIndex.Value].Key;
+            }
 
             if (entityReference.IsEmpty)
             {
@@ -119,6 +171,18 @@ namespace Sage50Connector.API
             var cashAccount = entityReference.Load(companyContext);
             cashAccount.PopulateFromModel(account);
             return entityReference;
+        }
+
+        public static void PopulateFromModel(this CreditCardAuthorizationInfo sageCardAuthInfo, Models.Data.CreditCardAuthorizationInfo cardAuthInfo)
+        {
+            if (cardAuthInfo == null) return;
+
+            sageCardAuthInfo.Address.PopulateFromModel(cardAuthInfo.Address);
+            sageCardAuthInfo.AuthorizationCode = cardAuthInfo.AuthorizationCode;
+            sageCardAuthInfo.LastFourDigits = cardAuthInfo.AuthorizationCode;
+            sageCardAuthInfo.ExpirationDate = cardAuthInfo.ExpirationDate;
+            sageCardAuthInfo.Note = cardAuthInfo.Note;
+            sageCardAuthInfo.AmountAuthorized = cardAuthInfo.AmountAuthorized;
         }
 
         public static void PopulateFromModel(this Address sageAddress, Models.Data.Address address)

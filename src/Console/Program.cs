@@ -7,7 +7,6 @@ using Newtonsoft.Json.Schema.Generation;
 using Sage.Peachtree.API;
 using Sage50Connector.Models.Data;
 using Customer = Sage50Connector.Models.Data.Customer;
-using SalesInvoice = Sage50Connector.Models.Data.SalesInvoice;
 
 namespace Console
 {
@@ -27,16 +26,19 @@ namespace Console
 
             JSchema schemaCust = generator.Generate(typeof(Customer));
             JSchema schemaInv = generator.Generate(typeof(SalesInvoiceLine));
-            JSchema schemaPayment = generator.Generate(typeof(Sage50Connector.Models.Data.Payment));
-
+            JSchema schemaReceipt = generator.Generate(typeof(Sage50Connector.Models.Data.Receipt));
 
             Sage.Peachtree.API.Vendor v;
 
             var companies = api.CompaniesList();
             //var companyId = companies.SingleOrDefault(c => c.CompanyName == "Chase Ridge Holdings");
             api.OpenCompany(companies[0]);
-            var list = api.CustomersList();
+            var list = api.PaymentList();
             list.Load();
+            var r_list = api.ReceiptList();
+            r_list.Load();
+            var i_list = api.InvoicesList();
+            i_list.Load();
 
             foreach (var item in list)
             {
@@ -147,6 +149,19 @@ namespace Console
         public CompanyIdentifierList CompaniesList()
         {
             return CurrentSession.CompanyList();
+        }
+
+        public PaymentList PaymentList()
+        {
+            return m_Company.Factories.PaymentFactory.List();
+        }
+        public SalesInvoiceList InvoicesList()
+        {
+            return m_Company.Factories.SalesInvoiceFactory.List();
+        }
+        public ReceiptList ReceiptList()
+        {
+            return m_Company.Factories.ReceiptFactory.List();
         }
 
         public CustomerList CustomersList()

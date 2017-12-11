@@ -140,7 +140,7 @@ namespace Sage50Connector.Processing.Actions
 
             var cronTrigger = TriggerBuilder.Create()
                 .StartNow()
-                .WithCronSchedule(config.ApinationCronSchedule)
+                .WithCronSchedule(config.HeartBeatCronSchedule)
                 .Build();
 
             var schedulerFactory = new StdSchedulerFactory();

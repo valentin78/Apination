@@ -55,7 +55,9 @@ namespace Sage50Connector.API
         /// <returns></returns>
         public static bool IsPhonesAbsent(this List<PhoneNumber> phoneNumbers)
         {
-            //Keys: honeNumber1, PhoneNumber2, Fax1
+            if (phoneNumbers == null)
+                return false;
+            //Keys: PhoneNumber1, PhoneNumber2, Fax1
             for (int i = 1; i <= 2; i++)
             {
                 var phone = phoneNumbers.SingleOrDefault(p => p.Key == $"honeNumber{i}");
@@ -72,7 +74,9 @@ namespace Sage50Connector.API
         /// <returns></returns>
         public static bool ContainsOneOf(this PhoneNumberCollection phoneNumbers, List<PhoneNumber> checkWith)
         {
-            //Keys: honeNumber1, PhoneNumber2, Fax1
+            if (phoneNumbers == null || checkWith == null)
+                return false;
+            //Keys: PhoneNumber1, PhoneNumber2, Fax1
             foreach (var phoneNumber in checkWith)
             {
                 if (phoneNumbers.Any(p => p.Number == phoneNumber.Number)) return true;

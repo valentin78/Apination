@@ -79,7 +79,7 @@ namespace Sage50Connector.API
         /// </summary>
         /// <param name="key"></param>
         /// <param name="sageVendorId"></param>
-        public void StoreVendorrId(string key, string sageVendorId)
+        public void StoreVendorId(string key, string sageVendorId)
         {
             using (var db = new LiteDatabase(DbPath))
             {
