@@ -10,14 +10,11 @@ namespace Sage50Connector.API
     internal static class Sage50Extensions
     {
         /// <summary>
-        /// extension method convert string representation of enum value to appropriate enum value
+        /// Extension method convert string representation of enum value to appropriate enum value
         /// </summary>
-        /// <typeparam name="TEnum"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static TEnum ToEnum<TEnum>(this string value) where TEnum : struct
         {
-            if (!typeof(TEnum).IsEnum) throw new ArgumentException(@"Invalid generic type, must me enum", nameof(TEnum));
+            if (!typeof(TEnum).IsEnum) throw new ArgumentException(@"Invalid generic type, must be enum", nameof(TEnum));
 
             if (Enum.TryParse(value, out TEnum result)) return result;
 
@@ -25,7 +22,7 @@ namespace Sage50Connector.API
         }
 
         /// <summary>
-        /// apply filter on EntityList by ID and load single or default item from list
+        /// Apply filter on EntityList by ID and load single or default item from list
         /// </summary>
         public static T SingleOrDefault<T>(this EntityList<T> list, object id) where T : Entity
         {
@@ -33,7 +30,7 @@ namespace Sage50Connector.API
         }
 
         /// <summary>
-        /// apply filter on EntityList by propertyName it value load single or default item from list
+        /// Apply filter on EntityList by propertyName it value load single or default item from list
         /// </summary>
         public static EntityList<T> FilterBy<T>(this EntityList<T> list, string propertyName, object propertyValue) where T : Entity
         {
@@ -49,39 +46,24 @@ namespace Sage50Connector.API
         }
 
         /// <summary>
-        /// check PhoneNumber collection if any phone present
+        /// Check if any phone presents in Sage's phoneNumbers collection
         /// </summary>
-        /// <param name="phoneNumbers"></param>
-        /// <returns></returns>
         public static bool IsPhonesAbsent(this List<PhoneNumber> phoneNumbers)
         {
             if (phoneNumbers == null)
                 return false;
-            //Keys: PhoneNumber1, PhoneNumber2, Fax1
-            for (int i = 1; i <= 2; i++)
-            {
-                var phone = phoneNumbers.SingleOrDefault(p => p.Key == $"honeNumber{i}");
-                if (phone != null && !String.IsNullOrWhiteSpace(phone.Number)) return false;
-            }
-            return true;
+            // Keys for phones: PhoneNumber1, PhoneNumber2, Fax1
+            return !phoneNumbers.Where(p => p.Key == "phoneNumber1" || p.Key == "phoneNumber2").Any(p => !string.IsNullOrWhiteSpace(p.Number));
         }
 
         /// <summary>
-        /// check if one of phone number from checkWith collection exist in phoneNumbers collection
+        /// Check if one of phone number from checkWith collection exist in Sage's phoneNumbers collection
         /// </summary>
-        /// <param name="phoneNumbers"></param>
-        /// <param name="checkWith"></param>
-        /// <returns></returns>
         public static bool ContainsOneOf(this PhoneNumberCollection phoneNumbers, List<PhoneNumber> checkWith)
         {
             if (phoneNumbers == null || checkWith == null)
                 return false;
-            //Keys: PhoneNumber1, PhoneNumber2, Fax1
-            foreach (var phoneNumber in checkWith)
-            {
-                if (phoneNumbers.Any(p => p.Number == phoneNumber.Number)) return true;
-            }
-            return false;
+            return checkWith.Any(phoneNumber => phoneNumbers.Any(p => p.Number == phoneNumber.Number));
         }
     }
 }

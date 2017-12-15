@@ -109,7 +109,6 @@
     <Compile Include="Processing\HeartBeat\HeartBeatReporter.cs" />
     <Compile Include="Processing\HeartBeat\HeartBeatJob.cs" />
     <Compile Include="Processing\IObservable.cs" />
-    <Compile Include="Processing\StartupHandler.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

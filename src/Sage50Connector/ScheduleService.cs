@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reflection;
 using System.ServiceProcess;
 using log4net;
 using log4net.Config;
 using Sage50Connector.API;
 using Sage50Connector.Core;
-using Sage50Connector.Processing;
 using Sage50Connector.Processing.Actions;
 using Sage50Connector.Processing.HeartBeat;
 
@@ -47,7 +45,7 @@ namespace Sage50Connector
                 var config = new ApinationApi(new WebClientHttpUtility(), config: null).GetConnectorConfig();
                 Log.InfoFormat("Received Config: {0}", config);
 
-                StartupHandler.OnStartup();
+                OpenCopaniesForSecurityCheck();
 
                 heartBeatProcessor = new HeartBeatReporter();
                 heartBeatProcessor.StartHeartBeatReporting(config);
@@ -83,6 +81,32 @@ namespace Sage50Connector
             Log.Info("********************************************************************************************************************");
             Log.Info("* Sage50Connector Service stopped");
             Log.Info("********************************************************************************************************************");
+        }
+
+        private static void OpenCopaniesForSecurityCheck()
+        {
+            Log.Info("Companies checking started");
+
+            var companiesList = ApplicationConfig.CompaniesList;
+            Log.InfoFormat("Companies to check: '{0}'", companiesList.Count);
+
+            var api = new Sage50Api();
+            foreach (var company in companiesList)
+            {
+                try
+                {
+                    api.OpenCompany(company.Name);
+                    api.CloseCurrentCompany();
+                    Log.Info($"Company '{company.Name}' opened successfully");
+
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"Can not open company: '{company.Name}'; Error: {ex.Message}");
+                }
+            }
+
+            Log.Info("Companies checking finished");
         }
     }
 }
