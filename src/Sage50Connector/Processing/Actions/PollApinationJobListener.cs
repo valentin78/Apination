@@ -28,22 +28,37 @@ namespace Sage50Connector.Processing.Actions
 
         public event EventHandler<IEnumerable<SageAction>> OnNewSageActions;
 
+        public event EventHandler<Exception> OnSageActionError;
+
         public void JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException)
         {
             if (context.JobDetail.JobDataMap["actions"] == null) return;
 
             var sageActionsJson = (IEnumerable<string>)context.JobDetail.JobDataMap["actions"];
             
-            Log.Info("Creating Sage50 actions from JSON ...");
-            var sageActions = sageActionsJson.Select(actionJson => actionFactory.Create(actionJson));
+            Log.Debug("Creating Sage50 actions from JSON ...");
+            try
+            {
+                var sageActions = sageActionsJson.Select(actionJson => actionFactory.Create(actionJson));
 
-            NewSageActions(sageActions);
+                NewSageActions(sageActions);
+            }
+            catch (Exception ex)
+            {
+                SageActionError(ex);
+            }
         }
 
         protected virtual void NewSageActions(IEnumerable<SageAction> actions)
         {
-            Log.Info("Trigger NewSageActions event ...");
+            Log.Debug("Trigger NewSageActions event ...");
             OnNewSageActions?.Invoke(this, actions);
+        }
+
+        protected virtual void SageActionError(Exception ex)
+        {
+            Log.Debug("Trigger SageActionError event ...");
+            OnSageActionError?.Invoke(this, ex);
         }
 
         public void JobExecutionVetoed(IJobExecutionContext context)

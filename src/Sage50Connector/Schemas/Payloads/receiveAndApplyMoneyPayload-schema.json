@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Receive And Apply Money Payload JSON Schema",
+
+  "type": "object",
+  "properties": {
+    "companyName": { "type": "string" },
+    "customer": { "type": "customer-schema.json" },
+    "receipts": {
+      "type": [ "array" ],
+      "items": { "$ref": "receipt-schema.json" }
+    }
+  },
+  "required": [
+    "companyName",
+    "customer",
+    "receipts"
+  ]
+}

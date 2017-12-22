@@ -14,7 +14,7 @@ namespace Sage50Connector.API
 
         public static void PopulateFromModel(this Receipt sageReceipt, Company companyContext, Models.Data.Receipt receipt, SalesInvoice invoice)
         {
-            sageReceipt.AccountReference = sageReceipt.AccountReference.PopulateFromModel(receipt.Account, companyContext, 0);
+            sageReceipt.AccountReference = sageReceipt.AccountReference.PopulateFromModel(receipt.Account, companyContext);
 
             sageReceipt.DiscountAccountReference = sageReceipt.DiscountAccountReference.PopulateFromModel(receipt.DiscountAccount, companyContext);
             // Если Customer == null, то обязательно
@@ -31,7 +31,7 @@ namespace Sage50Connector.API
                 foreach (var salesLine in receipt.ApplyToSalesLines)
                 {
                     var sageSalesLine = sageReceipt.AddSalesLine();
-                    sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext, 1);
+                    sageSalesLine.AccountReference = sageSalesLine.AccountReference.PopulateFromModel(salesLine.Account, companyContext);
                     sageSalesLine.Amount = salesLine.Amount;
                     sageSalesLine.Description = salesLine.Description;
                     sageSalesLine.Quantity = salesLine.Quantity;
@@ -44,7 +44,7 @@ namespace Sage50Connector.API
                 foreach (var invoiceLine in receipt.ApplyToInvoiceLines)
                 {
                     var sageInvoiceLine = sageReceipt.AddInvoiceLine(invoice);
-                    sageInvoiceLine.AccountReference = sageInvoiceLine.AccountReference.PopulateFromModel(invoiceLine.Account, companyContext, 1);
+                    sageInvoiceLine.AccountReference = sageInvoiceLine.AccountReference.PopulateFromModel(invoiceLine.Account, companyContext);
                     sageInvoiceLine.Amount = invoiceLine.Amount;
                     sageInvoiceLine.DiscountAmount = invoiceLine.DiscountAmount;
                     sageInvoiceLine.AmountPaid = invoiceLine.AmountPaid;
@@ -142,35 +142,26 @@ namespace Sage50Connector.API
         public static void PopulateFromModel(this Account sageAccount, Models.Data.Account account)
         {
             if (account == null) return;
-            sageAccount.Description = account.Description;
             sageAccount.ID = account.Id;
             sageAccount.IsInactive = account.IsInactive;
             sageAccount.Classification = account.Classification.ToEnum<AccountClassification>();
+            sageAccount.Description = !string.IsNullOrEmpty(account.Description) ? account.Description : account.Classification;
         }
 
-        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext, int? defaultIndex = null)
+        public static EntityReference<Account> PopulateFromModel(this EntityReference<Account> entityReference, Models.Data.Account account, Company companyContext)
         {
             if (account == null)
+                return entityReference;
+            EntityList<Account> accList = companyContext.Factories.AccountFactory.List();
+            accList.Load();
+            var sageCashAccount = accList.FirstOrDefault(i => i.ID == account.Id);
+            if (sageCashAccount == null)
             {
-                if (!defaultIndex.HasValue)
-                    return entityReference;
-                EntityList<Account> acctList = companyContext.Factories.AccountFactory.List();
-                acctList.Load();
-                return acctList[defaultIndex.Value].Key;
-            }
-
-            if (entityReference.IsEmpty)
-            {
-                var accountsList = companyContext.Factories.AccountFactory.List();
-                var sageCashAccount = accountsList.SingleOrDefault(account.Id) ?? companyContext.Factories.AccountFactory.Create();
+                sageCashAccount = companyContext.Factories.AccountFactory.Create();
                 sageCashAccount.PopulateFromModel(account);
                 sageCashAccount.Save();
-                return sageCashAccount.Key;
             }
-
-            var cashAccount = entityReference.Load(companyContext);
-            cashAccount.PopulateFromModel(account);
-            return entityReference;
+            return sageCashAccount.Key;
         }
 
         public static void PopulateFromModel(this CreditCardAuthorizationInfo sageCardAuthInfo, Models.Data.CreditCardAuthorizationInfo cardAuthInfo)

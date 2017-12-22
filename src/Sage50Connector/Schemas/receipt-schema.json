@@ -1,0 +1,148 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-06/schema",
+  "title": "JSON Schema for Receipt",
+
+  "type": "object",
+
+  "definitions": {
+    "Account": {
+      "type": "object",
+      "properties": {
+        "Description": { "type": "string" },
+        "Id": { "type": "string" },
+        "IsInactive": { "type": "boolean" },
+        "Classification": {
+          "type": "string",
+          "enum": [
+            "Cash",
+            "Receivable",
+            "Inventory",
+            "ReceivableRetainage",
+            "OtherCurrentAsset",
+            "FixedAsset",
+            "AccumulatedDepreciation",
+            "OtherAssets",
+            "Payable",
+            "PayableRetainage",
+            "OtherCurrentLiability",
+            "OtherLiability",
+            "EquityNoClose",
+            "RetainedEarnings",
+            "EquityClose",
+            "Income",
+            "CostSales",
+            "Expense"
+          ]
+        }
+      },
+      "required": [ "Id", "Classification" ]
+    },
+
+    "Address": {
+      "type": "object",
+      "properties": {
+        "Address1": { "type": "string" },
+        "Address2": { "type": "string" },
+        "City": { "type": "string" },
+        "Country": { "type": "string" },
+        "SalesTaxCode": { "type": "string" },
+        "State": { "type": "string" },
+        "Zip": { "type": "string" }
+      },
+      "required": [ "Address1" ]
+    },
+
+    "NameAndAddress": {
+      "type": [ "object" ],
+      "properties": {
+        "Name": { "type": [ "string" ] },
+        "Address": { "$ref": "#/definitions/Address" }
+      },
+      "required": [ "Name", "Address" ]
+    },
+
+    "CreditCardAuthorizationInfo": {
+      "type": [ "object" ],
+      "properties": {
+        "Address": { "$ref": "#/definitions/NameAndAddress" },
+        "AuthorizationCode": { "type": [ "string" ] },
+        "LastFourDigits": { "type": [ "string" ] },
+        "ExpirationDate": {
+          "type": [ "string" ],
+          "format": "date-time"
+        },
+        "Note": { "type": [ "string" ] },
+        "AmountAuthorized": { "type": "number" }
+      }
+    },
+
+    "ReceiptInvoiceLine": {
+      "type": [ "object" ],
+      "properties": {
+        "Quantity": { "type": "number" },
+        "SalesTaxType": { "type": "integer" },
+        "UnitPrice": { "type": "number" },
+        "Amount": { "type": "number" },
+        "Description": { "type": [ "string" ] },
+        "Account": { "$ref": "#/definitions/Account" }
+      },
+      "required": [
+        "Quantity",
+        "SalesTaxType",
+        "UnitPrice",
+        "Amount",
+        "Account"
+      ]
+    },
+
+    "ReceiptSalesLine": {
+      "type": [ "object" ],
+      "properties": {
+        "Quantity": { "type": "number" },
+        "SalesTaxType": { "type": "integer" },
+        "UnitPrice": { "type": "number" },
+        "Amount": { "type": "number" },
+        "Description": { "type": [ "string" ] },
+        "Account": { "$ref": "#/definitions/Account" }
+      },
+      "required": [
+        "Quantity",
+        "SalesTaxType",
+        "UnitPrice",
+        "Amount",
+        "Account"
+      ]
+    }
+  },
+
+  "properties": {
+    "ApplyToSalesLines": {
+      "type": [ "array" ],
+      "items": {
+        "$ref": "#/definitions/ReceiptSalesLine"
+      }
+    },
+    "CreditCardAuthorizationInfo": { "$ref": "#/definitions/CreditCardAuthorizationInfo" },
+    "MainAddress": { "$ref": "#/definitions/NameAndAddress" },
+    "ReceiptNumber": { "type": [ "string" ] },
+    "DiscountAccount": { "$ref": "#/definitions/Account" },
+    "PaymentMethod": { "type": [ "string" ] },
+    "ApplyToInvoiceLines": {
+      "type": [ "array", "object" ],
+      "items": { "$ref": "#/definitions/ReceiptInvoiceLine" }
+    },
+    "DepositTicketID": { "type": [ "string" ] },
+    "Date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ReferenceNumber": { "type": [ "string" ] },
+    "Account": { "$ref": "#/definitions/Account" }
+  },
+  "required": [
+    "ReceiptNumber",
+    "Date",
+    "ReferenceNumber"
+  ]
+
+}

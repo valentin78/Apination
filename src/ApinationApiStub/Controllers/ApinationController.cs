@@ -128,8 +128,8 @@ namespace ApinationApiStub.Controllers
                                     SalesTaxType = 1,
                                     Account = new Account
                                     {
-                                        Id = "1",
-                                        Classification = "Cash"
+                                        Id = "41600",
+                                        Classification = "Receivable"
                                     }
                                 }
                             },

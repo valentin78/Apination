@@ -8,7 +8,7 @@ namespace Sage50Connector.Processing.Actions.SageActions.Factory
     /// <summary>
     /// Creates Sage Actions from JSON strings
     /// </summary>
-    class SageActionFromJsonFactory : ISageActionFactory
+    public class SageActionFromJsonFactory : ISageActionFactory
     {
         public static readonly ILog Log = LogManager.GetLogger(typeof(SageActionFromJsonFactory));
 

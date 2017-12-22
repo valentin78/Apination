@@ -10,5 +10,6 @@ namespace Sage50Connector.Processing.Actions
     interface IApinationListener
     {
         event EventHandler<IEnumerable<SageAction>> OnNewSageActions;
+        event EventHandler<Exception> OnSageActionError;
     }
 }

@@ -1,10 +1,10 @@
-﻿{
+{
   "$schema": "http://json-schema.org/draft-06/schema#",
   "title": "Sage Action JSON Schema",
 
   "type": "object",
   "properties": {
-    "_id": { "type": "string" },
+    "id": { "type": "string" },
     "type": {
       "type": "string",
       "enum": [
@@ -15,7 +15,6 @@
     },
     "userId": { "type": "string" },
     "workflowId": { "type": "string" },
-    "triggerId": { "type": "string" },
     "mainLogId": { "type": "string" },
     "createdAt": {
       "type": "string",

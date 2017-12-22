@@ -1,11 +1,11 @@
 ﻿{
   "$schema": "http://json-schema.org/draft-06/schema#",
-  "title": "Create Payload JSON Schema",
+  "title": "Create Payment Payload JSON Schema",
 
   "type": "object",
   "properties": {
     "companyName": { "type": "string" }, // Defines Sage Company Name to select
-    "customer": { "$ref": "payment-schema.json" } 
+    "payment": { "$ref": "payment-schema.json" } 
   },
   "required": [
     "companyName",

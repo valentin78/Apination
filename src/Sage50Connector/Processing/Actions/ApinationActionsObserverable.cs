@@ -69,7 +69,7 @@ namespace Sage50Connector.Processing.Actions
                 // handle them
                 this.subscriber(actions);
             };
+            listener.OnSageActionError += (sender, exception) => Log.Error(exception);
         }
-
     }
 }

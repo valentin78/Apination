@@ -4,7 +4,7 @@ using Sage50Connector.Processing.Actions.SageActions;
 
 namespace Sage50Connector.Processing.Actions.ActionHandlers
 {
-    class UpdateInvoiceSageActionHandler : ISageActionHandler<UpdateInvoiceSageAction>
+    public class UpdateInvoiceSageActionHandler : ISageActionHandler<UpdateInvoiceSageAction>
     {
         private static readonly ILog Log = LogManager.GetLogger(typeof(UpdateInvoiceSageActionHandler));
 
